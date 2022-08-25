@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "975312716464",
+    "project_id": "ally-carto",
+    "storage_bucket": "ally-carto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975312716464:android:0cbcb4fa05b68a1a2d7175",
+        "android_client_info": {
+          "package_name": "com.neo.allycart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975312716464-bnaf76rvmvvcka0365spsgr281aukqpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neo.allycart",
+            "certificate_hash": "9117a8e3388f498a7c1d940bb1cd9ed90c397654"
+          }
+        },
+        {
+          "client_id": "975312716464-4qim8somgj5jcchaa1tol3vrsk894cr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXQZVgEUkNnc7vVDUQfLi2TPoPoY12GyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975312716464-4qim8somgj5jcchaa1tol3vrsk894cr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
