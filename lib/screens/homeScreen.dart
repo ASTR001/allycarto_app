@@ -17,6 +17,7 @@ import 'package:gomeat/screens/locationScreen.dart';
 import 'package:gomeat/screens/new/Gallay_main.dart';
 import 'package:gomeat/screens/new/coveragers.dart';
 import 'package:gomeat/screens/new/customer_policy.dart';
+import 'package:gomeat/screens/new/faq.dart';
 import 'package:gomeat/screens/new/help_support.dart';
 import 'package:gomeat/screens/new/mainCategory.dart';
 import 'package:gomeat/screens/new/my_blogs.dart';
@@ -247,6 +248,27 @@ class _HomeScreenState extends BaseRouteState {
                       Icon(Icons.help),
                       SizedBox(width: 12,),
                       Text("Help & Support")
+                    ],
+                  ),
+                ),
+
+
+                SizedBox(height: 15,),
+
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FAQ(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      SizedBox(width: 12,),
+                      Icon(Icons.help_outline),
+                      SizedBox(width: 12,),
+                      Text("FAQ")
                     ],
                   ),
                 ),
