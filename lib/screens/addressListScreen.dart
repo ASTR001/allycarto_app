@@ -110,6 +110,7 @@ class _AddressListScreenState extends BaseRouteState {
                                       children: [
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
+                                          leading: Icon(Icons.home),
                                           title: Text(
                                             _addressList[index].type,
                                             style: Theme.of(context).primaryTextTheme.bodyText1,

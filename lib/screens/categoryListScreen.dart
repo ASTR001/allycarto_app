@@ -8,6 +8,7 @@ import 'package:gomeat/models/businessLayer/global.dart' as global;
 import 'package:gomeat/models/categoryFilterModel.dart';
 import 'package:gomeat/models/categoryModel.dart';
 import 'package:gomeat/screens/categoryFilterScreen.dart';
+import 'package:gomeat/screens/new/mainCategory.dart';
 import 'package:gomeat/screens/subCategoryListScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -50,30 +51,30 @@ class _CategoryListScreenState extends BaseRouteState {
             centerTitle: true,
             title: Text("${AppLocalizations.of(context).tle_all_category}"),
             actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(
-                    MaterialPageRoute(
-                      builder: (context) => CategoryFilterScreen(_catgoryFilter, a: widget.analytics, o: widget.observer),
-                    ),
-                  )
-                      .then((value) async {
-                    if (value != null) {
-                      _isDataLoaded = false;
-                      _isRecordPending = true;
-                      _categoryList.clear();
-                      setState(() {});
-                      _catgoryFilter = value;
-                      await _init();
-                    }
-                  });
-                },
-                icon: Icon(
-                  MdiIcons.tuneVerticalVariant,
-                  color: Theme.of(context).appBarTheme.actionsIconTheme.color,
-                ),
-              ),
+              // IconButton(
+              //   onPressed: () {
+              //     Navigator.of(context)
+              //         .push(
+              //       MaterialPageRoute(
+              //         builder: (context) => CategoryFilterScreen(_catgoryFilter, a: widget.analytics, o: widget.observer),
+              //       ),
+              //     )
+              //         .then((value) async {
+              //       if (value != null) {
+              //         _isDataLoaded = false;
+              //         _isRecordPending = true;
+              //         _categoryList.clear();
+              //         setState(() {});
+              //         _catgoryFilter = value;
+              //         await _init();
+              //       }
+              //     });
+              //   },
+              //   icon: Icon(
+              //     MdiIcons.tuneVerticalVariant,
+              //     color: Theme.of(context).appBarTheme.actionsIconTheme.color,
+              //   ),
+              // ),
             ],
           ),
           body: _categoryWidget()),
@@ -104,7 +105,7 @@ class _CategoryListScreenState extends BaseRouteState {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => SubcategoryListScreen(_categoryList[i], a: widget.analytics, o: widget.observer),
+                builder: (context) => MainCategoryScreen( _categoryList[i]["cat_id"].toString(), _categoryList[i]["title"], a: widget.analytics, o: widget.observer),
               ),
             );
           },
@@ -173,31 +174,33 @@ class _CategoryListScreenState extends BaseRouteState {
         ),
       );
     }
-    if (_isMoreDataLoaded) {
-      productList.add(Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.white,
-          strokeWidth: 2,
-        ),
-      ));
-    }
+    // if (_isMoreDataLoaded) {
+    //   productList.add(Center(
+    //     child: CircularProgressIndicator(
+    //       backgroundColor: Colors.white,
+    //       strokeWidth: 2,
+    //     ),
+    //   ));
+    // }
 
     return productList;
   }
 
   _categoryWidget() {
-    return RefreshIndicator(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      color: Theme.of(context).primaryColor,
-      onRefresh: () async {
-        _isDataLoaded = false;
-        _isRecordPending = true;
-        setState(() {});
-        _categoryList.clear();
-        await _init();
-        return null;
-      },
-      child: SingleChildScrollView(
+    return
+      // RefreshIndicator(
+      // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      // color: Theme.of(context).primaryColor,
+      // onRefresh: () async {
+      //   _isDataLoaded = false;
+      //   _isRecordPending = true;
+      //   setState(() {});
+      //   _categoryList.clear();
+      //   await _init();
+      //   return null;
+      // },
+      // child:
+      SingleChildScrollView(
         controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 10, left: 4, right: 4, top: 10),
@@ -225,8 +228,8 @@ class _CategoryListScreenState extends BaseRouteState {
                   children: catgoryShimmer(),
                 ),
         ),
-      ),
-    );
+      );
+    // );
   }
 
   _getData() async {
@@ -237,18 +240,18 @@ class _CategoryListScreenState extends BaseRouteState {
           setState(() {
             _isMoreDataLoaded = true;
           });
-          if (_categoryList.isEmpty) {
-            page = 1;
-          } else {
-            page++;
-          }
+          // if (_categoryList.isEmpty) {
+          //   page = 1;
+          // } else {
+          //   page++;
+          // }
 
-          final response = await http.get(Uri.parse(global.baseUrl+"category"),);
+          final response = await http.get(Uri.parse(global.baseUrl+"verticalcategory"),);
 
           setState(() {
             var dataConvertedToJSON = json.decode(response.body);
-            _categoryList = dataConvertedToJSON['data'] ?? [];
             _isRecordPending = false;
+            _categoryList = dataConvertedToJSON['data'] ?? [];
 
           });
         }

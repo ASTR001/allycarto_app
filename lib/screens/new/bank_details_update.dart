@@ -204,7 +204,7 @@ class _AddAddressScreenState extends BaseRouteState {
           if (address == "0") {
             await apiHelper.addBank(_cName.text.toString(),_cBank.text.toString(),_cAcc.text.toString(),_cIfsc.text.toString(),).then((result) async {
               if (result != null) {
-                if (result.status == "1") {
+                if (result.status == "200") {
                   hideLoader();
                   Navigator.of(context).pop(true);
                 } else {

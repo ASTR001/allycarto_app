@@ -22,7 +22,9 @@ class _ProfileEditScreenState extends BaseRouteState {
   var _cName = new TextEditingController();
   var _cPhone = new TextEditingController();
   var _cEmail = new TextEditingController();
+  var _cPass = new TextEditingController();
   var _fName = new FocusNode();
+  var _fPass = new FocusNode();
   GlobalKey<ScaffoldState> _scaffoldKey;
   var _fPhone = new FocusNode();
   var _fEmail = new FocusNode();
@@ -58,7 +60,7 @@ class _ProfileEditScreenState extends BaseRouteState {
           children: <Widget>[
             _isDataLoaded
                 ? Container(
-                    height: 240,
+                    height: 170,
                     color: Colors.transparent,
                     alignment: Alignment.topCenter,
                     child: Stack(
@@ -66,10 +68,10 @@ class _ProfileEditScreenState extends BaseRouteState {
                       alignment: Alignment.topCenter,
                       children: [
                         Container(
-                          height: 240,
+                          height: 170,
                           alignment: Alignment.topCenter,
                           child: Container(
-                            height: 200,
+                            height: 100,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -247,6 +249,28 @@ class _ProfileEditScreenState extends BaseRouteState {
                                 ),
                               ),
                             ),
+
+
+                            Text(
+                              "Password",
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                              margin: EdgeInsets.only(top: 5, bottom: 15),
+                              padding: EdgeInsets.only(),
+                              child: TextFormField(
+                                controller: _cPass,
+                                focusNode: _fPass,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                                decoration: InputDecoration(
+                                  fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                                  hintText: 'password',
+                                  contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                ),
+                              ),
+                            ),
+
                             // Text(
                             //   "Area",
                             //   style: Theme.of(context).primaryTextTheme.headline2,
@@ -334,6 +358,7 @@ class _ProfileEditScreenState extends BaseRouteState {
           CurrentUser _user = new CurrentUser();
 
           _user.name = _cName.text;
+          _user.password = _cPass.text;
           if (_tImage != null) {
             _user.userImageFile = _tImage;
           }

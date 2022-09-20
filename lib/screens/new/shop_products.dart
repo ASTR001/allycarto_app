@@ -21,6 +21,7 @@ import 'package:gomeat/models/productModel.dart';
 import 'package:gomeat/screens/checkOutScreen.dart';
 
 import 'package:gomeat/screens/filterScreen.dart';
+import 'package:gomeat/screens/loginScreen.dart';
 import 'package:gomeat/screens/new/CategoryShopListScreen.dart';
 
 import 'package:gomeat/screens/productDetailScreen.dart';
@@ -31,11 +32,8 @@ import 'package:shimmer/shimmer.dart';
 
 
 
-import 'loginScreen.dart';
 
-
-
-class ProductListScreen extends BaseRoute {
+class ShopProductListScreen extends BaseRoute {
 
   final int subcategoryId;
 
@@ -44,7 +42,7 @@ class ProductListScreen extends BaseRoute {
   final String title;
   final String mainCatId;
 
-  ProductListScreen(this.screenId, this.title, this.mainCatId, {this.subcategoryId, a, o}) : super(a: a, o: o, r: 'ProductListScreen');
+  ShopProductListScreen(this.screenId, this.title, this.mainCatId, {this.subcategoryId, a, o}) : super(a: a, o: o, r: 'ProductListScreen');
 
   @override
 
@@ -364,11 +362,6 @@ class _ProductListScreenState extends BaseRouteState {
                       //   flex: 3,
                       //   child: InkWell(
                       //     onTap: () {
-                      //       Navigator.of(context).push(
-                      //         MaterialPageRoute(
-                      //           builder: (context) => ShopListScreen(catId : subcategoryId.toString(), name : title),
-                      //         ),
-                      //       );
                       //     },
                       //     child: Padding(
                       //       padding: const EdgeInsets.only(left: 0.0,right: 0, bottom: 12),
@@ -378,7 +371,7 @@ class _ProductListScreenState extends BaseRouteState {
                       //         decoration: BoxDecoration(
                       //             color: Colors.red[300], borderRadius: BorderRadius.circular(10)),
                       //         child: Center(
-                      //           child: Text("Get it Local", style: TextStyle(fontSize: 11, color: Colors.white),),
+                      //           child: Text("Sort", style: TextStyle(fontSize: 11, color: Colors.white),),
                       //         ),
                       //       ),
                       //     ),
@@ -486,14 +479,14 @@ class _ProductListScreenState extends BaseRouteState {
 
                                         Text(
 
-                                            '${_productList[index].productName}',
+                                          '${_productList[index].productName}',
 
-                                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
-                                            maxLines: 2,
+                                          style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
+                                          maxLines: 2,
 
-                                            // overflow: TextOverflow.ellipsis,
+                                          // overflow: TextOverflow.ellipsis,
 
-                                          ),
+                                        ),
 
                                         // Text(
                                         //
@@ -1415,7 +1408,7 @@ class _ProductListScreenState extends BaseRouteState {
                                     ),
                                     SizedBox(height: 4,),
                                     if(_productList[index].varient.length > 1)
-                                    Text(_productList[index].varient.length.toString()+" Variants",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 11,color: Colors.green),)
+                                      Text(_productList[index].varient.length.toString()+" Variants",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 11,color: Colors.green),)
                                   ],
                                 ),
 
@@ -1507,363 +1500,11 @@ class _ProductListScreenState extends BaseRouteState {
 
     try {
 
-      if (screenId == 1 && subcategoryId != null) {
-
-        await _getSubcategoryProduct();
-
-      } else if (screenId == 2) {
-
-        await _getTopSellingProduct();
-
-      } else if (screenId == 3) {
-
-        await _getSpotLightProduct();
-
-      } else if (screenId == 4) {
-
-        await _getRecentSellingProduct();
-
-      } else if (screenId == 5) {
-
-        await _getWhatsNewProduct();
-
-      } else if (screenId == 6) {
-
-        await _getDealProduct();
-
-      } else if (screenId == 7) {
-
-        _productFilter.keyword = title;
-
-        // Search product
-
-        await _getSearchedProduct();
-
-      } else if (screenId == 8) {
-
-        _productFilter.keyword = title;
-
-        // tag product
-
-        await _getTagProduct();
-
-      }
-
-      _productFilter.maxPriceValue = _productList.length > 0 ? _productList[0].maxPrice : 0;
+      _getSubcategoryProduct();
 
     } catch (e) {
 
       print("Exception - productListScreen.dart - _init():" + e.toString());
-
-    }
-
-  }
-
-
-
-  _getTopSellingProduct() async {
-
-    try {
-
-      if (_isRecordPending) {
-
-        setState(() {
-
-          _isMoreDataLoaded = true;
-
-        });
-
-        if (_productList.isEmpty) {
-
-          page = 1;
-
-        } else {
-
-          page++;
-
-        }
-
-        await apiHelper.topSellingProduct(page, _productFilter).then((result) async {
-
-          if (result != null) {
-
-            if (result.status == "1") {
-
-              List<Product> _tList = result.data;
-
-              if (_tList.isEmpty) {
-
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
-
-            }
-
-          }
-
-        });
-
-      }
-
-    } catch (e) {
-
-      print("Exception - productListScreen.dart - _getTopSellingProduct():" + e.toString());
-
-    }
-
-  }
-
-
-
-  _getRecentSellingProduct() async {
-
-    try {
-
-      if (_isRecordPending) {
-
-        setState(() {
-
-          _isMoreDataLoaded = true;
-
-        });
-
-        if (_productList.isEmpty) {
-
-          page = 1;
-
-        } else {
-
-          page++;
-
-        }
-
-        await apiHelper.recentSellingProduct(page, _productFilter).then((result) async {
-
-          if (result != null) {
-
-            if (result.status == "1") {
-
-              List<Product> _tList = result.data;
-
-              if (_tList.isEmpty) {
-
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
-
-            }
-
-          }
-
-        });
-
-      }
-
-    } catch (e) {
-
-      print("Exception - productListScreen.dart - _getRecentSellingProduct():" + e.toString());
-
-    }
-
-  }
-
-
-
-  _getWhatsNewProduct() async {
-
-    try {
-
-      if (_isRecordPending) {
-
-        setState(() {
-
-          _isMoreDataLoaded = true;
-
-        });
-
-        if (_productList.isEmpty) {
-
-          page = 1;
-
-        } else {
-
-          page++;
-
-        }
-
-        await apiHelper.whatsnewProduct(page, _productFilter).then((result) async {
-
-          if (result != null) {
-
-            if (result.status == "1") {
-
-              List<Product> _tList = result.data;
-
-              if (_tList.isEmpty) {
-
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
-
-            }
-
-          }
-
-        });
-
-      }
-
-    } catch (e) {
-
-      print("Exception - productListScreen.dart - _getWhatsNewProduct():" + e.toString());
-
-    }
-
-  }
-
-
-
-  _getDealProduct() async {
-
-    try {
-
-      if (_isRecordPending) {
-
-        setState(() {
-
-          _isMoreDataLoaded = true;
-
-        });
-
-        if (_productList.isEmpty) {
-
-          page = 1;
-
-        } else {
-
-          page++;
-
-        }
-
-        await apiHelper.dealProduct(page, _productFilter).then((result) async {
-
-          if (result != null) {
-
-            if (result.status == "1") {
-
-              List<Product> _tList = result.data;
-
-              if (_tList.isEmpty) {
-
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
-
-            }
-
-          }
-
-        });
-
-      }
-
-    } catch (e) {
-
-      print("Exception - productListScreen.dart - _getDealProduct():" + e.toString());
-
-    }
-
-  }
-
-
-
-  _getSearchedProduct() async {
-
-    try {
-
-      if (_isRecordPending) {
-
-        setState(() {
-
-          _isMoreDataLoaded = true;
-
-        });
-
-        if (_productList.isEmpty) {
-
-          page = 1;
-
-        } else {
-
-          page++;
-
-        }
-
-        await apiHelper.getproductSearchResult(page, _productFilter).then((result) async {
-
-          if (result != null) {
-
-            if (result.status == "1") {
-
-              List<Product> _tList = result.data;
-
-              if (_tList.isEmpty) {
-
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
-
-            }
-
-          }
-
-        });
-
-      }
-
-    } catch (e) {
-
-      print("Exception - productListScreen.dart - _getDealProduct():" + e.toString());
 
     }
 
@@ -1881,36 +1522,36 @@ class _ProductListScreenState extends BaseRouteState {
         _isMoreDataLoaded = true;
 
       });
-        await apiHelper.getcatproductSearchResult(page, keywordd, subcategoryId.toString()).then((result) async {
+      await apiHelper.getVendorproductSearchResult(page, keywordd, mainCatId.toString()).then((result) async {
 
-          print("aaaaaaaaa : "+result.status);
+        print("aaaaaaaaa : "+result.status);
 
-          if (result != null) {
+        if (result != null) {
 
-            if (result.status == "1") {
-              _productList.clear();
+          if (result.status == "1") {
+            _productList.clear();
 
-              List<Product> _tList = result.data;
+            List<Product> _tList = result.data;
 
-              if (_tList.isEmpty) {
+            if (_tList.isEmpty) {
 
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
+              _isRecordPending = false;
 
             }
 
+            _productList.addAll(_tList);
+
+            setState(() {
+
+              _isMoreDataLoaded = false;
+
+            });
+
           }
 
-        });
+        }
+
+      });
 
 
     } catch (e) {
@@ -1922,134 +1563,12 @@ class _ProductListScreenState extends BaseRouteState {
   }
 
 
-
-  _getTagProduct() async {
-
-    try {
-
-      if (_isRecordPending) {
-
-        setState(() {
-
-          _isMoreDataLoaded = true;
-
-        });
-
-        if (_productList.isEmpty) {
-
-          page = 1;
-
-        } else {
-
-          page++;
-
-        }
-
-        await apiHelper.getTagProduct(page, _productFilter).then((result) async {
-
-          if (result != null) {
-
-            if (result.status == "1") {
-
-              List<Product> _tList = result.data;
-
-              if (_tList.isEmpty) {
-
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
-
-            }
-
-          }
-
-        });
-
-      }
-
-    } catch (e) {
-
-      print("Exception - productListScreen.dart - _getTagProduct():" + e.toString());
-
-    }
-
-  }
-
-
-
-  _getSpotLightProduct() async {
-
-    try {
-
-      if (_isRecordPending) {
-
-        setState(() {
-
-          _isMoreDataLoaded = true;
-
-        });
-
-        if (_productList.isEmpty) {
-
-          page = 1;
-
-        } else {
-
-          page++;
-
-        }
-
-        await apiHelper.spotLightProduct(page, _productFilter).then((result) async {
-
-          if (result != null) {
-
-            if (result.status == "1") {
-
-              List<Product> _tList = result.data;
-
-              if (_tList.isEmpty) {
-
-                _isRecordPending = false;
-
-              }
-
-              _productList.addAll(_tList);
-
-              setState(() {
-
-                _isMoreDataLoaded = false;
-
-              });
-
-            }
-
-          }
-
-        });
-
-      }
-
-    } catch (e) {
-
-      print("Exception - productListScreen.dart - _getSpotLightProduct():" + e.toString());
-
-    }
-
-  }
-
-
-
   _getSubcategoryProduct() async {
 
     try {
+      // setState(() {
+      //   _isDataLoaded = false;
+      // });
 
       if (_isRecordPending) {
 
@@ -2069,7 +1588,7 @@ class _ProductListScreenState extends BaseRouteState {
 
         }
 
-        await apiHelper.getSubcategoryProduct(subcategoryId, mainCatId, page, _productFilter).then((result) async {
+        await apiHelper.getVendorProduct(mainCatId, page, _productFilter).then((result) async {
 
           if (result != null) {
 
@@ -2088,6 +1607,7 @@ class _ProductListScreenState extends BaseRouteState {
 
 
               setState(() {
+                _isDataLoaded = true;
 
                 _isMoreDataLoaded = false;
 
@@ -2139,9 +1659,9 @@ class _ProductListScreenState extends BaseRouteState {
 
       });
 
-      _isDataLoaded = true;
-
-      setState(() {});
+      setState(() {
+        _isDataLoaded = true;
+      });
 
     } catch (e) {
 

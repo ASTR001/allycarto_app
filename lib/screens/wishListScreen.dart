@@ -260,7 +260,7 @@ class _WishListScreenState extends BaseRouteState {
                                                           height: 20,
                                                           width: 70,
                                                           decoration: BoxDecoration(
-                                                            color: Colors.lightBlue,
+                                                            color: Colors.green,
                                                             borderRadius: BorderRadius.only(
                                                               topRight: Radius.circular(10),
                                                               bottomLeft: Radius.circular(10),

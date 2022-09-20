@@ -69,7 +69,7 @@ class _ContactUsScreenState extends BaseRouteState {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          "72, Karur Bypass Rd, Rajiv Nagar, Moolapalayam, Erode, Tamil Nadu 638002.",
+                          "ALLYCARTO PRIVATE LIMITED, with offices at 25, Raja Street, Puthupalayam, Opp KKS Hospital, Gobichettipalayam - 638452.",
                           textAlign: TextAlign.center,
                           style: Theme.of(context).primaryTextTheme.bodyText1,
                         ),
@@ -98,7 +98,7 @@ class _ContactUsScreenState extends BaseRouteState {
                               child: IconButton(
                                   onPressed: () async {
                                     await launch(
-                                        'tel:919791747474}');
+                                        'tel:919876543210');
                                   },
                                   icon: Icon(
                                     MdiIcons.phone,
@@ -121,7 +121,7 @@ class _ContactUsScreenState extends BaseRouteState {
                               child: IconButton(
                                   onPressed: () async {
                                     await launch(
-                                        'whatsapp://send?text=Hello&phone=${"919791747474"}');
+                                        'whatsapp://send?text=Hello&phone=${"919876543210"}');
                                   },
                                   icon: Icon(
                                     MdiIcons.whatsapp,
@@ -144,7 +144,7 @@ class _ContactUsScreenState extends BaseRouteState {
                               child: IconButton(
                                   onPressed: () async {
                                     await launch(
-                                        "mailto:ggfmho@gmail.com?subject=Hi");
+                                        "mailto:info@allycarto.com?subject=Hi");
                                   },
                                   icon: Icon(
                                     MdiIcons.email,

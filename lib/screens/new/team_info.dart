@@ -5,27 +5,27 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
 import 'package:gomeat/models/businessLayer/global.dart' as global;
 
-class FAQ extends StatefulWidget {
-  const FAQ({Key key}) : super(key: key);
+class TeamInfo extends StatefulWidget {
+  const TeamInfo({Key key}) : super(key: key);
 
   @override
-  State<FAQ> createState() => _FAQState();
+  State<TeamInfo> createState() => _FAQState();
 }
 
-class _FAQState extends State<FAQ> {
+class _FAQState extends State<TeamInfo> {
 
   List _myList;
 
   @override
   void initState() {
     super.initState();
-      getData();
+    getData();
   }
 
   Future<String> getData() async {
     try {
-      final response = await http.get(Uri.parse(global.baseUrl+"faqlist"));
-
+      final String globalId = global.currentUser.id.toString();
+      final response = await http.get(Uri.parse(global.baseUrl+"myteam/"+globalId));
 
       setState(() {
         var dataConvertedToJSON = json.decode(response.body);
@@ -42,7 +42,7 @@ class _FAQState extends State<FAQ> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(title: Text("Help & Support (FAQs)"),),
+        appBar: AppBar(title: Text("MyTeam"),),
         body: _myList == null
             ? Center(
           child: Container(
@@ -66,24 +66,16 @@ class _FAQState extends State<FAQ> {
               itemCount: _myList.length,
               itemBuilder: (context, index) =>
                   Container(
-                margin: EdgeInsets.all(8),
-                child: ExpansionTile(
-                  title: Text(
-                    _myList[index]["question"],
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                  ),
-                  children: <Widget>[
-                    ListTile(
-                      title: Html(
-                        data: _myList[index]["answer"],
-                        style: {
-                          "body": Style(color: Theme.of(context).primaryTextTheme.bodyText1.color),
-                        },
+                    margin: EdgeInsets.all(8),
+                    child: Card(
+                      child : Column(
+                        children: [
+                          Text(_myList[index]["name"],style: TextStyle(fontSize: 15),),
+                          Text(_myList[index]["amount"],style: TextStyle(fontSize: 18),),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              )),
+                    ),
+                  )),
         ));
   }
 }

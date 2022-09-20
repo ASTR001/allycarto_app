@@ -110,6 +110,7 @@ class _bankListScreenState extends BaseRouteState {
                     children: [
                       ListTile(
                         contentPadding: EdgeInsets.all(0),
+                        leading: Image.asset("assets/bank.png"),
                         title: Text(
                           _bankList["account_holder"] ?? "",
                           style: TextStyle(fontSize: 17,color: Colors.black87),

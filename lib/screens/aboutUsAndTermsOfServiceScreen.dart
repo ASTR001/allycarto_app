@@ -25,43 +25,49 @@ class _AboutUsAndTermsOfServiceScreenState extends BaseRouteState {
   _AboutUsAndTermsOfServiceScreenState(this.isAboutUs) : super();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: new Container(
-        constraints: new BoxConstraints.expand(),
-        color: new Color(0xFF736AB7),
-        child: new Stack (
-          children: <Widget>[
-            _getBackground(),
-            _getGradient(),
-            // _getContent(),
-            _getToolbar(context),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: new Container(
+          constraints: new BoxConstraints.expand(),
+          color: Colors.white,
+          child: new Stack (
+            children: <Widget>[
+              _getBackground(),
+              // _getGradient(),
+              // _getContent(),
+              _getToolbar(context),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Column _getBackground () {
-    return Column(
-      children: [
-        new Container(
-          child: new Image.asset('assets/logo.jpg',
-            fit: BoxFit.cover,
-            height: 300.0,
+  SingleChildScrollView _getBackground () {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          new Container(
+            child: new Image.asset('assets/logo.jpg',
+              fit: BoxFit.cover,
+              height: 200.0,
+              width: 200.0,
+            ),
+            constraints: new BoxConstraints.expand(height: 200.0,width: 200.0,),
           ),
-          constraints: new BoxConstraints.expand(height: 300.0),
-        ),
-        Text("About App",style: TextStyle(fontSize: 18,color: Colors.white),),
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Html(
-            data: "$text",
-            style: {
-              "body": Style(color: Theme.of(context).primaryTextTheme.bodyText1.color),
-            },
+          SizedBox(height: 15,),
+          isAboutUs ? Text("About App",style: TextStyle(fontSize: 18,color: Colors.red),) : Text("Customer Policy",style: TextStyle(fontSize: 18,color: Colors.red),),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Html(
+              data: "$text",
+              style: {
+                "body": Style(color: Theme.of(context).primaryTextTheme.bodyText1.color),
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -86,11 +92,8 @@ class _AboutUsAndTermsOfServiceScreenState extends BaseRouteState {
   Container _getToolbar(BuildContext context) {
     return new Container(
       margin: new EdgeInsets.only(
-          top: MediaQuery
-              .of(context)
-              .padding
-              .top),
-      child: new BackButton(color: Colors.white),
+          top: 10),
+      child: new BackButton(color: Colors.black),
     );
   }
 

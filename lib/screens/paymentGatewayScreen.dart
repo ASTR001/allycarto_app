@@ -102,40 +102,44 @@ class _PaymentGatewayScreenState extends BaseRouteState {
                   children: [
                     // global.currentUser.wallet > 0 && screenId != 3
                     //     ?
-                    RadioListTile(
-                            controlAffinity: ListTileControlAffinity.trailing,
-                            value: 1,
-                            groupValue: _isWallet,
-                            title: Text(
-                              "ARX Token "+AppLocalizations.of(context).lbl_wallet,
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
-                            ),
-                            subtitle: Text(
-                              '${global.currentUser.wallet}',
-                              style: Theme.of(context).primaryTextTheme.headline1,
-                            ),
-                            secondary: Icon(
-                              MdiIcons.walletOutline,
-                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
-                              size: 25,
-                            ),
-                            onChanged: (val) async {
 
-                              if (global.currentUser.wallet >= totalAmount) {
-                                if (screenId == 2 && membershipModel != null) {
-                                  showOnlyLoaderDialog();
-                                  await _buyMemberShip('wallet', 'wallet', null);
-                                } else if (screenId == 1 && order != null) {
-                                  showOnlyLoaderDialog();
-                                  await _orderCheckOut('success', 'wallet', null, null);
+                    Visibility(
+                      visible: screenId == 3 ? false : true,
+                      child: RadioListTile(
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: 1,
+                              groupValue: _isWallet,
+                              title: Text(
+                                "ARX Token "+AppLocalizations.of(context).lbl_wallet,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                              ),
+                              subtitle: Text(
+                                '${global.currentUser.wallet}',
+                                style: Theme.of(context).primaryTextTheme.headline1,
+                              ),
+                              secondary: Icon(
+                                MdiIcons.walletOutline,
+                                color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                                size: 25,
+                              ),
+                              onChanged: (val) async {
+
+                                if (global.currentUser.wallet >= totalAmount) {
+                                  if (screenId == 2 && membershipModel != null) {
+                                    showOnlyLoaderDialog();
+                                    await _buyMemberShip('wallet', 'wallet', null);
+                                  } else if (screenId == 1 && order != null) {
+                                    showOnlyLoaderDialog();
+                                    await _orderCheckOut('success', 'wallet', null, null);
+                                  }
+                                  _isWallet = val;
+                                } else {
+                                  totalAmount = totalAmount - global.currentUser.wallet;
+                                  setState(() {});
+                                  showSnackBar(key: _scaffoldKey, snackBarMessage: 'Your ARX Token is lower than order value.Please recharge ARX Token!');
                                 }
-                                _isWallet = val;
-                              } else {
-                                totalAmount = totalAmount - global.currentUser.wallet;
-                                setState(() {});
-                                showSnackBar(key: _scaffoldKey, snackBarMessage: 'Your ARX Token is lower than order value.Please recharge ARX Token!');
-                              }
-                            }),
+                              }),
+                    ),
                         // : SizedBox(),
                     // hide
                     // screenId > 1
@@ -272,7 +276,7 @@ class _PaymentGatewayScreenState extends BaseRouteState {
     options = {
       'key': global.paymentGateway.razorpay.razorpayKey,
       // 'key': "rzp_test_DYDr3B0KYe4086",
-      "image" : "https://ggfm.in/assets/ggfmlogo.png",
+      "image" : "http://allycarto.com/images/app_logo/app_icon/25-08-2022/al2.png",
       'amount': _amountInPaise(totalAmount),
       'name': "${global.currentUser.name}",
       "theme": {"color": "#F44336"},

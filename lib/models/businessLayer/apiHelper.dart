@@ -84,6 +84,41 @@ class APIHelper {
       print("Exception - addAddress(): " + e.toString());
     }
   }
+  Future<dynamic> addBank(String name, String bank, String acc, String ifsc,) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        'user_id': global.currentUser.id,
+        'account_holder': name,
+        'bank_name': bank,
+        'bank_account': acc,
+        'bank_ifsc': ifsc,
+      });
+
+      print("aaaaaaaaaaaaaaaaaaaaaaaa : "+global.currentUser.id.toString());
+      print("aaaaaaaaaaaaaaaaaaaaaaaa : "+name.toString());
+      print("aaaaaaaaaaaaaaaaaaaaaaaa : "+bank.toString());
+      print("aaaaaaaaaaaaaaaaaaaaaaaa : "+acc.toString());
+      print("aaaaaaaaaaaaaaaaaaaaaaaa : "+ifsc.toString());
+
+      response = await dio.post('${global.baseUrl}add_bank',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(true),
+          ));
+      print("aaaaaaaaaaaaaaaaaaaaaaaa : "+response.data.toString());
+      dynamic recordList;
+      if (response.statusCode == 200 && response.data['status'] == '200') {
+        recordList = true;
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - addAddress(): " + e.toString());
+    }
+  }
 
   Future<dynamic> addProductRating(String storeId,int varientId, double rating, String description) async {
     try {
@@ -365,7 +400,8 @@ class APIHelper {
       'content-type': 'application/json',
       'Authorization': 'key=${global.appInfo.userServerKey}' // 'key=YOUR_SERVER_KEY'
     };
-    final response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'), body: json.encode(data), encoding: Encoding.getByName('utf-8'), headers: headers);
+    final response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        body: json.encode(data), encoding: Encoding.getByName('utf-8'), headers: headers);
     if (response.statusCode == 200) {
       // on success do sth
       print('Send');
@@ -605,6 +641,35 @@ class APIHelper {
     }
   }
 
+  Future<dynamic> editBank(String name, String bank, String acc, String ifsc,) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        'user_id': global.currentUser.id,
+        'name': name,
+        'bank': bank,
+        'acc': acc,
+        'ifsc': ifsc,
+      });
+
+      response = await dio.post('${global.baseUrl}edit_bank',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(true),
+          ));
+      dynamic recordList;
+      if (response.statusCode == 200 && response.data['status'] == '1') {
+        recordList = true;
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - editAddress(): " + e.toString());
+    }
+  }
+
   Future<dynamic> firebaseOTPVerification(String phone, String status) async {
     try {
       Response response;
@@ -649,6 +714,29 @@ class APIHelper {
     }
   }
 
+  Future<dynamic> need_help(String userPhone) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({'mobile': userPhone});
+      response = await dio.post('${global.baseUrl}need_support',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(false),
+          ));
+      print("aaaaaaaaaaaaaaa : "+response.data.toString());
+      dynamic recordList;
+      if (response.statusCode == 200) {
+        recordList = true;
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - need_support(): " + e.toString());
+    }
+  }
+
   Future<dynamic> getAddressList() async {
     try {
       Response response;
@@ -662,6 +750,30 @@ class APIHelper {
       dynamic recordList;
       if (response.statusCode == 200 && response.data["status"] == '1') {
         recordList = List<Address>.from(response.data["data"].map((x) => Address.fromJson(x)));
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - getAddressList(): " + e.toString());
+    }
+  }
+
+  Future<dynamic> getBankList() async {
+
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({'user_id': global.currentUser.id});
+      response = await dio.post('${global.baseUrl}show_bank',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(true),
+          ));
+      dynamic recordList;
+      if (response.statusCode == 200 && response.data["status"] == 200) {
+        print("aaaaaaaaaaaaa : "+response.data.toString());
+        recordList = response.data["data"];
       } else {
         recordList = null;
       }
@@ -959,11 +1071,16 @@ class APIHelper {
       Response response;
       var dio = Dio();
       var formData = FormData.fromMap({'store_id': global.nearStoreModel.id});
-      response = await dio.post('${global.baseUrl}oneapi',
-          data: formData,
+      response = await dio.get('${global.baseUrl}oneapi',
+          // data: formData,
           options: Options(
             headers: await global.getApiHeaders(false),
           ));
+      // response = await dio.post('${global.baseUrl}oneapi',
+      //     data: formData,
+      //     options: Options(
+      //       headers: await global.getApiHeaders(false),
+      //     ));
       dynamic recordList;
       if (response.statusCode == 200) {
         
@@ -1175,6 +1292,35 @@ class APIHelper {
     }
   }
 
+  Future<dynamic> getVendorproductSearchResult(int page, String keyword, String subcategoryId) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        'store_id': global.nearStoreModel.id,
+        'keyword': keyword,
+        'user_id': global.currentUser.id,
+        'byname': "",
+        'vid': subcategoryId,
+      });
+
+      response = await dio.post('${global.baseUrl}searchbystoreproduct',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(false),
+          ));
+      dynamic recordList;
+      if (response.statusCode == 200 && response.data["status"] == '1') {
+        recordList = List<Product>.from(response.data["data"].map((x) => Product.fromJson(x)));
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - getproductSearchResult(): " + e.toString());
+    }
+  }
+
   Future<dynamic> getcatproductSearchResult(int page, String keyword, String subcategoryId) async {
     try {
       Response response;
@@ -1347,6 +1493,44 @@ class APIHelper {
     }
   }
 
+  getVendorProduct(String mainCatId, int page, ProductFilter productFilter) async {
+    try {
+      var myPincode = global.sp.getString('myPincode');
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        // 'pincode': myPincode,
+        "user_id": global.currentUser.id,
+        'vid': mainCatId,
+        // 'byname': productFilter.byname,
+        // 'min_price': productFilter.minPrice,
+        // 'max_price': productFilter.maxPrice,
+        // 'stock': productFilter.stock,
+        // 'min_discount': productFilter.minDiscount,
+        // 'max_discount': productFilter.maxDiscount,
+        // 'min_rating': productFilter.minRating,
+        // 'max_rating': productFilter.maxRating,
+      });
+
+      response = await dio.post('${global.baseUrl}vendor_product?page=$page',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(false),
+          ));
+
+      dynamic recordList;
+      if (response.statusCode == 200 && response.data["status"] == '1') {
+        // print("aaaaaaaaaaa000 : "+response.data["data"][0]["varients"].toString());
+        recordList = List<Product>.from(response.data["data"].map((x) => Product.fromJson(x)));
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - getSubcategoryProduct(): " + e.toString());
+    }
+  }
+
   getSubcategoryProduct(int catId,String mainCatId, int page, ProductFilter productFilter) async {
     try {
       var myPincode = global.sp.getString('myPincode');
@@ -1499,6 +1683,31 @@ class APIHelper {
     }
   }
 
+  getWalletIncentiveHistory(int page) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        "id": global.currentUser.id,
+      });
+      response = await dio.post('${global.baseUrl}incentive_list?page=$page',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(true),
+          ));
+
+      dynamic recordList;
+      if (response.statusCode == 200 && response.data["status"] == '1') {
+        recordList = List<Wallet>.from(response.data["data"].map((x) => Wallet.fromJson(x)));
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - getWalletRechargeHistory(): " + e.toString());
+    }
+  }
+
   getWalletSpentHistory(int page) async {
     try {
       Response response;
@@ -1513,6 +1722,31 @@ class APIHelper {
           ));
       dynamic recordList;
       if (response.statusCode == 200 && response.data["status"] == '1') {
+        recordList = List<Wallet>.from(response.data["data"].map((x) => Wallet.fromJson(x)));
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - getWalletSpentHistory(): " + e.toString());
+    }
+  }
+
+  getIncentiveWalletSpentHistory(int page) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        "user_id": global.currentUser.id,
+      });
+      response = await dio.post('${global.baseUrl}inr_by_wallet?page=$page',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(true),
+          ));
+      print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbb  : "+response.data.toString());
+      dynamic recordList;
+      if (response.statusCode == 200 && response.data["status"].toString() == "1") {
         recordList = List<Wallet>.from(response.data["data"].map((x) => Wallet.fromJson(x)));
       } else {
         recordList = null;
@@ -2059,10 +2293,11 @@ class APIHelper {
 
   topSellingProduct(int page, ProductFilter productFilter) async {
     try {
+      var myPincode = global.sp.getString('myPincode');
       Response response;
       var dio = Dio();
       var formData = FormData.fromMap({
-        'store_id': global.nearStoreModel.id,
+        'pincode': myPincode,
         "user_id": global.currentUser.id,
         'byname': productFilter.byname,
         'min_price': productFilter.minPrice,
@@ -2198,6 +2433,7 @@ class APIHelper {
         'user_email': global.currentUser.email,
         'user_phone': global.currentUser.userPhone,
         'user_city': user.userCity,
+        'user_pass': user.password,
         'device_id': global.appDeviceId,
         'user_image': user.userImageFile != null ? await MultipartFile.fromFile(user.userImageFile.path.toString()) : null,
         'user_id': global.currentUser.id,

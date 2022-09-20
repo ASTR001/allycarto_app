@@ -14,6 +14,7 @@ import 'package:gomeat/models/businessLayer/baseRoute.dart';
 import 'package:gomeat/models/businessLayer/global.dart' as global;
 import 'package:gomeat/models/userModel.dart';
 import 'package:gomeat/screens/forgotPasswordScreen.dart';
+import 'package:gomeat/screens/new/need_help.dart';
 import 'package:gomeat/screens/otpVerificationScreen.dart';
 import 'package:gomeat/screens/signUpScreen.dart';
 import 'package:gomeat/widgets/bottomNavigationWidget.dart';
@@ -56,16 +57,20 @@ class _LoginScreenState extends BaseRouteState {
           body: Container(
             child: Stack(
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 0),
-                  height: MediaQuery.of(context).size.height * 0.50,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/logo.jpg'),
-                      ),
-                      color: Colors.red[50]
+                Positioned(
+                  top: 60,
+                  left: MediaQuery.of(context).size.width*0.2,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 0),
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage('assets/logo.jpg'),
+                        ),
+                        color: Colors.red[50]
+                    ),
                   ),
                 ),
                 Positioned(
@@ -76,7 +81,7 @@ class _LoginScreenState extends BaseRouteState {
                     onPressed: () {
                       exitAppDialog();
                     },
-                    icon: Icon(MdiIcons.arrowLeft, color: Colors.white),
+                    icon: Icon(MdiIcons.arrowLeft, color: Colors.black),
                   ),
                 ),
                 Positioned(
@@ -87,12 +92,12 @@ class _LoginScreenState extends BaseRouteState {
                     child: Text(
                       'Login',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).primaryTextTheme.headline3,
+                      style: TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 35),
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 0),
                   decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(40))),
                   margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.45 - 20),
                   height: MediaQuery.of(context).size.height * 0.60,
@@ -188,30 +193,49 @@ class _LoginScreenState extends BaseRouteState {
                           ),
                         )
                             : SizedBox(),
-                        isLoginWithEmail
-                            ? Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => ForgotPasswordScreen(
-                                        a: widget.analytics,
-                                        o: widget.observer,
-                                      )),
-                                );
-                              },
-                              child: Text(
-                                "${AppLocalizations.of(context).lbl_forgot_password} ?",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(color: Color(0xFFe03337)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => NeedHelpScreen(
+                                          a: widget.analytics,
+                                          o: widget.observer,
+                                        )),
+                                  );
+                                },
+                                child: Text(
+                                  "Need Help ?",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(color: Color(0xFFe03337)),
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                            : SizedBox(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => ForgotPasswordScreen(
+                                          a: widget.analytics,
+                                          o: widget.observer,
+                                        )),
+                                  );
+                                },
+                                child: Text(
+                                  "${AppLocalizations.of(context).lbl_forgot_password} ?",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(color: Color(0xFFe03337)),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                         Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
                               gradient: LinearGradient(stops: [0, .90], begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFe03337), Color(0xFFb73537)])),

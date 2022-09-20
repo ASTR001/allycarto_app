@@ -45,11 +45,13 @@ class _CoveragesState extends State<Coverages> {
             new Container(
                         child: new Image.asset('assets/logo.jpg',
                           fit: BoxFit.cover,
-                          height: 300.0,
+                          height: 200.0,
+                          width: 200,
                         ),
-                    constraints: new BoxConstraints.expand(height: 300.0),
+                    constraints: new BoxConstraints.expand(height: 200.0, width: 200),
                   ),
-            Text("Ally Carto Coverage",style: TextStyle(fontSize: 18,color: Colors.white),),
+            SizedBox(height: 15,),
+            Text("Ally Carto Coverage",style: TextStyle(fontSize: 18,color: Colors.red),),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Html(
@@ -65,7 +67,7 @@ class _CoveragesState extends State<Coverages> {
 
   Container _getGradient() {
         return new Container(
-              margin: new EdgeInsets.only(top: 190.0),
+              margin: new EdgeInsets.only(top: 90.0),
           height: 110.0,
           decoration: new BoxDecoration(
             gradient: new LinearGradient(
@@ -84,31 +86,30 @@ class _CoveragesState extends State<Coverages> {
   Container _getToolbar(BuildContext context) {
         return new Container(
                     margin: new EdgeInsets.only(
-                    top: MediaQuery
-                            .of(context)
-                       .padding
-                        .top),
-                child: new BackButton(color: Colors.white),
+                    top: 10),
+                child: new BackButton(color: Colors.black87),
               );
       }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-              body: _myList == null ? Center(child: CircularProgressIndicator()) :SingleChildScrollView(
-                child: new Container(
-            // constraints: new BoxConstraints.expand(),
-            color: new Color(0xFF736AB7),
-            child: new Stack (
-                children: <Widget>[
-                  _getBackground(),
-                  _getGradient(),
-                  // _getContent(),
-                  _getToolbar(context),
-                ],
-            ),
-          ),
+    return SafeArea(
+      child: Scaffold(
+                body: _myList == null ? Center(child: CircularProgressIndicator()) :SingleChildScrollView(
+                  child: new Container(
+              // constraints: new BoxConstraints.expand(),
+              color:  Colors.white,
+              child: new Stack (
+                  children: <Widget>[
+                    _getBackground(),
+                    // _getGradient(),
+                    // _getContent(),
+                    _getToolbar(context),
+                  ],
               ),
-        );
+            ),
+                ),
+          ),
+    );
   }
 }

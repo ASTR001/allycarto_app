@@ -88,6 +88,7 @@ class _MyBlogsState extends State<MyGalley> {
                   return Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: new Card(
+                      color: Colors.red[50],
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).push(
@@ -158,6 +159,7 @@ class _MyBlogsState extends State<MyGalley> {
                   return Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: new Card(
+                      color: Colors.red[50],
                       child: InkWell(
                         onTap: () {
                           // Navigator.of(context).push(

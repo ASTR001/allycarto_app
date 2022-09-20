@@ -61,7 +61,14 @@ class _WalletScreenState extends BaseRouteState {
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
-                      child: Text(" ${global.currentUser.wallet}", style: Theme.of(context).primaryTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w700)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Icon(Icons.currency_bitcoin_rounded),
+                          Image.asset("assets/token.png",height: 25,width: 25,),
+                          Text(" ${global.currentUser.wallet}", style: Theme.of(context).primaryTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w700)),
+                        ],
+                      ),
                     ),
                     Container(
                       child: Padding(
