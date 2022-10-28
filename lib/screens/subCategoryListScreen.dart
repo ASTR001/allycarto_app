@@ -7,10 +7,8 @@ import 'package:gomeat/models/subcategoryModel.dart';
 import 'package:gomeat/screens/productListScreen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-
 class SubcategoryListScreen extends BaseRoute {
-  final List category;
+  final Category category;
   SubcategoryListScreen(this.category, {a, o}) : super(a: a, o: o, r: 'SubcategoryListScreen');
   @override
   _SubcategoryListScreenState createState() => new _SubcategoryListScreenState(this.category);
@@ -22,13 +20,11 @@ class _SubcategoryListScreenState extends BaseRouteState {
 
   bool _isDataLoaded = false;
   int page = 1;
-  List category;
+  Category category;
   _SubcategoryListScreenState(this.category) : super();
   bool _isRecordPending = true;
   bool _isMoreDataLoaded = false;
   ScrollController _scrollController = ScrollController();
-
-
   @override
   Widget build(BuildContext context) {
     print("width  ${MediaQuery.of(context).size.width} - height ${MediaQuery.of(context).size.height}");
@@ -49,7 +45,7 @@ class _SubcategoryListScreenState extends BaseRouteState {
               ),
             ),
             centerTitle: true,
-            title: Text("${category[0]["title"]}"),
+            title: Text("${category.title}"),
           ),
           body: _categoryWidget()),
     );
@@ -101,7 +97,7 @@ class _SubcategoryListScreenState extends BaseRouteState {
           } else {
             page++;
           }
-          await apiHelper.getSubCategoryList(page, category[0]["cat_id"]).then((result) async {
+          await apiHelper.getSubCategoryList(page, category.catId).then((result) async {
             if (result != null) {
               if (result.status == "1") {
                 List<Subcategory> _tList = result.data;
@@ -141,7 +137,7 @@ class _SubcategoryListScreenState extends BaseRouteState {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ProductListScreen(1, _subCategoryList[i].title, category[0]["cat_id"].toString(), subcategoryId: _subCategoryList[i].catId, a: widget.analytics, o: widget.observer),
+                builder: (context) => ProductListScreen(1, _subCategoryList[i].title, category.catId.toString(), subcategoryId: _subCategoryList[i].catId, a: widget.analytics, o: widget.observer),
               ),
             );
           },

@@ -66,7 +66,7 @@ class _BottomNavigationWidgetState extends BaseRouteState {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
             elevation: 0,
-            backgroundColor: Color(0xFFe03337),
+            backgroundColor: Colors.green,
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -99,10 +99,11 @@ class _BottomNavigationWidgetState extends BaseRouteState {
   List<Widget> _screens() => [
         HomeScreen(a: widget.analytics, o: widget.observer),
         SearchScreen(a: widget.analytics, o: widget.observer),
-        OfferListScreen(
-          a: widget.analytics,
-          o: widget.observer,
-        ),
+    HomeScreen(a: widget.analytics, o: widget.observer),
+        // OfferListScreen(
+        //   a: widget.analytics,
+        //   o: widget.observer,
+        // ),
         ProfileScreen(a: widget.analytics, o: widget.observer)
       ];
 

@@ -71,7 +71,7 @@ class _OtpVerificationScreenState extends BaseRouteState {
                       stops: [0, 0.65],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                      colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                     ),
                   ),
             child: Stack(
@@ -83,7 +83,7 @@ class _OtpVerificationScreenState extends BaseRouteState {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage('assets/logo.jpg'),
+                      image: AssetImage('assets/login_signup.png'),
                     ),
                   ),
                 ),
@@ -176,7 +176,7 @@ class _OtpVerificationScreenState extends BaseRouteState {
                             stops: [0, .90],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                            colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                           ),
                         ),
                         margin: EdgeInsets.only(top: 5),

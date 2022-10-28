@@ -262,7 +262,7 @@ class _CheckoutScreenState extends BaseRouteState {
                             stops: [0, .90],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                            colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                           ),
                         ),
                         margin: EdgeInsets.all(8.0),
@@ -276,7 +276,6 @@ class _CheckoutScreenState extends BaseRouteState {
                                     builder: (context) => PaymentGatewayScreen(
                                       screenId: 1,
                                       totalAmount: _order.remPrice,
-                                      sts: true,
                                       order: _order,
                                       a: widget.analytics,
                                       o: widget.observer,
@@ -307,10 +306,12 @@ class _CheckoutScreenState extends BaseRouteState {
                                   showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_select_time_slot}');
                                 }
                               } else if (_currentIndex == 0) {
-                                if (_cart.productList.length > 0) {
+                                if (_cart.productList.length > 0 && global.nearStoreModel.id != null) {
                                   _pageController.animateToPage(_currentIndex + 1, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
                                 } else if (_cart.productList.length == 0) {
                                   showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_add_product_in_cart}');
+                                } else if (global.nearStoreModel.id == null) {
+                                  showSnackBar(key: _scaffoldKey, snackBarMessage: '${global.locationMessage}');
                                 }
                               }
                             },
@@ -389,10 +390,10 @@ class _CheckoutScreenState extends BaseRouteState {
         );
       });
     }
-    // if (global.nearStoreModel.storeOpeningTime != null && global.nearStoreModel.storeOpeningTime != '' && global.nearStoreModel.storeClosingTime != null && global.nearStoreModel.storeClosingTime != '') {
-    //   _openingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeOpeningTime).toUpperCase());
-    //    _closingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeClosingTime).toUpperCase());
-    // }
+    if (global.nearStoreModel.storeOpeningTime != null && global.nearStoreModel.storeOpeningTime != '' && global.nearStoreModel.storeClosingTime != null && global.nearStoreModel.storeClosingTime != '') {
+      _openingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeOpeningTime).toUpperCase());
+       _closingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeClosingTime).toUpperCase());
+    }
     _scrollController = new ScrollController(initialScrollOffset: _currentIndex.toDouble());
     _pageController = new PageController(initialPage: _currentIndex);
     _pageController.addListener(() {});
@@ -428,7 +429,7 @@ class _CheckoutScreenState extends BaseRouteState {
               height: 50,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -473,7 +474,7 @@ class _CheckoutScreenState extends BaseRouteState {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].city}",
+                          "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].society}",
                           style: _selectedAddress == index ? Theme.of(context).primaryTextTheme.headline2.copyWith(color: Theme.of(context).primaryTextTheme.bodyText1.color) : Theme.of(context).primaryTextTheme.headline2,
                         ),
                         _selectedAddress == index
@@ -515,11 +516,11 @@ class _CheckoutScreenState extends BaseRouteState {
     ));
   }
 
-  Future<bool> _addToCart(String StoreId, int qty, int varientId, int special, GlobalKey<ScaffoldState> scaffoldKey) async {
+  Future<bool> _addToCart(int qty, int varientId, int special, GlobalKey<ScaffoldState> scaffoldKey) async {
     bool _isAddedSuccesFully = false;
     try {
       showOnlyLoaderDialog();
-      await apiHelper.addToCart(StoreId,qty, varientId, special).then((result) async {
+      await apiHelper.addToCart(qty, varientId, special).then((result) async {
         if (result != null) {
           if (result.status == "1") {
             if (qty == 0 && global.currentUser.cartCount > 0) {
@@ -686,7 +687,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                           ),
                                     IconButton(
                                       onPressed: () async {
-                                        bool _isAdded = await addRemoveWishList(_cart.productList[index].storeId.toString(),_cart.productList[index].varientId, _scaffoldKey);
+                                        bool _isAdded = await addRemoveWishList(_cart.productList[index].varientId, _scaffoldKey);
                                         if (_isAdded) {
                                           _cart.productList[index].isFavourite = !_cart.productList[index].isFavourite;
                                         }
@@ -727,7 +728,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                               padding: EdgeInsets.all(0),
                                               visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                               onPressed: () async {
-                                                await _addToCart(_cart.productList[index].storeId.toString(),1, _cart.productList[index].varientId, 0, _scaffoldKey);
+                                                await _addToCart(1, _cart.productList[index].varientId, 0, _scaffoldKey);
 
                                                 setState(() {});
                                               },
@@ -749,7 +750,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                                 stops: [0, .90],
                                                 begin: Alignment.centerLeft,
                                                 end: Alignment.centerRight,
-                                                colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                                colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColorLight],
                                               ),
                                               borderRadius: BorderRadius.only(
                                                 bottomRight: Radius.circular(10),
@@ -765,7 +766,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                                     padding: EdgeInsets.all(0),
                                                     visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                                     onPressed: () async {
-                                                      await _addToCart(_cart.productList[index].storeId.toString(),_cart.productList[index].cartQty - 1, _cart.productList[index].varientId, 0, _scaffoldKey);
+                                                      await _addToCart(_cart.productList[index].cartQty - 1, _cart.productList[index].varientId, 0, _scaffoldKey);
 
                                                       setState(() {});
                                                     },
@@ -782,7 +783,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                                     padding: EdgeInsets.all(0),
                                                     visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                                     onPressed: () async {
-                                                      await _addToCart(_cart.productList[index].storeId.toString(),_cart.productList[index].cartQty + 1, _cart.productList[index].varientId, 0, _scaffoldKey);
+                                                      await _addToCart(_cart.productList[index].cartQty + 1, _cart.productList[index].varientId, 0, _scaffoldKey);
                                                       setState(() {});
                                                     },
                                                     icon: Icon(

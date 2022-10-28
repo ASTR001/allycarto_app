@@ -3,7 +3,6 @@ class Wallet {
   int userId;
   String rechargeStatus;
   int amount;
-  int amount_incentive;
   String paymentGateway;
   String dateOfRecharge;
   int id;
@@ -18,7 +17,7 @@ class Wallet {
   int userCity;
   int userArea;
   String otpValue;
-  String status;
+  int status;
   int wallet;
   int rewards;
   int isVerified;
@@ -33,8 +32,6 @@ class Wallet {
   dynamic createdAt;
   DateTime updatedAt;
   String cartId;
-  String token_amount;
-  String inr_amount;
   int paidbywallet;
 
   Wallet();
@@ -42,13 +39,10 @@ class Wallet {
   Wallet.fromJson(Map<String, dynamic> json) {
     try {
       cartId = json["cart_id"] != null ? json["cart_id"] : null;
-      token_amount = json["token_amount"].toString() != null ? json["token_amount"].toString() : null;
-      inr_amount = json["inr_amount"].toString() != null ? json["inr_amount"].toString() : null;
       walletRechargeHistory = json["wallet_recharge_history"] != null ? int.parse(json["wallet_recharge_history"].toString()) : null;
       userId = json["user_id"] != null ? int.parse(json["user_id"].toString()) : null;
       rechargeStatus = json["recharge_status"] != null ? json["recharge_status"] : null;
       amount = json["amount"] != null ? double.parse(json["amount"].toString()).round() : null;
-      amount_incentive = json["amount_recive"] != null ? double.parse(json["amount_recive"].toString()).round() : null;
       paidbywallet = json["paid_by_wallet"] != null ? double.parse(json["paid_by_wallet"].toString()).round() : null;
       paymentGateway = json["payment_gateway"] != null ? json["payment_gateway"] : null;
       id = json["id"] != null ? int.parse(json["id"].toString()) : null;
@@ -63,7 +57,7 @@ class Wallet {
       userCity = json["user_city"] != null ? int.parse(json["user_city"].toString()) : null;
       userArea = json["user_area"] != null ? int.parse(json["user_area"].toString()) : null;
       otpValue = json["otp_value"] != null ? json["otp_value"] : null;
-      status = json["status"].toString() != null ? json["status"].toString() : null;
+      status = json["status"] != null ? int.parse(json["status"].toString()) : null;
       wallet = json["wallet"] != null ? double.parse(json["wallet"].toString()).round() : null;
       rewards = json["rewards"] != null ? int.parse(json["rewards"].toString()) : null;
       isVerified = json["is_verified"] != null ? int.parse(json["is_verified"].toString()) : null;

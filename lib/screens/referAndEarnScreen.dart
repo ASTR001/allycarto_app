@@ -78,7 +78,7 @@ class _ReferAndEarnScreenState extends BaseRouteState {
                       ),
                       Text(
                         'First time in the World we have designed a unique cash back system where we share our profit on your purchase to referrer and referee equally.'+
-                        'Therefore, you become our partners in profit only in our business Invite friends to shop with Ally Carto, once they shop with us not only they earn reward points you will also earn equal reward points.'+
+                        'Therefore, you become our partners in profit only in our business Invite friends to shop with Ally Cart, once they shop with us not only they earn reward points you will also earn equal reward points.'+
                         ' One reward point is equal to Re1 where it can be used to shop with or AllyCart. Refer more people earn more. \n\n'+
                         'Share your below code and ask your friends and relatives to enter it while registering our app. Once they do it you become a partner in our business. ',
                         textAlign: TextAlign.justify,

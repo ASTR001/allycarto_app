@@ -55,7 +55,9 @@ class _AddressListScreenState extends BaseRouteState {
                     setState(() {});
                     await _init();
                   },
-                  child:  Column(
+                  child: global.nearStoreModel.id != null
+                      ? _addressList.length > 0
+                          ? Column(
                             children: [
                               InkWell(
                                 onTap: () {
@@ -80,7 +82,7 @@ class _AddressListScreenState extends BaseRouteState {
                                   height: 50,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                      colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
@@ -100,8 +102,7 @@ class _AddressListScreenState extends BaseRouteState {
                                       )),
                                 ),
                               ),
-                              _addressList.length > 0
-                                  ? ListView.builder(
+                              ListView.builder(
                                   itemCount: _addressList.length,
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
@@ -110,7 +111,6 @@ class _AddressListScreenState extends BaseRouteState {
                                       children: [
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
-                                          leading: Icon(Icons.home),
                                           title: Text(
                                             _addressList[index].type,
                                             style: Theme.of(context).primaryTextTheme.bodyText1,
@@ -121,7 +121,7 @@ class _AddressListScreenState extends BaseRouteState {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].city}",
+                                                "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].society}",
                                                 style: Theme.of(context).primaryTextTheme.headline2,
                                               ),
                                               Row(
@@ -163,14 +163,22 @@ class _AddressListScreenState extends BaseRouteState {
                                       ],
                                     );
                                   },
-                                ) : Center(
-                                child: Text(
-                                  "${AppLocalizations.of(context).txt_nothing_to_show}",
-                                  style: Theme.of(context).primaryTextTheme.bodyText1,
                                 ),
-                              ),
                             ],
                           )
+                          : Center(
+                              child: Text(
+                                "${AppLocalizations.of(context).txt_nothing_to_show}",
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                              ),
+                            )
+                      : Center(
+                          child: Text(
+                            "${global.locationMessage}",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).primaryTextTheme.bodyText1,
+                          ),
+                        ),
                 )
               : _shimmerList(),
         ),
@@ -232,6 +240,7 @@ class _AddressListScreenState extends BaseRouteState {
     try {
       bool isConnected = await br.checkConnectivity();
       if (isConnected) {
+        if (global.nearStoreModel.id != null) {
           await apiHelper.getAddressList().then((result) async {
             if (result != null) {
               if (result.status == "1") {
@@ -239,6 +248,7 @@ class _AddressListScreenState extends BaseRouteState {
               }
             }
           });
+        }
       } else {
         showNetworkErrorSnackBar(_scaffoldKey);
       }

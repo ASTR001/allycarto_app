@@ -21,7 +21,6 @@ import 'package:gomeat/models/productModel.dart';
 import 'package:gomeat/screens/checkOutScreen.dart';
 
 import 'package:gomeat/screens/filterScreen.dart';
-import 'package:gomeat/screens/new/CategoryShopListScreen.dart';
 
 import 'package:gomeat/screens/productDetailScreen.dart';
 
@@ -29,11 +28,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'package:shimmer/shimmer.dart';
 
-
-
 import 'loginScreen.dart';
-
-
 
 class ProductListScreen extends BaseRoute {
 
@@ -131,6 +126,21 @@ class _ProductListScreenState extends BaseRouteState {
 
           actions: [
 
+            IconButton(
+
+                onPressed: () async {
+
+                  await openBarcodeScanner(_scaffoldKey);
+
+                },
+
+                icon: Icon(
+
+                  MdiIcons.barcode,
+
+                  color: Theme.of(context).appBarTheme.actionsIconTheme.color,
+
+                )),
 
             global.currentUser.cartCount != null && global.currentUser.cartCount > 0
 
@@ -218,55 +228,55 @@ class _ProductListScreenState extends BaseRouteState {
 
             ),
 
-            // IconButton(
-            //
-            //   onPressed: () {
-            //
-            //     Navigator.of(context)
-            //
-            //         .push(
-            //
-            //       MaterialPageRoute(
-            //
-            //         builder: (context) => FilterScreen(_productFilter, a: widget.analytics, o: widget.observer),
-            //
-            //       ),
-            //
-            //     )
-            //
-            //         .then((value) async {
-            //
-            //       if (value != null) {
-            //
-            //         _isDataLoaded = false;
-            //
-            //         _isRecordPending = true;
-            //
-            //         _productList.clear();
-            //
-            //         setState(() {});
-            //
-            //         _productFilter = value;
-            //
-            //         print("screen id $screenId");
-            //
-            //         await _init();
-            //
-            //       }
-            //
-            //     });
-            //
-            //   },
-            //
-            //   icon: Icon(
-            //
-            //     MdiIcons.tuneVerticalVariant,
-            //
-            //     color: Theme.of(context).appBarTheme.actionsIconTheme.color,
-            //
-            //   ),
-            //
-            // )
+            IconButton(
+
+              onPressed: () {
+
+                Navigator.of(context)
+
+                    .push(
+
+                  MaterialPageRoute(
+
+                    builder: (context) => FilterScreen(_productFilter, a: widget.analytics, o: widget.observer),
+
+                  ),
+
+                )
+
+                    .then((value) async {
+
+                  if (value != null) {
+
+                    _isDataLoaded = false;
+
+                    _isRecordPending = true;
+
+                    _productList.clear();
+
+                    setState(() {});
+
+                    _productFilter = value;
+
+                    print("screen id $screenId");
+
+                    await _init();
+
+                  }
+
+                });
+
+              },
+
+              icon: Icon(
+
+                MdiIcons.tuneVerticalVariant,
+
+                color: Theme.of(context).appBarTheme.actionsIconTheme.color,
+
+              ),
+
+            )
 
           ],
 
@@ -309,82 +319,51 @@ class _ProductListScreenState extends BaseRouteState {
               child: Column(
                 children: [
 
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 7,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0,right: 10, bottom: 12),
-                          child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: TextField(
-                                controller: searchController,
-                                style: Theme.of(context).primaryTextTheme.bodyText1,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 7),
-                                    prefixIcon: Icon(Icons.search,color: Colors.grey,),
-                                    suffixIcon: IconButton(
-                                      onPressed: () {
-                                        _init();
-                                        searchController.clear();
-                                      },
-                                      icon: Icon(Icons.clear,color: Colors.grey,size: 20,),
-                                    ),
-                                    hintText: 'Search here...',
-                                    border: InputBorder.none),
-                                onSubmitted: (val) {
-                                  // setState(() {
-                                  //   _productList = _productList
-                                  //       .where((u) => (u.productName
-                                  //       .toLowerCase()
-                                  //       .contains(val.toLowerCase())))
-                                  //       .toList();
-                                  // });
-                                  _getCatSearchedProduct(val);
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0,right: 10),
+                    child: Container(
+                      width: double.infinity,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                        child: TextField(
+                          controller: searchController,
+                          style: Theme.of(context).primaryTextTheme.bodyText1,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 7),
+                              prefixIcon: Icon(Icons.search,color: Colors.grey,),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  _init();
+                                  searchController.clear();
                                 },
-                                // onChanged: (val) {
-                                //   setState(() {
-                                //     _productList = _productList
-                                //         .where((u) => (u.productName
-                                //         .toLowerCase()
-                                //         .contains(val.toLowerCase())))
-                                //         .toList();
-                                //   });
-                                // },
+                                icon: Icon(Icons.clear,color: Colors.grey,size: 20,),
                               ),
-                            ),
-                          ),
+                              hintText: 'Search here...',
+                              border: InputBorder.none),
+                          onSubmitted: (val) {
+                            // setState(() {
+                            //   _productList = _productList
+                            //       .where((u) => (u.productName
+                            //       .toLowerCase()
+                            //       .contains(val.toLowerCase())))
+                            //       .toList();
+                            // });
+                            _getCatSearchedProduct(val);
+                          },
+                          // onChanged: (val) {
+                          //   setState(() {
+                          //     _productList = _productList
+                          //         .where((u) => (u.productName
+                          //         .toLowerCase()
+                          //         .contains(val.toLowerCase())))
+                          //         .toList();
+                          //   });
+                          // },
                         ),
                       ),
-                      // Expanded(
-                      //   flex: 3,
-                      //   child: InkWell(
-                      //     onTap: () {
-                      //       Navigator.of(context).push(
-                      //         MaterialPageRoute(
-                      //           builder: (context) => ShopListScreen(catId : subcategoryId.toString(), name : title),
-                      //         ),
-                      //       );
-                      //     },
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.only(left: 0.0,right: 0, bottom: 12),
-                      //       child: Container(
-                      //         width: double.infinity,
-                      //         height: 40,
-                      //         decoration: BoxDecoration(
-                      //             color: Colors.red[300], borderRadius: BorderRadius.circular(10)),
-                      //         child: Center(
-                      //           child: Text("Get it Local", style: TextStyle(fontSize: 11, color: Colors.white),),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // )
-                    ],
+                    ),
                   ),
 
                   ListView.builder(
@@ -450,7 +429,7 @@ class _ProductListScreenState extends BaseRouteState {
 
                               Container(
 
-                                height: 180,
+                                height: 160,
 
                                 width: MediaQuery.of(context).size.width,
 
@@ -488,7 +467,7 @@ class _ProductListScreenState extends BaseRouteState {
 
                                             '${_productList[index].productName}',
 
-                                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
+                                            style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),
                                             maxLines: 2,
 
                                             // overflow: TextOverflow.ellipsis,
@@ -513,7 +492,7 @@ class _ProductListScreenState extends BaseRouteState {
 
                                             text: "${global.appInfo.currencySign} ",
 
-                                            style: TextStyle(fontSize: 13, color: Colors.black87),
+                                            style: Theme.of(context).primaryTextTheme.headline2,
 
                                             children: [
 
@@ -521,17 +500,17 @@ class _ProductListScreenState extends BaseRouteState {
 
                                                 text: '${_productList[index].price}',
 
-                                                style: TextStyle(fontSize: 13, color: Colors.black87),
+                                                style: Theme.of(context).primaryTextTheme.bodyText1,
 
                                               ),
 
-                                              // TextSpan(
-                                              //
-                                              //   text: ' / ${_productList[index].quantity} ${_productList[index].unit}',
-                                              //
-                                              //   style: Theme.of(context).primaryTextTheme.headline2,
-                                              //
-                                              // )
+                                              TextSpan(
+
+                                                text: ' / ${_productList[index].quantity} ${_productList[index].unit}',
+
+                                                style: Theme.of(context).primaryTextTheme.headline2,
+
+                                              )
 
                                             ],
 
@@ -540,19 +519,6 @@ class _ProductListScreenState extends BaseRouteState {
                                         ),
 
                                         SizedBox(height: 3,),
-
-                                        Text(
-
-                                          '${_productList[index].quantity} ${_productList[index].unit}',
-
-                                          style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),
-                                          maxLines: 2,
-
-                                          // overflow: TextOverflow.ellipsis,
-
-                                        ),
-
-                                        SizedBox(height: 0,),
 
                                         _productList[index].rating != null && _productList[index].rating > 0
 
@@ -634,7 +600,7 @@ class _ProductListScreenState extends BaseRouteState {
 
                                             width: MediaQuery.of(context).size.width,
 
-                                            child: DropdownButtonFormField<String>(
+                                            child: DropdownButtonFormField<String>(//
 
                                               decoration: InputDecoration(
 
@@ -749,9 +715,7 @@ class _ProductListScreenState extends BaseRouteState {
                                         constraints: BoxConstraints(),
                                         onPressed: () async {
 
-                                          print("aaaaaaaaaaaa : "+_productList[index].stock.toString());
-
-                                          bool _isAdded = await addRemoveWishList(_productList[index].storeId.toString(),_productList[index].varientId, _scaffoldKey);
+                                          bool _isAdded = await addRemoveWishList(_productList[index].varientId, _scaffoldKey);
 
                                           if (_isAdded) {
 
@@ -908,7 +872,7 @@ class _ProductListScreenState extends BaseRouteState {
                                             _productList[index].varient[0].cartQty = 1;
                                           });
 
-                                          bool isAdded = await addToCart(_productList[index].storeId.toString(),1, variantIndexStatus ? _productList[index].varientId : int.parse(_productList[index].selectVarient), 0, _scaffoldKey, true);
+                                          bool isAdded = await addToCart(1, variantIndexStatus ? _productList[index].varientId : int.parse(_productList[index].selectVarient), 0, _scaffoldKey, true);
 
                                           if (isAdded) {
 
@@ -952,7 +916,7 @@ class _ProductListScreenState extends BaseRouteState {
 
                                         end: Alignment.centerRight,
 
-                                        colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                        colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
 
                                       ),
 
@@ -985,7 +949,7 @@ class _ProductListScreenState extends BaseRouteState {
                                             onPressed: () async {
 
 
-                                              bool isAdded = await addToCart(_productList[index].storeId.toString(),_productList[index].varient[0].cartQty - 1,
+                                              bool isAdded = await addToCart(_productList[index].varient[0].cartQty - 1,
 
                                                   variantIndexStatus ? _productList[index].varientId : int.parse(_productList[index].selectVarient), 0, _scaffoldKey, false);
 
@@ -1028,7 +992,7 @@ class _ProductListScreenState extends BaseRouteState {
                                               print("aaaabbbb001 : "+_productList[index].selectVarient);
 
 
-                                              bool isAdded = await addToCart(_productList[index].storeId.toString(),_productList[index].varient[0].cartQty + 1,
+                                              bool isAdded = await addToCart(_productList[index].varient[0].cartQty + 1,
 
                                                   variantIndexStatus ? _productList[index].varientId : int.parse(_productList[index].selectVarient), 0, _scaffoldKey, false);
 
@@ -2070,6 +2034,10 @@ class _ProductListScreenState extends BaseRouteState {
         }
 
         await apiHelper.getSubcategoryProduct(subcategoryId, mainCatId, page, _productFilter).then((result) async {
+
+          print("aaaaaaaaaaaa : "+mainCatId);
+          print("aaaaaaaaaaaa : "+subcategoryId.toString());
+          // print("aaaaaaaaaaaa : "+pinCode);
 
           if (result != null) {
 

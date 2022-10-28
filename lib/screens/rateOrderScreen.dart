@@ -192,7 +192,7 @@ class _RateOrderScreenState extends BaseRouteState {
                     stops: [0, .90],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                    colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                   ),
                 ),
                 margin: EdgeInsets.all(8.0),
@@ -229,7 +229,7 @@ class _RateOrderScreenState extends BaseRouteState {
       if (isConnected) {
         if (_userRating != null && _userRating > 0 && _cComment.text.trim().isNotEmpty) {
           showOnlyLoaderDialog();
-          await apiHelper.addProductRating(order.productList[index].storeId.toString(),order.productList[index].varientId, _userRating, _cComment.text.trim()).then((result) async {
+          await apiHelper.addProductRating(order.productList[index].varientId, _userRating, _cComment.text.trim()).then((result) async {
             if (result != null) {
               if (result.status == "1") {
                 hideLoader();

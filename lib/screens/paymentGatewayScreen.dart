@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gomeat/inputFormaters/cardMonthInputFormatter.dart';
 import 'package:gomeat/inputFormaters/cardNumberInputFormatter.dart';
 import 'package:gomeat/models/businessLayer/baseRoute.dart';
@@ -21,7 +23,6 @@ import 'package:shimmer/shimmer.dart';
 class PaymentGatewayScreen extends BaseRoute {
   final int screenId;
   final int totalAmount;
-  final bool sts;
   final MembershipModel membershipModel;
   final Order order;
   PaymentGatewayScreen({
@@ -29,23 +30,22 @@ class PaymentGatewayScreen extends BaseRoute {
     o,
     this.screenId,
     this.totalAmount,
-    this.sts,
     this.membershipModel,
     this.order,
   }) : super(a: a, o: o, r: 'PaymentGatewayScreen');
   @override
-  _PaymentGatewayScreenState createState() => new _PaymentGatewayScreenState(screenId, totalAmount,sts, membershipModel, order);
+  _PaymentGatewayScreenState createState() => new _PaymentGatewayScreenState(screenId, totalAmount, membershipModel, order);
 }
 
 class _PaymentGatewayScreenState extends BaseRouteState {
   int screenId;
-  bool sts;
+
   int totalAmount;
   GlobalKey<ScaffoldState> _scaffoldKey;
 
   Razorpay _razorpay;
   bool _isDataLoaded = false;
-  // var payPlugin = PaystackPlugin();
+  var payPlugin = PaystackPlugin();
   TextEditingController _cCardNumber = new TextEditingController();
   TextEditingController _cExpiry = new TextEditingController();
   TextEditingController _cCvv = new TextEditingController();
@@ -54,7 +54,7 @@ class _PaymentGatewayScreenState extends BaseRouteState {
   int _month;
   int _year;
   String number;
-  // CardType cardType;
+  CardType cardType;
   int _isWallet = 0;
   final _formKey = new GlobalKey<FormState>();
   bool _autovalidate = false;
@@ -64,7 +64,6 @@ class _PaymentGatewayScreenState extends BaseRouteState {
   _PaymentGatewayScreenState(
     this.screenId,
     this.totalAmount,
-    this.sts,
     this.membershipModel,
     this.order,
   ) : super();
@@ -100,88 +99,80 @@ class _PaymentGatewayScreenState extends BaseRouteState {
             ? SingleChildScrollView(
                 child: Column(
                   children: [
-                    // global.currentUser.wallet > 0 && screenId != 3
-                    //     ?
+                    global.currentUser.wallet > 0 && screenId != 3
+                        ? RadioListTile(
+                            controlAffinity: ListTileControlAffinity.trailing,
+                            value: 1,
+                            groupValue: _isWallet,
+                            title: Text(
+                              AppLocalizations.of(context).lbl_wallet,
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                            subtitle: Text(
+                              '${global.appInfo.currencySign} ${global.currentUser.wallet}',
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                            secondary: Icon(
+                              MdiIcons.walletOutline,
+                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                              size: 25,
+                            ),
+                            onChanged: (val) async {
+                              _isWallet = val;
 
-                    Visibility(
-                      visible: screenId == 3 ? false : true,
-                      child: RadioListTile(
-                              controlAffinity: ListTileControlAffinity.trailing,
-                              value: 1,
-                              groupValue: _isWallet,
-                              title: Text(
-                                "ARX Token "+AppLocalizations.of(context).lbl_wallet,
-                                style: Theme.of(context).primaryTextTheme.bodyText1,
-                              ),
-                              subtitle: Text(
-                                '${global.currentUser.wallet}',
-                                style: Theme.of(context).primaryTextTheme.headline1,
-                              ),
-                              secondary: Icon(
-                                MdiIcons.walletOutline,
-                                color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
-                                size: 25,
-                              ),
-                              onChanged: (val) async {
-
-                                if (global.currentUser.wallet >= totalAmount) {
-                                  if (screenId == 2 && membershipModel != null) {
-                                    showOnlyLoaderDialog();
-                                    await _buyMemberShip('wallet', 'wallet', null);
-                                  } else if (screenId == 1 && order != null) {
-                                    showOnlyLoaderDialog();
-                                    await _orderCheckOut('success', 'wallet', null, null);
-                                  }
-                                  _isWallet = val;
-                                } else {
-                                  totalAmount = totalAmount - global.currentUser.wallet;
-                                  setState(() {});
-                                  showSnackBar(key: _scaffoldKey, snackBarMessage: 'Your ARX Token is lower than order value.Please recharge ARX Token!');
+                              if (global.currentUser.wallet >= totalAmount) {
+                                if (screenId == 2 && membershipModel != null) {
+                                  showOnlyLoaderDialog();
+                                  await _buyMemberShip('wallet', 'wallet', null);
+                                } else if (screenId == 1 && order != null) {
+                                  showOnlyLoaderDialog();
+                                  await _orderCheckOut('success', 'wallet', null, null);
                                 }
-                              }),
-                    ),
-                        // : SizedBox(),
-                    // hide
-                    // screenId > 1
-                    //     ? SizedBox()
-                    //     : ListTile(
-                    //         contentPadding: EdgeInsets.only(left: 10, right: 10),
-                    //         title: Text(
-                    //           AppLocalizations.of(context).txt_pay_on_delivery,
-                    //           style: Theme.of(context).primaryTextTheme.headline5,
-                    //         ),
-                    //       ),
-                    // screenId > 1
-                    //     ? SizedBox()
-                    //     : ListTile(
-                    //         onTap: () async {
-                    //           if (screenId == 1 && order != null) {
-                    //             showOnlyLoaderDialog();
-                    //             await _orderCheckOut('success', 'COD', null, null);
-                    //           }
-                    //
-                    //           setState(() {});
-                    //         },
-                    //         leading: Icon(
-                    //           FontAwesomeIcons.wallet,
-                    //           size: 25,
-                    //           color: Colors.green[500],
-                    //         ),
-                    //         title: Text(
-                    //           AppLocalizations.of(context).lbl_cash,
-                    //           style: Theme.of(context).primaryTextTheme.bodyText1,
-                    //         ),
-                    //         subtitle: Text(
-                    //           AppLocalizations.of(context).txt_pay_through_cash,
-                    //           style: Theme.of(context).primaryTextTheme.headline2,
-                    //         ),
-                    //       ),
-                    // screenId > 1
-                    //     ? SizedBox()
-                    //     : ListTile(
-                    //         title: Text(AppLocalizations.of(context).lbl_other_methods, style: Theme.of(context).primaryTextTheme.headline5),
-                    //       ),
-                    if(sts != true)
+                              } else {
+                                totalAmount = totalAmount - global.currentUser.wallet;
+                                setState(() {});
+                              }
+                            })
+                        : SizedBox(),
+                    screenId > 1
+                        ? SizedBox()
+                        : ListTile(
+                            contentPadding: EdgeInsets.only(left: 10, right: 10),
+                            title: Text(
+                              AppLocalizations.of(context).txt_pay_on_delivery,
+                              style: Theme.of(context).primaryTextTheme.headline5,
+                            ),
+                          ),
+                    screenId > 1
+                        ? SizedBox()
+                        : ListTile(
+                            onTap: () async {
+                              if (screenId == 1 && order != null) {
+                                showOnlyLoaderDialog();
+                                await _orderCheckOut('success', 'COD', null, null);
+                              }
+
+                              setState(() {});
+                            },
+                            leading: Icon(
+                              FontAwesomeIcons.wallet,
+                              size: 25,
+                              color: Colors.green[500],
+                            ),
+                            title: Text(
+                              AppLocalizations.of(context).lbl_cash,
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                            subtitle: Text(
+                              AppLocalizations.of(context).txt_pay_through_cash,
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                          ),
+                    screenId > 1
+                        ? SizedBox()
+                        : ListTile(
+                            title: Text(AppLocalizations.of(context).lbl_other_methods, style: Theme.of(context).primaryTextTheme.headline5),
+                          ),
                     global.paymentGateway.razorpay.razorpayStatus == 'Yes'
                         ? ListTile(
                             onTap: () {
@@ -198,37 +189,36 @@ class _PaymentGatewayScreenState extends BaseRouteState {
                             ),
                           )
                         : SizedBox(),
-                    // global.paymentGateway.stripe.stripeStatus == 'Yes'
-                    //     ? ListTile(
-                    //         onTap: () {
-                    //           _cardDialog(0);
-                    //         },
-                    //         leading: Image.asset(
-                    //           'assets/stripe.png',
-                    //           height: 20,
-                    //         ),
-                    //         title: Text(
-                    //           AppLocalizations.of(context).lbl_stripe,
-                    //           style: Theme.of(context).primaryTextTheme.bodyText1,
-                    //         ),
-                    //       )
-                    //     : SizedBox(),
-                    // global.paymentGateway.paystack.paystackStatus == 'Yes'
-                    //     ? ListTile(
-                    //         onTap: () {
-                    //           _cardDialog(1);
-                    //         },
-                    //         leading: Image.asset(
-                    //           'assets/paystack.png',
-                    //           height: 25,
-                    //         ),
-                    //         title: Text(
-                    //           AppLocalizations.of(context).lbl_paystack,
-                    //           style: Theme.of(context).primaryTextTheme.bodyText1,
-                    //         ),
-                    //       )
-                    //     : SizedBox()
-                    // end
+                    global.paymentGateway.stripe.stripeStatus == 'Yes'
+                        ? ListTile(
+                            onTap: () {
+                              _cardDialog(0);
+                            },
+                            leading: Image.asset(
+                              'assets/stripe.png',
+                              height: 20,
+                            ),
+                            title: Text(
+                              AppLocalizations.of(context).lbl_stripe,
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                          )
+                        : SizedBox(),
+                    global.paymentGateway.paystack.paystackStatus == 'Yes'
+                        ? ListTile(
+                            onTap: () {
+                              _cardDialog(1);
+                            },
+                            leading: Image.asset(
+                              'assets/paystack.png',
+                              height: 25,
+                            ),
+                            title: Text(
+                              AppLocalizations.of(context).lbl_paystack,
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                          )
+                        : SizedBox()
                   ],
                 ),
               )
@@ -276,7 +266,7 @@ class _PaymentGatewayScreenState extends BaseRouteState {
     options = {
       'key': global.paymentGateway.razorpay.razorpayKey,
       // 'key': "rzp_test_DYDr3B0KYe4086",
-      "image" : "http://allycarto.com/images/app_logo/app_icon/25-08-2022/al2.png",
+      // "image" : "https://ggfm.in/assets/ggfmlogo.png",
       'amount': _amountInPaise(totalAmount),
       'name': "${global.currentUser.name}",
       "theme": {"color": "#F44336"},
@@ -293,15 +283,15 @@ class _PaymentGatewayScreenState extends BaseRouteState {
   }
 
   void payStack(String key) async {
-    // try {
-    //   // payPlugin.initialize(publicKey: global.paymentGateway.paystack.paystackPublicKey).then((value) {
-    //     // _startAfreshCharge(totalAmount.toInt() * 100);
-    //   }).catchError((e) {
-    //     print("Exception - internal error - paymentGatewaysScreen.dart - payStatck(): " + e.toString());
-    //   });
-    // } catch (e) {
-    //   print("Exception - paymentGatewaysScreen.dart - payStatck(): " + e.toString());
-    // }
+    try {
+      payPlugin.initialize(publicKey: global.paymentGateway.paystack.paystackPublicKey).then((value) {
+        _startAfreshCharge(totalAmount.toInt() * 100);
+      }).catchError((e) {
+        print("Exception - internal error - paymentGatewaysScreen.dart - payStatck(): " + e.toString());
+      });
+    } catch (e) {
+      print("Exception - paymentGatewaysScreen.dart - payStatck(): " + e.toString());
+    }
   }
 
   _orderCheckOut(String paymentStatus, String paymentMethod, String paymentId, String paymentGateway) async {
@@ -706,56 +696,56 @@ class _PaymentGatewayScreenState extends BaseRouteState {
         });
   }
 
-  // _chargeCard(Charge charge) async {
-  //   try {
-  //     payPlugin.chargeCard(context, charge: charge).then((value) async {
-  //       if (value.status && value.message == "Success") {
-  //         bool isConnected = await br.checkConnectivity();
-  //         if (isConnected) {
-  //           if (screenId == 2 && membershipModel != null) {
-  //             await _buyMemberShip('success', 'paystack', null);
-  //           } else if (screenId == 1 && order != null) {
-  //             await _orderCheckOut('success', 'paystack', null, 'paystack');
-  //           } else if (screenId == 3) {
-  //             await _rechargeWallet('sucess', 'paystack', null);
-  //           }
-  //
-  //           setState(() {});
-  //         } else {
-  //           showNetworkErrorSnackBar(_scaffoldKey);
-  //         }
-  //       } else {
-  //         bool isConnected = await br.checkConnectivity();
-  //         if (isConnected) {
-  //           if (screenId == 2 && membershipModel != null) {
-  //             await _buyMemberShip('failed', 'paystack', null);
-  //           } else if (screenId == 1 && order != null) {
-  //             await _orderCheckOut('failed', 'paystack', null, 'paystack');
-  //           } else if (screenId == 3) {
-  //             await _rechargeWallet('failed', 'paystack', null);
-  //           }
-  //           _tryAgainDialog(payStack);
-  //           setState(() {});
-  //         } else {
-  //           showNetworkErrorSnackBar(_scaffoldKey);
-  //         }
-  //       }
-  //     }).catchError((e) {
-  //       print("Exception - inner error - paymentGatewaysScreen.dart - paystack - _chargeCard(): " + e.toString());
-  //     });
-  //   } catch (e) {
-  //     print("Exception - paymentGatewaysScreen.dart - _chargeCard(): " + e.toString());
-  //   }
-  // }
+  _chargeCard(Charge charge) async {
+    try {
+      payPlugin.chargeCard(context, charge: charge).then((value) async {
+        if (value.status && value.message == "Success") {
+          bool isConnected = await br.checkConnectivity();
+          if (isConnected) {
+            if (screenId == 2 && membershipModel != null) {
+              await _buyMemberShip('success', 'paystack', null);
+            } else if (screenId == 1 && order != null) {
+              await _orderCheckOut('success', 'paystack', null, 'paystack');
+            } else if (screenId == 3) {
+              await _rechargeWallet('sucess', 'paystack', null);
+            }
 
-  // PaymentCard _getCardFromUI() {
-  //   return PaymentCard(
-  //     number: _cCardNumber.text,
-  //     cvc: _cCvv.text,
-  //     expiryMonth: _month,
-  //     expiryYear: _year,
-  //   );
-  // }
+            setState(() {});
+          } else {
+            showNetworkErrorSnackBar(_scaffoldKey);
+          }
+        } else {
+          bool isConnected = await br.checkConnectivity();
+          if (isConnected) {
+            if (screenId == 2 && membershipModel != null) {
+              await _buyMemberShip('failed', 'paystack', null);
+            } else if (screenId == 1 && order != null) {
+              await _orderCheckOut('failed', 'paystack', null, 'paystack');
+            } else if (screenId == 3) {
+              await _rechargeWallet('failed', 'paystack', null);
+            }
+            _tryAgainDialog(payStack);
+            setState(() {});
+          } else {
+            showNetworkErrorSnackBar(_scaffoldKey);
+          }
+        }
+      }).catchError((e) {
+        print("Exception - inner error - paymentGatewaysScreen.dart - paystack - _chargeCard(): " + e.toString());
+      });
+    } catch (e) {
+      print("Exception - paymentGatewaysScreen.dart - _chargeCard(): " + e.toString());
+    }
+  }
+
+  PaymentCard _getCardFromUI() {
+    return PaymentCard(
+      number: _cCardNumber.text,
+      cvc: _cCvv.text,
+      expiryMonth: _month,
+      expiryYear: _year,
+    );
+  }
 
   Future _getPaymentGateways() async {
     try {
@@ -923,20 +913,20 @@ class _PaymentGatewayScreenState extends BaseRouteState {
     }
   }
 
-  // _startAfreshCharge(int price) async {
-  //   try {
-  //     Charge charge = Charge()
-  //       ..amount = price
-  //       ..email = '${global.currentUser.email}'
-  //       ..currency = '${global.appInfo.paymentCurrency}'
-  //       ..card = _getCardFromUI()
-  //       ..reference = _getReference();
-  //
-  //     _chargeCard(charge);
-  //   } catch (e) {
-  //     print("Exception - paymentGatewaysScreen.dart - _startAfreshCharge(): " + e.toString());
-  //   }
-  // }
+  _startAfreshCharge(int price) async {
+    try {
+      Charge charge = Charge()
+        ..amount = price
+        ..email = '${global.currentUser.email}'
+        ..currency = '${global.appInfo.paymentCurrency}'
+        ..card = _getCardFromUI()
+        ..reference = _getReference();
+
+      _chargeCard(charge);
+    } catch (e) {
+      print("Exception - paymentGatewaysScreen.dart - _startAfreshCharge(): " + e.toString());
+    }
+  }
 
   _tryAgainDialog(Function onClickAction) {
     try {

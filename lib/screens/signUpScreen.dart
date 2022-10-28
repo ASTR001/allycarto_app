@@ -68,305 +68,305 @@ class _SignUpScreenState extends BaseRouteState {
         ),
         body: _isDataLoaded
             ? Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            // Container(
-            //   height: 180,
-            //   color: Colors.transparent,
-            //   alignment: Alignment.topCenter,
-            //   child: Stack(
-            //     clipBehavior: Clip.none,
-            //     alignment: Alignment.topCenter,
-            //     children: [
-            //       Container(
-            //         height: 200,
-            //         alignment: Alignment.topCenter,
-            //         child: Container(
-            //           height: 140,
-            //           width: MediaQuery.of(context).size.width,
-            //           // decoration: BoxDecoration(
-            //           //   image: DecorationImage(
-            //           //     image: AssetImage('assets/profile_edit.png'),
-            //           //   ),
-            //           // ),
-            //           alignment: Alignment.topCenter,
-            //           child: Center(
-            //             child: CircleAvatar(
-            //               radius: 60,
-            //               backgroundColor: Colors.white,
-            //               child: _tImage != null
-            //                   ? CircleAvatar(
-            //                       radius: 53,
-            //                       backgroundImage: FileImage(File(_tImage.path)),
-            //                     )
-            //                   : CircleAvatar(
-            //                       radius: 53,
-            //                       child: Icon(
-            //                         Icons.person,
-            //                         size: 53,
-            //                         color: Colors.white,
-            //                       ),
-            //                     ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //       Positioned(
-            //         bottom: 10,
-            //         child: TextButton(
-            //           onPressed: () {
-            //             _showCupertinoModalSheet();
-            //           },
-            //           child: Text(
-            //             '${AppLocalizations.of(context).btn_add_profile_picture}',
-            //             style: Theme.of(context).primaryTextTheme.headline1,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context).lbl_name}",
-                        style: Theme.of(context).primaryTextTheme.headline2,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                        margin: EdgeInsets.only(top: 5, bottom: 15),
-                        padding: EdgeInsets.only(),
-                        child: TextFormField(
-                          controller: _cName,
-                          focusNode: _fName,
-                          textCapitalization: TextCapitalization.words,
-                          style: Theme.of(context).primaryTextTheme.bodyText1,
-                          decoration: InputDecoration(
-                            hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                            fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                            hintText: 'Enter name',
-                            contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          ),
-                          onFieldSubmitted: (val) {
-                            FocusScope.of(context).requestFocus(_fPhone);
-                          },
-                        ),
-                      ),
-                      Text(
-                        "${AppLocalizations.of(context).lbl_phone_number}",
-                        style: Theme.of(context).primaryTextTheme.headline2,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                        margin: EdgeInsets.only(top: 5, bottom: 15),
-                        padding: EdgeInsets.only(),
-                        child: TextFormField(
-                          controller: _cPhone,
-                          focusNode: _fPhone,
-                          readOnly: user.userPhone != null ? true : false,
-                          keyboardType: TextInputType.phone,
-                          maxLength: global.appInfo.phoneNumberLength,
-                          style: Theme.of(context).primaryTextTheme.bodyText1,
-                          decoration: InputDecoration(
-                            hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                            fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                            hintText: 'Enter mobile no',
-                            alignLabelWithHint: true,
-                            counterText: '',
-                            contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          ),
-                          onFieldSubmitted: (val) {
-                            FocusScope.of(context).requestFocus(_fEmail);
-                          },
-                        ),
-                      ),
-                      Text(
-                        "${AppLocalizations.of(context).lbl_email}",
-                        style: Theme.of(context).primaryTextTheme.headline2,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                        margin: EdgeInsets.only(top: 5, bottom: 15),
-                        padding: EdgeInsets.only(),
-                        child: TextFormField(
-                          controller: _cEmail,
-                          focusNode: _fEmail,
-                          readOnly: user.email != null ? true : false,
-                          style: Theme.of(context).primaryTextTheme.bodyText1,
-                          decoration: InputDecoration(
-                            hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                            fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                            hintText: 'Enter email address',
-                            contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          ),
-                          onFieldSubmitted: (val) {
-                            FocusScope.of(context).requestFocus(_fPassword);
-                          },
-                        ),
-                      ),
-                      Text(
-                        "${AppLocalizations.of(context).lbl_password}",
-                        style: Theme.of(context).primaryTextTheme.headline2,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                        margin: EdgeInsets.only(top: 5, bottom: 15),
-                        padding: EdgeInsets.only(),
-                        child: TextFormField(
-                          controller: _cPassword,
-                          focusNode: _fPassword,
-                          maxLength: 8,
-                          obscureText: _isPasswordVisible,
-                          style: Theme.of(context).primaryTextTheme.bodyText1,
-                          decoration: InputDecoration(
-                            hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                            fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                            hintText: '********',
-                            counterText: '',
-                            suffixIcon: IconButton(
-                              icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: IconTheme.of(context).color),
-                              onPressed: () {
-                                _isPasswordVisible = !_isPasswordVisible;
-                                setState(() {});
-                              },
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  // Container(
+                  //   height: 180,
+                  //   color: Colors.transparent,
+                  //   alignment: Alignment.topCenter,
+                  //   child: Stack(
+                  //     clipBehavior: Clip.none,
+                  //     alignment: Alignment.topCenter,
+                  //     children: [
+                  //       Container(
+                  //         height: 200,
+                  //         alignment: Alignment.topCenter,
+                  //         child: Container(
+                  //           height: 140,
+                  //           width: MediaQuery.of(context).size.width,
+                  //           // decoration: BoxDecoration(
+                  //           //   image: DecorationImage(
+                  //           //     image: AssetImage('assets/profile_edit.png'),
+                  //           //   ),
+                  //           // ),
+                  //           alignment: Alignment.topCenter,
+                  //           child: Center(
+                  //             child: CircleAvatar(
+                  //               radius: 60,
+                  //               backgroundColor: Colors.white,
+                  //               child: _tImage != null
+                  //                   ? CircleAvatar(
+                  //                       radius: 53,
+                  //                       backgroundImage: FileImage(File(_tImage.path)),
+                  //                     )
+                  //                   : CircleAvatar(
+                  //                       radius: 53,
+                  //                       child: Icon(
+                  //                         Icons.person,
+                  //                         size: 53,
+                  //                         color: Colors.white,
+                  //                       ),
+                  //                     ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Positioned(
+                  //         bottom: 10,
+                  //         child: TextButton(
+                  //           onPressed: () {
+                  //             _showCupertinoModalSheet();
+                  //           },
+                  //           child: Text(
+                  //             '${AppLocalizations.of(context).btn_add_profile_picture}',
+                  //             style: Theme.of(context).primaryTextTheme.headline1,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${AppLocalizations.of(context).lbl_name}",
+                              style: Theme.of(context).primaryTextTheme.headline2,
                             ),
-                            contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          ),
-                          onFieldSubmitted: (val) {
-                            FocusScope.of(context).requestFocus(_fConfirmPassword);
-                          },
-                        ),
-                      ),
-                      Text(
-                        "${AppLocalizations.of(context).lbl_confirm_password}",
-                        style: Theme.of(context).primaryTextTheme.headline2,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                        margin: EdgeInsets.only(top: 5, bottom: 15),
-                        padding: EdgeInsets.only(),
-                        child: TextFormField(
-                          controller: _cConfirmPassword,
-                          focusNode: _fConfirmPassword,
-                          maxLength: 8,
-                          obscureText: _isConfirmPasswordVisible,
-                          style: Theme.of(context).primaryTextTheme.bodyText1,
-                          decoration: InputDecoration(
-                            hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                            fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                            hintText: '********',
-                            counterText: '',
-                            suffixIcon: IconButton(
-                              icon: Icon(_isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off, color: IconTheme.of(context).color),
-                              onPressed: () {
-                                _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                                setState(() {});
-                              },
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                              margin: EdgeInsets.only(top: 5, bottom: 15),
+                              padding: EdgeInsets.only(),
+                              child: TextFormField(
+                                controller: _cName,
+                                focusNode: _fName,
+                                textCapitalization: TextCapitalization.words,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                                decoration: InputDecoration(
+                                  hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                                  fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                                  hintText: 'Enter name',
+                                  contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                ),
+                                onFieldSubmitted: (val) {
+                                  FocusScope.of(context).requestFocus(_fPhone);
+                                },
+                              ),
                             ),
-                            contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          ),
-                          onFieldSubmitted: (val) {
-                            FocusScope.of(context).requestFocus(_fCity);
-                          },
+                            Text(
+                              "${AppLocalizations.of(context).lbl_phone_number}",
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                              margin: EdgeInsets.only(top: 5, bottom: 15),
+                              padding: EdgeInsets.only(),
+                              child: TextFormField(
+                                controller: _cPhone,
+                                focusNode: _fPhone,
+                                readOnly: user.userPhone != null ? true : false,
+                                keyboardType: TextInputType.phone,
+                                maxLength: global.appInfo.phoneNumberLength,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                                decoration: InputDecoration(
+                                  hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                                  fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                                  hintText: 'Enter mobile no',
+                                  alignLabelWithHint: true,
+                                  counterText: '',
+                                  contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                ),
+                                onFieldSubmitted: (val) {
+                                  FocusScope.of(context).requestFocus(_fEmail);
+                                },
+                              ),
+                            ),
+                            Text(
+                              "${AppLocalizations.of(context).lbl_email}",
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                              margin: EdgeInsets.only(top: 5, bottom: 15),
+                              padding: EdgeInsets.only(),
+                              child: TextFormField(
+                                controller: _cEmail,
+                                focusNode: _fEmail,
+                                readOnly: user.email != null ? true : false,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                                decoration: InputDecoration(
+                                  hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                                  fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                                  hintText: 'Enter email address',
+                                  contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                ),
+                                onFieldSubmitted: (val) {
+                                  FocusScope.of(context).requestFocus(_fPassword);
+                                },
+                              ),
+                            ),
+                            Text(
+                              "${AppLocalizations.of(context).lbl_password}",
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                              margin: EdgeInsets.only(top: 5, bottom: 15),
+                              padding: EdgeInsets.only(),
+                              child: TextFormField(
+                                controller: _cPassword,
+                                focusNode: _fPassword,
+                                maxLength: 8,
+                                obscureText: _isPasswordVisible,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                                decoration: InputDecoration(
+                                  hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                                  fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                                  hintText: '********',
+                                  counterText: '',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: IconTheme.of(context).color),
+                                    onPressed: () {
+                                      _isPasswordVisible = !_isPasswordVisible;
+                                      setState(() {});
+                                    },
+                                  ),
+                                  contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                ),
+                                onFieldSubmitted: (val) {
+                                  FocusScope.of(context).requestFocus(_fConfirmPassword);
+                                },
+                              ),
+                            ),
+                            Text(
+                              "${AppLocalizations.of(context).lbl_confirm_password}",
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                              margin: EdgeInsets.only(top: 5, bottom: 15),
+                              padding: EdgeInsets.only(),
+                              child: TextFormField(
+                                controller: _cConfirmPassword,
+                                focusNode: _fConfirmPassword,
+                                maxLength: 8,
+                                obscureText: _isConfirmPasswordVisible,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                                decoration: InputDecoration(
+                                  hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                                  fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                                  hintText: '********',
+                                  counterText: '',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(_isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off, color: IconTheme.of(context).color),
+                                    onPressed: () {
+                                      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                                      setState(() {});
+                                    },
+                                  ),
+                                  contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                ),
+                                onFieldSubmitted: (val) {
+                                  FocusScope.of(context).requestFocus(_fCity);
+                                },
+                              ),
+                            ),
+                            // Text(
+                            //   "${AppLocalizations.of(context).lbl_city}",
+                            //   style: Theme.of(context).primaryTextTheme.headline2,
+                            // ),
+                            // Container(
+                            //   decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                            //   margin: EdgeInsets.only(top: 5, bottom: 15),
+                            //   padding: EdgeInsets.only(),
+                            //   child: TextFormField(
+                            //     controller: _cCity,
+                            //     focusNode: _fCity,
+                            //     readOnly: true,
+                            //     style: Theme.of(context).primaryTextTheme.bodyText1,
+                            //     decoration: InputDecoration(
+                            //       hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                            //       fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                            //       hintText: '${AppLocalizations.of(context).hnt_select_city}',
+                            //       contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                            //     ),
+                            //     onTap: () {
+                            //       if (_citiesList != null && _citiesList.length > 0) {
+                            //         _cCity.clear();
+                            //         _cSociety.clear();
+                            //         _cSearchCity.clear();
+                            //         _cSearchSociety.clear();
+                            //         _selectedCity = new City();
+                            //         _selectedSociety = new Society();
+                            //         _showCitySelectDialog();
+                            //       } else {
+                            //         showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_no_city}');
+                            //       }
+                            //
+                            //       setState(() {});
+                            //     },
+                            //   ),
+                            // ),
+                            // Text(
+                            //   "Area",
+                            //   style: Theme.of(context).primaryTextTheme.headline2,
+                            // ),
+                            // Container(
+                            //   decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                            //   margin: EdgeInsets.only(top: 5, bottom: 15),
+                            //   padding: EdgeInsets.only(),
+                            //   child: TextFormField(
+                            //     controller: _cSociety,
+                            //     focusNode: _fSociety,
+                            //     style: Theme.of(context).primaryTextTheme.bodyText1,
+                            //     decoration: InputDecoration(
+                            //       hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                            //       fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                            //       hintText: 'Select Area',
+                            //       contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                            //     ),
+                            //     onFieldSubmitted: (val) {
+                            //       FocusScope.of(context).requestFocus(_fReferral);
+                            //     },
+                            //   ),
+                            // ),
+                            Text(
+                              "${AppLocalizations.of(context).lbl_referal_code}",
+                              style: Theme.of(context).primaryTextTheme.headline2,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                              margin: EdgeInsets.only(top: 5, bottom: 15),
+                              padding: EdgeInsets.only(),
+                              child: TextFormField(
+                                textCapitalization: TextCapitalization.characters,
+                                controller: _cReferral,
+                                focusNode: _fReferral,
+                                style: Theme.of(context).primaryTextTheme.bodyText1,
+                                decoration: InputDecoration(
+                                  hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                                  fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                                  hintText: 'Ally Cart',
+                                  contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                ),
+                                onFieldSubmitted: (val) {
+                                  FocusScope.of(context).requestFocus(_fDismiss);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      // Text(
-                      //   "${AppLocalizations.of(context).lbl_city}",
-                      //   style: Theme.of(context).primaryTextTheme.headline2,
-                      // ),
-                      // Container(
-                      //   decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                      //   margin: EdgeInsets.only(top: 5, bottom: 15),
-                      //   padding: EdgeInsets.only(),
-                      //   child: TextFormField(
-                      //     controller: _cCity,
-                      //     focusNode: _fCity,
-                      //     readOnly: true,
-                      //     style: Theme.of(context).primaryTextTheme.bodyText1,
-                      //     decoration: InputDecoration(
-                      //       hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                      //       fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                      //       hintText: '${AppLocalizations.of(context).hnt_select_city}',
-                      //       contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                      //     ),
-                      //     onTap: () {
-                      //       if (_citiesList != null && _citiesList.length > 0) {
-                      //         _cCity.clear();
-                      //         _cSociety.clear();
-                      //         _cSearchCity.clear();
-                      //         _cSearchSociety.clear();
-                      //         _selectedCity = new City();
-                      //         _selectedSociety = new Society();
-                      //         _showCitySelectDialog();
-                      //       } else {
-                      //         showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_no_city}');
-                      //       }
-                      //
-                      //       setState(() {});
-                      //     },
-                      //   ),
-                      // ),
-                      // Text(
-                      //   "Area",
-                      //   style: Theme.of(context).primaryTextTheme.headline2,
-                      // ),
-                      // Container(
-                      //   decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                      //   margin: EdgeInsets.only(top: 5, bottom: 15),
-                      //   padding: EdgeInsets.only(),
-                      //   child: TextFormField(
-                      //     controller: _cSociety,
-                      //     focusNode: _fSociety,
-                      //     style: Theme.of(context).primaryTextTheme.bodyText1,
-                      //     decoration: InputDecoration(
-                      //       hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                      //       fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                      //       hintText: 'Select Area',
-                      //       contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                      //     ),
-                      //     onFieldSubmitted: (val) {
-                      //       FocusScope.of(context).requestFocus(_fReferral);
-                      //     },
-                      //   ),
-                      // ),
-                      Text(
-                        "${AppLocalizations.of(context).lbl_referal_code}",
-                        style: Theme.of(context).primaryTextTheme.headline2,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                        margin: EdgeInsets.only(top: 5, bottom: 15),
-                        padding: EdgeInsets.only(),
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.characters,
-                          controller: _cReferral,
-                          focusNode: _fReferral,
-                          style: Theme.of(context).primaryTextTheme.bodyText1,
-                          decoration: InputDecoration(
-                            hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                            fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                            hintText: 'Ally Carto',
-                            contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          ),
-                          onFieldSubmitted: (val) {
-                            FocusScope.of(context).requestFocus(_fDismiss);
-                          },
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
-        )
+                ],
+              )
             : Center(child: CircularProgressIndicator()),
         bottomNavigationBar: Row(
           mainAxisSize: MainAxisSize.min,
@@ -379,7 +379,7 @@ class _SignUpScreenState extends BaseRouteState {
                     stops: [0, .90],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                    colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                   ),
                 ),
                 margin: EdgeInsets.all(8.0),
@@ -491,14 +491,13 @@ class _SignUpScreenState extends BaseRouteState {
             _cPassword.text.trim().length >= 8 &&
             _cConfirmPassword.text.isNotEmpty &&
             _cPassword.text.trim().length == _cConfirmPassword.text.trim().length &&
-            _cPassword.text.trim() == _cConfirmPassword.text.trim() && _cReferral.text.isNotEmpty) {
+            _cPassword.text.trim() == _cConfirmPassword.text.trim()) {
 
           CurrentUser _user = new CurrentUser();
 
           _user.name = _cName.text.trim();
           _user.email = _cEmail.text.trim();
           _user.userPhone = _cPhone.text.trim();
-          _user.userCity = _cCity.text.trim();
           _user.password = _cPassword.text.trim();
           // _user.userImage = _tImage != null ? _tImage.path : null;
           _user.referralCode = _cReferral.text.trim();
@@ -545,14 +544,11 @@ class _SignUpScreenState extends BaseRouteState {
           showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_please_reEnter_your_password);
         } else if (_cConfirmPassword.text.isNotEmpty && _cPassword.text.isNotEmpty && (_cConfirmPassword.text.trim() != _cPassword.text.trim())) {
           showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_password_do_not_match);
-        } else if (_cReferral.text.isEmpty) {
-          showSnackBar(key: _scaffoldKey, snackBarMessage: "Please enter your referal Id!");
+        } else if (_selectedCity.cityId == null) {
+          showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_select_city);
+        } else if (_selectedSociety.societyId == null) {
+          showSnackBar(key: _scaffoldKey, snackBarMessage: "Please select area");
         }
-        // else if (_selectedCity.cityId == null) {
-        //   showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_select_city);
-        // } else if (_selectedSociety.societyId == null) {
-        //   showSnackBar(key: _scaffoldKey, snackBarMessage: "Please select area");
-        // }
       } else {
         showNetworkErrorSnackBar(_scaffoldKey);
       }
@@ -567,89 +563,89 @@ class _SignUpScreenState extends BaseRouteState {
           context: context,
           barrierColor: Colors.black38,
           builder: (BuildContext context) => StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) => Container(
-              child: AlertDialog(
-                elevation: 2,
-                scrollable: false,
-                contentPadding: EdgeInsets.zero,
-                backgroundColor: global.isDarkModeEnable ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).inputDecorationTheme.fillColor,
-                title: Column(
-                  children: [
-                    Text(
-                      '${AppLocalizations.of(context).hnt_select_city}',
-                      style: Theme.of(context).appBarTheme.titleTextStyle,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                      margin: EdgeInsets.only(top: 5, bottom: 15),
-                      padding: EdgeInsets.only(),
-                      child: TextFormField(
-                        controller: _cSearchCity,
-                        focusNode: _fSearchCity,
-                        style: Theme.of(context).primaryTextTheme.bodyText1,
-                        decoration: InputDecoration(
-                          hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                          fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                          hintText: '${AppLocalizations.of(context).hnt_search_city}',
-                          contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                builder: (BuildContext context, StateSetter setState) => Container(
+                  child: AlertDialog(
+                    elevation: 2,
+                    scrollable: false,
+                    contentPadding: EdgeInsets.zero,
+                    backgroundColor: global.isDarkModeEnable ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).inputDecorationTheme.fillColor,
+                    title: Column(
+                      children: [
+                        Text(
+                          '${AppLocalizations.of(context).hnt_select_city}',
+                          style: Theme.of(context).appBarTheme.titleTextStyle,
                         ),
-                        onChanged: (val) {
-                          _citiesList.clear();
-                          if (val.isNotEmpty && val.length > 2) {
-                            _citiesList.addAll(_tCityList.where((e) => e.cityName.toLowerCase().contains(val.toLowerCase())));
-                          } else {
-                            _citiesList.addAll(_tCityList);
-                          }
-
-                          setState(() {});
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                content: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: _citiesList != null && _citiesList.length > 0
-                      ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _citiesList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return RadioListTile(
-                            title: Text(
-                              '${_citiesList[index].cityName}',
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                        Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                          margin: EdgeInsets.only(top: 5, bottom: 15),
+                          padding: EdgeInsets.only(),
+                          child: TextFormField(
+                            controller: _cSearchCity,
+                            focusNode: _fSearchCity,
+                            style: Theme.of(context).primaryTextTheme.bodyText1,
+                            decoration: InputDecoration(
+                              hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                              fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                              hintText: '${AppLocalizations.of(context).hnt_search_city}',
+                              contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
                             ),
-                            value: _citiesList[index],
-                            groupValue: _selectedCity,
-                            onChanged: (value) async {
-                              _selectedCity = value;
-                              _cCity.text = _selectedCity.cityName;
-                              _selectedSociety.cityId = _selectedCity.cityId;
-                              _cSociety.clear();
-                              showOnlyLoaderDialog();
-                              await _getSociety();
+                            onChanged: (val) {
+                              _citiesList.clear();
+                              if (val.isNotEmpty && val.length > 2) {
+                                _citiesList.addAll(_tCityList.where((e) => e.cityName.toLowerCase().contains(val.toLowerCase())));
+                              } else {
+                                _citiesList.addAll(_tCityList);
+                              }
+
                               setState(() {});
-                            });
-                      })
-                      : Center(
-                    child: Text(
-                      '${AppLocalizations.of(context).txt_no_city}',
-                      textAlign: TextAlign.center,
+                            },
+                          ),
+                        ),
+                      ],
                     ),
+                    content: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: _citiesList != null && _citiesList.length > 0
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _citiesList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return RadioListTile(
+                                    title: Text(
+                                      '${_citiesList[index].cityName}',
+                                      style: Theme.of(context).primaryTextTheme.bodyText1,
+                                    ),
+                                    value: _citiesList[index],
+                                    groupValue: _selectedCity,
+                                    onChanged: (value) async {
+                                      _selectedCity = value;
+                                      _cCity.text = _selectedCity.cityName;
+                                      _selectedSociety.cityId = _selectedCity.cityId;
+                                      _cSociety.clear();
+                                      showOnlyLoaderDialog();
+                                      await _getSociety();
+                                      setState(() {});
+                                    });
+                              })
+                          : Center(
+                              child: Text(
+                                '${AppLocalizations.of(context).txt_no_city}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            setState(() {});
+                          },
+                          child: Text('${AppLocalizations.of(context).btn_close}'))
+                    ],
                   ),
                 ),
-                actions: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        setState(() {});
-                      },
-                      child: Text('${AppLocalizations.of(context).btn_close}'))
-                ],
-              ),
-            ),
-          ));
+              ));
     } catch (e) {
       print("Exception - SignUpScreen.dart - _showCitySelectDialog():" + e.toString());
     }
@@ -663,82 +659,82 @@ class _SignUpScreenState extends BaseRouteState {
           barrierDismissible: true,
           barrierColor: Colors.transparent,
           builder: (BuildContext context) => StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) => Container(
-              child: AlertDialog(
-                contentPadding: EdgeInsets.zero,
-                backgroundColor: global.isDarkModeEnable ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).inputDecorationTheme.fillColor,
-                title: Column(
-                  children: [
-                    Text(
-                      'Select Area',
-                      style: Theme.of(context).appBarTheme.titleTextStyle,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                      margin: EdgeInsets.only(top: 5, bottom: 15),
-                      padding: EdgeInsets.only(),
-                      child: TextFormField(
-                        controller: _cSearchSociety,
-                        focusNode: _fSearchSociety,
-                        style: Theme.of(context).primaryTextTheme.bodyText1,
-                        decoration: InputDecoration(
-                          hintStyle: Theme.of(context).primaryTextTheme.headline2,
-                          fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                          hintText: 'Search area here...',
-                          contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                builder: (BuildContext context, StateSetter setState) => Container(
+                  child: AlertDialog(
+                    contentPadding: EdgeInsets.zero,
+                    backgroundColor: global.isDarkModeEnable ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).inputDecorationTheme.fillColor,
+                    title: Column(
+                      children: [
+                        Text(
+                          'Select Area',
+                          style: Theme.of(context).appBarTheme.titleTextStyle,
                         ),
-                        onChanged: (val) {
-                          _societyList.clear();
-                          if (val.isNotEmpty && val.length > 2) {
-                            _societyList.addAll(_tSocietyList.where((e) => e.societyName.toLowerCase().contains(val.toLowerCase())));
-                          } else {
-                            _societyList.addAll(_tSocietyList);
-                          }
-                          setState(() {});
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                content: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: _societyList != null && _societyList.length > 0
-                      ? ListView.builder(
-                      itemCount: _cSearchSociety.text.isNotEmpty && _tSocietyList != null && _tSocietyList.length > 0 ? _tSocietyList.length : _societyList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return RadioListTile(
-                            title: Text(
-                              _cSearchSociety.text.isNotEmpty && _tSocietyList != null && _tSocietyList.length > 0 ? '${_tSocietyList[index].societyName}' : '${_societyList[index].societyName}',
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                        Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                          margin: EdgeInsets.only(top: 5, bottom: 15),
+                          padding: EdgeInsets.only(),
+                          child: TextFormField(
+                            controller: _cSearchSociety,
+                            focusNode: _fSearchSociety,
+                            style: Theme.of(context).primaryTextTheme.bodyText1,
+                            decoration: InputDecoration(
+                              hintStyle: Theme.of(context).primaryTextTheme.headline2,
+                              fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                              hintText: 'Search area here...',
+                              contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
                             ),
-                            value: _cSearchSociety.text.isNotEmpty && _tSocietyList != null && _tSocietyList.length > 0 ? _tSocietyList[index] : _societyList[index],
-                            groupValue: _selectedSociety,
-                            onChanged: (value) async {
-                              _selectedSociety = value;
-                              _cSociety.text = _selectedSociety.societyName;
-                              Navigator.of(context).pop();
-
+                            onChanged: (val) {
+                              _societyList.clear();
+                              if (val.isNotEmpty && val.length > 2) {
+                                _societyList.addAll(_tSocietyList.where((e) => e.societyName.toLowerCase().contains(val.toLowerCase())));
+                              } else {
+                                _societyList.addAll(_tSocietyList);
+                              }
                               setState(() {});
-                            });
-                      })
-                      : Center(
-                      child: Text(
-                        '${AppLocalizations.of(context).txt_no_society}',
-                        textAlign: TextAlign.center,
-                      )),
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    content: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: _societyList != null && _societyList.length > 0
+                          ? ListView.builder(
+                              itemCount: _cSearchSociety.text.isNotEmpty && _tSocietyList != null && _tSocietyList.length > 0 ? _tSocietyList.length : _societyList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return RadioListTile(
+                                    title: Text(
+                                      _cSearchSociety.text.isNotEmpty && _tSocietyList != null && _tSocietyList.length > 0 ? '${_tSocietyList[index].societyName}' : '${_societyList[index].societyName}',
+                                      style: Theme.of(context).primaryTextTheme.bodyText1,
+                                    ),
+                                    value: _cSearchSociety.text.isNotEmpty && _tSocietyList != null && _tSocietyList.length > 0 ? _tSocietyList[index] : _societyList[index],
+                                    groupValue: _selectedSociety,
+                                    onChanged: (value) async {
+                                      _selectedSociety = value;
+                                      _cSociety.text = _selectedSociety.societyName;
+                                      Navigator.of(context).pop();
+
+                                      setState(() {});
+                                    });
+                              })
+                          : Center(
+                              child: Text(
+                              '${AppLocalizations.of(context).txt_no_society}',
+                              textAlign: TextAlign.center,
+                            )),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            setState(() {});
+                          },
+                          child: Text('${AppLocalizations.of(context).btn_close}'))
+                    ],
+                  ),
                 ),
-                actions: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        setState(() {});
-                      },
-                      child: Text('${AppLocalizations.of(context).btn_close}'))
-                ],
-              ),
-            ),
-          ));
+              ));
     } catch (e) {
       print("Exception - SignUpScreen.dart - _showSocietySelectDialog():" + e.toString());
     }

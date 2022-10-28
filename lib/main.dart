@@ -37,7 +37,7 @@ AndroidNotificationChannel channel = const AndroidNotificationChannel(
   'Channel Description',
   importance: Importance.high,
 );
-Future<void> _firebaseMessagingBackgroundHandler(var message) async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
 
@@ -61,7 +61,7 @@ class MyAppState extends State<MyApp> {
           final provider = Provider.of<LocaleProvider>(context);
           return MaterialApp(
               debugShowCheckedModeBanner: false,
-              title: 'Ally Carto',
+              title: 'GoMeat',
               navigatorObservers: <NavigatorObserver>[observer],
               theme: nativeTheme(isDarkModeEnable: global.isDarkModeEnable), //ThemeData.dark(), //
 
@@ -96,7 +96,7 @@ class MyAppState extends State<MyApp> {
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-    FirebaseMessaging.onMessage.listen((var message) async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       try {
         LocalNotification _notificationModel = LocalNotification.fromJson(message.data);
         global.localNotificationModel = _notificationModel;

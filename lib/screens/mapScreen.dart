@@ -189,7 +189,7 @@ class _MapScreenState extends BaseRouteState {
                               margin: EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
@@ -386,7 +386,7 @@ class _MapScreenState extends BaseRouteState {
                                   stops: [0, .90],
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                                 ),
                               ),
                               margin: EdgeInsets.all(8.0),
@@ -416,7 +416,7 @@ class _MapScreenState extends BaseRouteState {
                                   stops: [0, .90],
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                                 ),
                               ),
                               margin: EdgeInsets.all(8.0),

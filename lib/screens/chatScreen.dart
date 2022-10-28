@@ -454,7 +454,7 @@ class _ChatScreenState extends BaseRouteState {
             )
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: Text(AppLocalizations.of(context).lbl_cancel, style: TextStyle(color: Colors.green)),
+            child: Text(AppLocalizations.of(context).lbl_cancel, style: TextStyle(color: Color(0xFFFA692C))),
             onPressed: () {
               Navigator.pop(context);
             },

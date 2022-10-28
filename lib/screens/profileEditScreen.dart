@@ -22,9 +22,7 @@ class _ProfileEditScreenState extends BaseRouteState {
   var _cName = new TextEditingController();
   var _cPhone = new TextEditingController();
   var _cEmail = new TextEditingController();
-  var _cPass = new TextEditingController();
   var _fName = new FocusNode();
-  var _fPass = new FocusNode();
   GlobalKey<ScaffoldState> _scaffoldKey;
   var _fPhone = new FocusNode();
   var _fEmail = new FocusNode();
@@ -60,7 +58,7 @@ class _ProfileEditScreenState extends BaseRouteState {
           children: <Widget>[
             _isDataLoaded
                 ? Container(
-                    height: 170,
+                    height: 240,
                     color: Colors.transparent,
                     alignment: Alignment.topCenter,
                     child: Stack(
@@ -68,10 +66,10 @@ class _ProfileEditScreenState extends BaseRouteState {
                       alignment: Alignment.topCenter,
                       children: [
                         Container(
-                          height: 170,
+                          height: 240,
                           alignment: Alignment.topCenter,
                           child: Container(
-                            height: 100,
+                            height: 200,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -177,7 +175,7 @@ class _ProfileEditScreenState extends BaseRouteState {
                                 style: Theme.of(context).primaryTextTheme.bodyText1,
                                 decoration: InputDecoration(
                                   fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                                  hintText: 'name',
+                                  hintText: 'Daniala Escobe',
                                   contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
                                 ),
                               ),
@@ -197,7 +195,7 @@ class _ProfileEditScreenState extends BaseRouteState {
                                 style: Theme.of(context).primaryTextTheme.bodyText1,
                                 decoration: InputDecoration(
                                   fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                                  hintText: 'Mobile',
+                                  hintText: '+91 9007210595',
                                   contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
                                 ),
                               ),
@@ -233,13 +231,13 @@ class _ProfileEditScreenState extends BaseRouteState {
                               child: TextFormField(
                                 controller: _cCity,
                                 focusNode: _fCity,
-                                // readOnly: true,
-                                keyboardType: TextInputType.text,
-                                // onTap: () {
-                                //   _showCitySelectDialog();
-                                //
-                                //   setState(() {});
-                                // },
+                                readOnly: true,
+                                keyboardType: TextInputType.number,
+                                onTap: () {
+                                  _showCitySelectDialog();
+
+                                  setState(() {});
+                                },
                                 style: Theme.of(context).primaryTextTheme.bodyText1,
                                 decoration: InputDecoration(
                                   fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
@@ -249,10 +247,8 @@ class _ProfileEditScreenState extends BaseRouteState {
                                 ),
                               ),
                             ),
-
-
                             Text(
-                              "Password",
+                              "Area",
                               style: Theme.of(context).primaryTextTheme.headline2,
                             ),
                             Container(
@@ -260,44 +256,24 @@ class _ProfileEditScreenState extends BaseRouteState {
                               margin: EdgeInsets.only(top: 5, bottom: 15),
                               padding: EdgeInsets.only(),
                               child: TextFormField(
-                                controller: _cPass,
-                                focusNode: _fPass,
+                                controller: _cSociety,
+                                focusNode: _fSociety,
+                                readOnly: true,
+                                keyboardType: TextInputType.number,
+                                onTap: () {
+                                  _showSocietySelectDialog();
+
+                                  setState(() {});
+                                },
                                 style: Theme.of(context).primaryTextTheme.bodyText1,
                                 decoration: InputDecoration(
                                   fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                                  hintText: 'password',
+                                  hintText: 'Select area',
+                                  counterText: '',
                                   contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
                                 ),
                               ),
                             ),
-
-                            // Text(
-                            //   "Area",
-                            //   style: Theme.of(context).primaryTextTheme.headline2,
-                            // ),
-                            // Container(
-                            //   decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                            //   margin: EdgeInsets.only(top: 5, bottom: 15),
-                            //   padding: EdgeInsets.only(),
-                            //   child: TextFormField(
-                            //     controller: _cSociety,
-                            //     focusNode: _fSociety,
-                            //     readOnly: true,
-                            //     keyboardType: TextInputType.number,
-                            //     onTap: () {
-                            //       _showSocietySelectDialog();
-                            //
-                            //       setState(() {});
-                            //     },
-                            //     style: Theme.of(context).primaryTextTheme.bodyText1,
-                            //     decoration: InputDecoration(
-                            //       fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
-                            //       hintText: 'Select area',
-                            //       counterText: '',
-                            //       contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -317,7 +293,7 @@ class _ProfileEditScreenState extends BaseRouteState {
                     stops: [0, .90],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                    colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                   ),
                 ),
                 margin: EdgeInsets.all(8.0),
@@ -348,21 +324,19 @@ class _ProfileEditScreenState extends BaseRouteState {
   }
 
   _save() async {
-
     try {
       bool isConnected = await br.checkConnectivity();
       if (isConnected) {
-        print("aaaaaaaa ");
-        if (_cName.text.isNotEmpty && _cCity.text.isNotEmpty) {
+        if (_cName.text.isNotEmpty && _selectedCity != null && _selectedCity.cityId != null && _selectedSociety != null && _selectedSociety.societyId != null) {
           showOnlyLoaderDialog();
           CurrentUser _user = new CurrentUser();
 
           _user.name = _cName.text;
-          _user.password = _cPass.text;
           if (_tImage != null) {
             _user.userImageFile = _tImage;
           }
-          _user.userCity = _cCity.text;
+          _user.userCity = _selectedCity.cityId;
+          _user.userArea = _selectedSociety.societyId;
           await apiHelper.updateProfile(_user).then((result) async {
             if (result != null) {
               if (result.status == "1") {
@@ -380,13 +354,11 @@ class _ProfileEditScreenState extends BaseRouteState {
           });
         } else if (_cName.text.isEmpty) {
           showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_please_enter_your_name);
+        } else if (_selectedCity.cityId == null) {
+          showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_select_city);
+        } else if (_selectedSociety.societyId == null) {
+          showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_select_society);
         }
-        else if (_cCity.text.isEmpty) {
-          showSnackBar(key: _scaffoldKey, snackBarMessage: "Please enter city!");
-        }
-        // else if (_selectedSociety.societyId == null) {
-        //   showSnackBar(key: _scaffoldKey, snackBarMessage: AppLocalizations.of(context).txt_select_society);
-        // }
       } else {
         showNetworkErrorSnackBar(_scaffoldKey);
       }
@@ -450,11 +422,11 @@ class _ProfileEditScreenState extends BaseRouteState {
   _init() async {
     try {
       await _getCities();
-      // await _getSociety(global.currentUser.userCity, false);
-      // _selectedCity = _citiesList.firstWhere((e) => e.cityId == global.currentUser.userCity);
-      _cCity.text = global.currentUser.userCity;
-      // _selectedSociety = _societyList.firstWhere((e) => e.societyId == global.currentUser.userArea);
-      // _cSociety.text = _selectedSociety.societyName;
+      await _getSociety(global.currentUser.userCity, false);
+      _selectedCity = _citiesList.firstWhere((e) => e.cityId == global.currentUser.userCity);
+      _cCity.text = _selectedCity.cityName;
+      _selectedSociety = _societyList.firstWhere((e) => e.societyId == global.currentUser.userArea);
+      _cSociety.text = _selectedSociety.societyName;
       _cName.text = global.currentUser.name;
       _cEmail.text = global.currentUser.email;
       _cPhone.text = global.currentUser.userPhone;
@@ -528,9 +500,9 @@ class _ProfileEditScreenState extends BaseRouteState {
                                     onChanged: (value) async {
                                       _selectedCity = value;
                                       _cCity.text = _selectedCity.cityName;
-                                      // _cSociety.clear();
-                                      // _selectedSociety.societyId = null;
-                                      // await _getSociety(_selectedCity.cityId, true);
+                                      _cSociety.clear();
+                                      _selectedSociety.societyId = null;
+                                      await _getSociety(_selectedCity.cityId, true);
                                       setState(() {});
                                     });
                               })
@@ -589,7 +561,7 @@ class _ProfileEditScreenState extends BaseRouteState {
             )
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: Text(AppLocalizations.of(context).lbl_cancel, style: TextStyle(color: Colors.green)),
+            child: Text(AppLocalizations.of(context).lbl_cancel, style: TextStyle(color: Color(0xFFFA692C))),
             onPressed: () {
               Navigator.pop(context);
             },

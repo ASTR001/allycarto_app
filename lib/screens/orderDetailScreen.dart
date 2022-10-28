@@ -179,7 +179,7 @@ class _OrderDetailScreenState extends BaseRouteState {
                                               height: 25,
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(
-                                                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                                                   begin: Alignment.topLeft,
                                                   end: Alignment.bottomRight,
                                                 ),
@@ -309,7 +309,7 @@ class _OrderDetailScreenState extends BaseRouteState {
                                         stops: [0, .90],
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
-                                        colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                        colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                                       ),
                                       borderRadius: BorderRadius.only(
                                         bottomRight: Radius.circular(10),
@@ -551,78 +551,78 @@ class _OrderDetailScreenState extends BaseRouteState {
             ),
           ),
         ),
-        // bottomNavigationBar: Column(
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: [
-        //     Row(
-        //       mainAxisSize: MainAxisSize.min,
-        //       children: [
-        //         Expanded(
-        //           child: Container(
-        //             decoration: BoxDecoration(
-        //               borderRadius: BorderRadius.all(Radius.circular(10)),
-        //               gradient: LinearGradient(
-        //                 stops: [0, .90],
-        //                 begin: Alignment.centerLeft,
-        //                 end: Alignment.centerRight,
-        //                 colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
-        //               ),
-        //             ),
-        //             margin: EdgeInsets.all(8.0),
-        //             height: 50,
-        //             width: MediaQuery.of(context).size.width,
-        //             child: TextButton(
-        //                 onPressed: () async {
-        //                   await _trackOrder();
-        //                 },
-        //                 child: Text(
-        //                   '${AppLocalizations.of(context).tle_track_order}',
-        //                 )),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //     order.orderStatus == 'Pending' || order.orderStatus == 'Completed' || order.orderStatus == 'Confirmed'
-        //         ? Row(
-        //             mainAxisSize: MainAxisSize.min,
-        //             children: [
-        //               Expanded(
-        //                 child: Container(
-        //                   decoration: BoxDecoration(
-        //                     borderRadius: BorderRadius.all(Radius.circular(10)),
-        //                     gradient: LinearGradient(
-        //                       stops: [0, .90],
-        //                       begin: Alignment.centerLeft,
-        //                       end: Alignment.centerRight,
-        //                       colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
-        //                     ),
-        //                   ),
-        //                   margin: EdgeInsets.all(8.0),
-        //                   height: 50,
-        //                   width: MediaQuery.of(context).size.width,
-        //                   child: TextButton(
-        //                       onPressed: () async {
-        //                         if (order.orderStatus == 'Pending' || order.orderStatus == 'Confirmed') {
-        //                           Navigator.of(context).push(
-        //                             MaterialPageRoute(
-        //                               builder: (context) => CancelOrderScreen(a: widget.analytics, o: widget.observer, order: order),
-        //                             ),
-        //                           );
-        //                         } else {
-        //                           // reorder
-        //                           await _reOrder();
-        //                         }
-        //                       },
-        //                       child: Text(
-        //                         order.orderStatus == 'Pending' || order.orderStatus == 'Confirmed' ? '${AppLocalizations.of(context).tle_cancel_order}' : '${AppLocalizations.of(context).btn_re_order}',
-        //                       )),
-        //                 ),
-        //               ),
-        //             ],
-        //           )
-        //         : SizedBox(),
-        //   ],
-        // ),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      gradient: LinearGradient(
+                        stops: [0, .90],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
+                      ),
+                    ),
+                    margin: EdgeInsets.all(8.0),
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: TextButton(
+                        onPressed: () async {
+                          await _trackOrder();
+                        },
+                        child: Text(
+                          '${AppLocalizations.of(context).tle_track_order}',
+                        )),
+                  ),
+                ),
+              ],
+            ),
+            order.orderStatus == 'Pending' || order.orderStatus == 'Completed' || order.orderStatus == 'Confirmed'
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            gradient: LinearGradient(
+                              stops: [0, .90],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
+                            ),
+                          ),
+                          margin: EdgeInsets.all(8.0),
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          child: TextButton(
+                              onPressed: () async {
+                                if (order.orderStatus == 'Pending' || order.orderStatus == 'Confirmed') {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => CancelOrderScreen(a: widget.analytics, o: widget.observer, order: order),
+                                    ),
+                                  );
+                                } else {
+                                  // reorder
+                                  await _reOrder();
+                                }
+                              },
+                              child: Text(
+                                order.orderStatus == 'Pending' || order.orderStatus == 'Confirmed' ? '${AppLocalizations.of(context).tle_cancel_order}' : '${AppLocalizations.of(context).btn_re_order}',
+                              )),
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox(),
+          ],
+        ),
       ),
     );
   }

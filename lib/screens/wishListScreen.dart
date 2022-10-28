@@ -139,7 +139,8 @@ class _WishListScreenState extends BaseRouteState {
               await _init();
             },
             child: _isDataLoaded
-                ? _wishListProductList.length > 0
+                ? global.nearStoreModel.id != null
+                    ? _wishListProductList.length > 0
                         ? SingleChildScrollView(
                             controller: _scrollController,
                             child: Column(
@@ -260,7 +261,7 @@ class _WishListScreenState extends BaseRouteState {
                                                           height: 20,
                                                           width: 70,
                                                           decoration: BoxDecoration(
-                                                            color: Colors.green,
+                                                            color: Colors.lightBlue,
                                                             borderRadius: BorderRadius.only(
                                                               topRight: Radius.circular(10),
                                                               bottomLeft: Radius.circular(10),
@@ -278,7 +279,7 @@ class _WishListScreenState extends BaseRouteState {
                                                         ),
                                                   IconButton(
                                                     onPressed: () async {
-                                                      bool _isAdded = await addRemoveWishList(_wishListProductList[index].storeId.toString(),_wishListProductList[index].varientId, _scaffoldKey);
+                                                      bool _isAdded = await addRemoveWishList(_wishListProductList[index].varientId, _scaffoldKey);
                                                       if (_isAdded) {
                                                         _wishListProductList.removeAt(index);
                                                       }
@@ -319,7 +320,7 @@ class _WishListScreenState extends BaseRouteState {
                                                             padding: EdgeInsets.all(0),
                                                             visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                                             onPressed: () async {
-                                                              bool isAdded = await addToCart(_wishListProductList[index].storeId.toString(),1, _wishListProductList[index].varientId, 0, _scaffoldKey, true);
+                                                              bool isAdded = await addToCart(1, _wishListProductList[index].varientId, 0, _scaffoldKey, true);
                                                               if (isAdded) {
                                                                 _wishListProductList[index].cartQty = _wishListProductList[index].cartQty + 1;
                                                               }
@@ -343,7 +344,7 @@ class _WishListScreenState extends BaseRouteState {
                                                               stops: [0, .90],
                                                               begin: Alignment.centerLeft,
                                                               end: Alignment.centerRight,
-                                                              colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                                              colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColorLight],
                                                             ),
                                                             borderRadius: BorderRadius.only(
                                                               bottomRight: Radius.circular(10),
@@ -359,7 +360,7 @@ class _WishListScreenState extends BaseRouteState {
                                                                   padding: EdgeInsets.all(0),
                                                                   visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                                                   onPressed: () async {
-                                                                    bool isAdded = await addToCart(_wishListProductList[index].storeId.toString(),_wishListProductList[index].cartQty - 1, _wishListProductList[index].varientId, 0, _scaffoldKey, false);
+                                                                    bool isAdded = await addToCart(_wishListProductList[index].cartQty - 1, _wishListProductList[index].varientId, 0, _scaffoldKey, false);
                                                                     if (isAdded) {
                                                                       _wishListProductList[index].cartQty = _wishListProductList[index].cartQty - 1;
                                                                     }
@@ -378,7 +379,7 @@ class _WishListScreenState extends BaseRouteState {
                                                                   padding: EdgeInsets.all(0),
                                                                   visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                                                   onPressed: () async {
-                                                                    bool isAdded = await addToCart(_wishListProductList[index].storeId.toString(),_wishListProductList[index].cartQty + 1, _wishListProductList[index].varientId, 0, _scaffoldKey, false);
+                                                                    bool isAdded = await addToCart(_wishListProductList[index].cartQty + 1, _wishListProductList[index].varientId, 0, _scaffoldKey, false);
                                                                     if (isAdded) {
                                                                       _wishListProductList[index].cartQty = _wishListProductList[index].cartQty + 1;
                                                                     }
@@ -477,7 +478,13 @@ class _WishListScreenState extends BaseRouteState {
                               style: Theme.of(context).primaryTextTheme.bodyText1,
                             ),
                           )
-
+                    : Center(
+                        child: Text(
+                          "${global.locationMessage}",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).primaryTextTheme.bodyText1,
+                        ),
+                      )
                 : _productShimmer(),
           ),
         ),
@@ -493,7 +500,7 @@ class _WishListScreenState extends BaseRouteState {
                           stops: [0, .90],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                          colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                         ),
                       ),
                       margin: EdgeInsets.all(8.0),
@@ -596,6 +603,7 @@ class _WishListScreenState extends BaseRouteState {
 
   _init() async {
     try {
+      if (global.nearStoreModel.id != null) {
         await _getWishListProduct();
         _scrollController.addListener(() async {
           if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isMoreDataLoaded) {
@@ -608,6 +616,7 @@ class _WishListScreenState extends BaseRouteState {
             });
           }
         });
+      }
 
       _isDataLoaded = true;
       setState(() {});

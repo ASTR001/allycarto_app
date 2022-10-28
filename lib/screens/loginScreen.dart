@@ -14,7 +14,6 @@ import 'package:gomeat/models/businessLayer/baseRoute.dart';
 import 'package:gomeat/models/businessLayer/global.dart' as global;
 import 'package:gomeat/models/userModel.dart';
 import 'package:gomeat/screens/forgotPasswordScreen.dart';
-import 'package:gomeat/screens/new/need_help.dart';
 import 'package:gomeat/screens/otpVerificationScreen.dart';
 import 'package:gomeat/screens/signUpScreen.dart';
 import 'package:gomeat/widgets/bottomNavigationWidget.dart';
@@ -57,20 +56,16 @@ class _LoginScreenState extends BaseRouteState {
           body: Container(
             child: Stack(
               children: [
-                Positioned(
-                  top: 60,
-                  left: MediaQuery.of(context).size.width*0.2,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 0),
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/logo.jpg'),
-                        ),
-                        color: Colors.red[50]
+                Container(
+                  margin: EdgeInsets.only(top: 0),
+                  height: MediaQuery.of(context).size.height * 0.50,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/intro.jpg'),
                     ),
+                    color: Colors.green
                   ),
                 ),
                 Positioned(
@@ -81,7 +76,7 @@ class _LoginScreenState extends BaseRouteState {
                     onPressed: () {
                       exitAppDialog();
                     },
-                    icon: Icon(MdiIcons.arrowLeft, color: Colors.black),
+                    icon: Icon(MdiIcons.arrowLeft, color: Colors.white),
                   ),
                 ),
                 Positioned(
@@ -92,12 +87,12 @@ class _LoginScreenState extends BaseRouteState {
                     child: Text(
                       'Login',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: Theme.of(context).primaryTextTheme.headline3,
                     ),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 0),
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 35),
                   decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(40))),
                   margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.45 - 20),
                   height: MediaQuery.of(context).size.height * 0.60,
@@ -112,133 +107,113 @@ class _LoginScreenState extends BaseRouteState {
                         ),
                         isLoginWithEmail
                             ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                            padding: EdgeInsets.only(),
-                            child: TextFormField(
-                              controller: _cEmail,
-                              focusNode: _fEmail,
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.done,
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
-                              onFieldSubmitted: (v) {
-                                FocusScope.of(context).requestFocus(_fPassword);
-                              },
-                              decoration: InputDecoration(
-                                hintText: '${AppLocalizations.of(context).lbl_email}',
-                                counterText: '',
-                                contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                              ),
-                            ),
-                          ),
-                        )
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                                  padding: EdgeInsets.only(),
+                                  child: TextFormField(
+                                    controller: _cEmail,
+                                    focusNode: _fEmail,
+                                    keyboardType: TextInputType.emailAddress,
+                                    textInputAction: TextInputAction.done,
+                                    style: Theme.of(context).primaryTextTheme.bodyText1,
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context).requestFocus(_fPassword);
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: '${AppLocalizations.of(context).lbl_email}',
+                                      counterText: '',
+                                      contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                    ),
+                                  ),
+                                ),
+                              )
                             : Container(
-                          height: 50,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                          padding: EdgeInsets.only(),
-                          child: TextFormField(
-                            controller: _cPhone,
-                            focusNode: _fPhone,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.phone,
-                            maxLength: global.appInfo.phoneNumberLength,
-                            style: Theme.of(context).primaryTextTheme.bodyText1,
-                            onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(_dismiss);
-                            },
-                            decoration: InputDecoration(
-                              hintText: '${AppLocalizations.of(context).lbl_phone_number}',
-                              prefixIcon: Icon(
-                                Icons.phone,
-                                color: Theme.of(context).inputDecorationTheme.hintStyle.color,
+                                height: 50,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                                padding: EdgeInsets.only(),
+                                child: TextFormField(
+                                  controller: _cPhone,
+                                  focusNode: _fPhone,
+                                  textInputAction: TextInputAction.done,
+                                  keyboardType: TextInputType.phone,
+                                  maxLength: global.appInfo.phoneNumberLength,
+                                  style: Theme.of(context).primaryTextTheme.bodyText1,
+                                  onFieldSubmitted: (v) {
+                                    FocusScope.of(context).requestFocus(_dismiss);
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: '${AppLocalizations.of(context).lbl_phone_number}',
+                                    prefixIcon: Icon(
+                                      Icons.phone,
+                                      color: Theme.of(context).inputDecorationTheme.hintStyle.color,
+                                    ),
+                                    prefixText: '+${global.appInfo.countryCode} ',
+                                    prefixStyle: Theme.of(context).primaryTextTheme.bodyText1,
+                                    counterText: '',
+                                    contentPadding: EdgeInsets.only(top: 10),
+                                  ),
+                                ),
                               ),
-                              prefixText: '+${global.appInfo.countryCode} ',
-                              prefixStyle: Theme.of(context).primaryTextTheme.bodyText1,
-                              counterText: '',
-                              contentPadding: EdgeInsets.only(top: 10),
-                            ),
-                          ),
-                        ),
                         isLoginWithEmail
                             ? Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
-                            padding: EdgeInsets.only(),
-                            child: TextFormField(
-                              controller: _cPassword,
-                              focusNode: _fPassword,
-                              obscureText: _isPasswordVisible,
-                              textInputAction: TextInputAction.done,
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
-                              onFieldSubmitted: (v) {
-                                FocusScope.of(context).requestFocus(_dismiss);
-                              },
-                              decoration: InputDecoration(
-                                hintText: '${AppLocalizations.of(context).lbl_password}',
-                                suffixIcon: IconButton(
-                                  icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: IconTheme.of(context).color),
-                                  onPressed: () {
-                                    _isPasswordVisible = !_isPasswordVisible;
-                                    setState(() {});
-                                  },
+                                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                                child: Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                                  padding: EdgeInsets.only(),
+                                  child: TextFormField(
+                                    controller: _cPassword,
+                                    focusNode: _fPassword,
+                                    obscureText: _isPasswordVisible,
+                                    textInputAction: TextInputAction.done,
+                                    style: Theme.of(context).primaryTextTheme.bodyText1,
+                                    onFieldSubmitted: (v) {
+                                      FocusScope.of(context).requestFocus(_dismiss);
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: '${AppLocalizations.of(context).lbl_password}',
+                                      suffixIcon: IconButton(
+                                        icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: IconTheme.of(context).color),
+                                        onPressed: () {
+                                          _isPasswordVisible = !_isPasswordVisible;
+                                          setState(() {});
+                                        },
+                                      ),
+                                      counterText: '',
+                                      contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                    ),
+                                  ),
                                 ),
-                                counterText: '',
-                                contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                              ),
-                            ),
-                          ),
-                        )
+                              )
                             : SizedBox(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => NeedHelpScreen(
-                                          a: widget.analytics,
-                                          o: widget.observer,
-                                        )),
-                                  );
-                                },
-                                child: Text(
-                                  "Need Help ?",
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(color: Color(0xFFe03337)),
+                        isLoginWithEmail
+                            ? Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => ForgotPasswordScreen(
+                                                  a: widget.analytics,
+                                                  o: widget.observer,
+                                                )),
+                                      );
+                                    },
+                                    child: Text(
+                                      "${AppLocalizations.of(context).lbl_forgot_password} ?",
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(color: Colors.green),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => ForgotPasswordScreen(
-                                          a: widget.analytics,
-                                          o: widget.observer,
-                                        )),
-                                  );
-                                },
-                                child: Text(
-                                  "${AppLocalizations.of(context).lbl_forgot_password} ?",
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(color: Color(0xFFe03337)),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                              )
+                            : SizedBox(),
                         Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-                              gradient: LinearGradient(stops: [0, .90], begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFe03337), Color(0xFFb73537)])),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), gradient: LinearGradient(stops: [0, .90], begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Colors.green, Colors.blue])),
                           margin: EdgeInsets.only(top: 20),
                           height: 50,
                           width: MediaQuery.of(context).size.width,
@@ -252,145 +227,138 @@ class _LoginScreenState extends BaseRouteState {
                               },
                               child: Text(isLoginWithEmail ? '${AppLocalizations.of(context).btn_login}' : '${AppLocalizations.of(context).btn_send_otp}')),
                         ),
-
-
-
-                        Padding(
-                          padding: EdgeInsets.only(top: 25),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Divider(
-                                  color: Theme.of(context).primaryTextTheme.bodyText1.color,
-                                  thickness: 2,
-                                ),
-                              ),
-                              Text('  ${AppLocalizations.of(context).txt_login_signup_using}  ',
-                                  style: Theme.of(context).primaryTextTheme.bodyText1),
-                              Expanded(
-                                  child: Divider(
-                                color: Theme.of(context).primaryTextTheme.bodyText1.color,
-                                thickness: 2,
-                              ))
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  await signInWithGoogle(_scaffoldKey);
-                                },
-                                customBorder: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(45),
-                                ),
-                                child: Container(
-                                  height: 45,
-                                  width: 45,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFFEC5F60),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(45),
-                                      )),
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    FontAwesomeIcons.google,
-                                    size: 25,
-                                    color: Theme.of(context).scaffoldBackgroundColor,
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  await signInWithFacebook(_scaffoldKey);
-                                },
-                                customBorder: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(45),
-                                ),
-                                child: Container(
-                                  height: 45,
-                                  width: 45,
-                                  margin: EdgeInsets.only(left: 20, right: 20),
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFF4C87D0),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(45),
-                                      )),
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    FontAwesomeIcons.facebookF,
-                                    color: Theme.of(context).scaffoldBackgroundColor,
-                                    size: 25,
-                                  ),
-                                ),
-                              ),
-                              Platform.isIOS
-                                  ? InkWell(
-                                      customBorder: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(45),
-                                      ),
-                                      onTap: () async {
-                                        await _signInWithApple();
-                                      },
-                                      child: Container(
-                                        height: 45,
-                                        width: 45,
-                                        margin: EdgeInsets.only(right: 20),
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(45),
-                                            )),
-                                        child: Icon(
-                                          FontAwesomeIcons.apple,
-                                          color: Colors.white,
-                                          size: 25,
-                                        ),
-                                      ),
-                                    )
-                                  : SizedBox(),
-                              InkWell(
-                                onTap: () {
-                                  if (isLoginWithEmail) {
-                                    _cEmail.clear();
-                                    _cPassword.clear();
-                                  } else {
-                                    _cPhone.clear();
-                                  }
-                                  isLoginWithEmail = !isLoginWithEmail;
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  height: 45,
-                                  width: 45,
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColorLight,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(45),
-                                      )),
-                                  child: isLoginWithEmail
-                                      ? Icon(
-                                          Icons.call,
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          size: 25,
-                                        )
-                                      : Icon(
-                                          Icons.mail_outline,
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          size: 25,
-                                        ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-
-
-
+                        // Padding(
+                        //   padding: EdgeInsets.only(top: 25),
+                        //   child: Row(
+                        //     children: [
+                        //       Expanded(
+                        //         child: Divider(
+                        //           color: Theme.of(context).primaryTextTheme.bodyText1.color,
+                        //           thickness: 2,
+                        //         ),
+                        //       ),
+                        //       Text('  ${AppLocalizations.of(context).txt_login_signup_using}  ', style: Theme.of(context).primaryTextTheme.bodyText1),
+                        //       Expanded(
+                        //           child: Divider(
+                        //         color: Theme.of(context).primaryTextTheme.bodyText1.color,
+                        //         thickness: 2,
+                        //       ))
+                        //     ],
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 30),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //     children: [
+                        //       InkWell(
+                        //         onTap: () async {
+                        //           await signInWithGoogle(_scaffoldKey);
+                        //         },
+                        //         customBorder: RoundedRectangleBorder(
+                        //           borderRadius: BorderRadius.circular(45),
+                        //         ),
+                        //         child: Container(
+                        //           height: 45,
+                        //           width: 45,
+                        //           decoration: BoxDecoration(
+                        //               color: Color(0xFFEC5F60),
+                        //               borderRadius: BorderRadius.all(
+                        //                 Radius.circular(45),
+                        //               )),
+                        //           alignment: Alignment.center,
+                        //           child: Icon(
+                        //             FontAwesomeIcons.google,
+                        //             size: 25,
+                        //             color: Theme.of(context).scaffoldBackgroundColor,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       InkWell(
+                        //         onTap: () async {
+                        //           await signInWithFacebook(_scaffoldKey);
+                        //         },
+                        //         customBorder: RoundedRectangleBorder(
+                        //           borderRadius: BorderRadius.circular(45),
+                        //         ),
+                        //         child: Container(
+                        //           height: 45,
+                        //           width: 45,
+                        //           margin: EdgeInsets.only(left: 20, right: 20),
+                        //           decoration: BoxDecoration(
+                        //               color: Color(0xFF4C87D0),
+                        //               borderRadius: BorderRadius.all(
+                        //                 Radius.circular(45),
+                        //               )),
+                        //           alignment: Alignment.center,
+                        //           child: Icon(
+                        //             FontAwesomeIcons.facebookF,
+                        //             color: Theme.of(context).scaffoldBackgroundColor,
+                        //             size: 25,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Platform.isIOS
+                        //           ? InkWell(
+                        //               customBorder: RoundedRectangleBorder(
+                        //                 borderRadius: BorderRadius.circular(45),
+                        //               ),
+                        //               onTap: () async {
+                        //                 await _signInWithApple();
+                        //               },
+                        //               child: Container(
+                        //                 height: 45,
+                        //                 width: 45,
+                        //                 margin: EdgeInsets.only(right: 20),
+                        //                 decoration: BoxDecoration(
+                        //                     color: Colors.black,
+                        //                     borderRadius: BorderRadius.all(
+                        //                       Radius.circular(45),
+                        //                     )),
+                        //                 child: Icon(
+                        //                   FontAwesomeIcons.apple,
+                        //                   color: Colors.white,
+                        //                   size: 25,
+                        //                 ),
+                        //               ),
+                        //             )
+                        //           : SizedBox(),
+                        //       InkWell(
+                        //         onTap: () {
+                        //           if (isLoginWithEmail) {
+                        //             _cEmail.clear();
+                        //             _cPassword.clear();
+                        //           } else {
+                        //             _cPhone.clear();
+                        //           }
+                        //           isLoginWithEmail = !isLoginWithEmail;
+                        //           setState(() {});
+                        //         },
+                        //         child: Container(
+                        //           height: 45,
+                        //           width: 45,
+                        //           decoration: BoxDecoration(
+                        //               color: Theme.of(context).primaryColorLight,
+                        //               borderRadius: BorderRadius.all(
+                        //                 Radius.circular(45),
+                        //               )),
+                        //           child: isLoginWithEmail
+                        //               ? Icon(
+                        //                   Icons.call,
+                        //                   color: Theme.of(context).scaffoldBackgroundColor,
+                        //                   size: 25,
+                        //                 )
+                        //               : Icon(
+                        //                   Icons.mail_outline,
+                        //                   color: Theme.of(context).scaffoldBackgroundColor,
+                        //                   size: 25,
+                        //                 ),
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
@@ -404,9 +372,9 @@ class _LoginScreenState extends BaseRouteState {
               Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) => BottomNavigationWidget(
-                      a: widget.analytics,
-                      o: widget.observer,
-                    )),
+                          a: widget.analytics,
+                          o: widget.observer,
+                        )),
               );
             },
             child: Text(
@@ -512,9 +480,9 @@ class _LoginScreenState extends BaseRouteState {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => BottomNavigationWidget(
-                        a: widget.analytics,
-                        o: widget.observer,
-                      )),
+                            a: widget.analytics,
+                            o: widget.observer,
+                          )),
                 );
               } else if (result.status == '0') {
                 hideLoader();
@@ -567,14 +535,14 @@ class _LoginScreenState extends BaseRouteState {
           title: Text(AppLocalizations.of(context).txt_select_phonenumber),
           actions: _simCard
               .map((e) => CupertinoActionSheetAction(
-            child: Text('${e.number.substring(e.number.length - 10)}'),
-            onPressed: () async {
-              setState(() {
-                _cPhone.text = e.number.substring(e.number.length - 10);
-              });
-              Navigator.pop(context);
-            },
-          ))
+                    child: Text('${e.number.substring(e.number.length - 10)}'),
+                    onPressed: () async {
+                      setState(() {
+                        _cPhone.text = e.number.substring(e.number.length - 10);
+                      });
+                      Navigator.pop(context);
+                    },
+                  ))
               .toList(),
           cancelButton: CupertinoActionSheetAction(
             child: Text(AppLocalizations.of(context).lbl_cancel),
@@ -646,9 +614,9 @@ class _LoginScreenState extends BaseRouteState {
               Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) => BottomNavigationWidget(
-                      a: widget.analytics,
-                      o: widget.observer,
-                    )),
+                          a: widget.analytics,
+                          o: widget.observer,
+                        )),
               );
             } else if (result.status == "2") {
               CurrentUser user = new CurrentUser();
@@ -658,10 +626,10 @@ class _LoginScreenState extends BaseRouteState {
               Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) => SignUpScreen(
-                      user: user,
-                      a: widget.analytics,
-                      o: widget.observer,
-                    )),
+                          user: user,
+                          a: widget.analytics,
+                          o: widget.observer,
+                        )),
               );
             }
           }

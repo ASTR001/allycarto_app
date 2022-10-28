@@ -33,7 +33,7 @@ class _SplashScreenState extends BaseRouteState {
           padding: EdgeInsets.all(32),
           child: Center(
             child: Image.asset(
-              'assets/logo.jpg',
+              'assets/intro.jpg',
               fit: BoxFit.cover,
               scale: 3,
             ),
@@ -101,11 +101,10 @@ class _SplashScreenState extends BaseRouteState {
       }
       bool isConnected = await br.checkConnectivity();
       if (isConnected) {
-        await _getMapByFlag();
-        await _getMapBoxApiKey();
-        await _getGoogleMapApiKey();
+        // await _getMapByFlag();
+        // await _getMapBoxApiKey();
+        // await _getGoogleMapApiKey();
         // await _getAppNotice();
-        await getNearByPincode();
 
         if (global.sp.getString('currentUser') != null) {
           global.currentUser = CurrentUser.fromJson(json.decode(global.sp.getString("currentUser")));
@@ -115,8 +114,7 @@ class _SplashScreenState extends BaseRouteState {
             global.lat = double.parse(_tlist[0]);
             global.lng = double.parse(_tlist[1]);
             await getAddressFromLatLng();
-            // await getNearByStore();
-            await getNearByPincode();
+            await getNearByStore();
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => BottomNavigationWidget(
                       a: widget.analytics,

@@ -42,7 +42,8 @@ class _ContactUsScreenState extends BaseRouteState {
           centerTitle: true,
           title: Text("${AppLocalizations.of(context).tle_contact_us}"),
         ),
-        body: SingleChildScrollView(
+        body: global.nearStoreModel.id != null
+            ? SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.only(left: 16, right: 16),
                   child: Column(
@@ -69,7 +70,7 @@ class _ContactUsScreenState extends BaseRouteState {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          "ALLYCARTO PRIVATE LIMITED, with offices at 25, Raja Street, Puthupalayam, Opp KKS Hospital, Gobichettipalayam - 638452.",
+                          "72, Karur Bypass Rd, Rajiv Nagar, Moolapalayam, Erode, Tamil Nadu 638002.",
                           textAlign: TextAlign.center,
                           style: Theme.of(context).primaryTextTheme.bodyText1,
                         ),
@@ -91,14 +92,15 @@ class _ContactUsScreenState extends BaseRouteState {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Color(0xFFe03337), Color(0xFFb73537),
+                                    Theme.of(context).primaryColorLight,
+                                    Theme.of(context).primaryColor,
                                   ],
                                 ),
                               ),
                               child: IconButton(
                                   onPressed: () async {
                                     await launch(
-                                        'tel:919876543210');
+                                        'tel:919791747474}');
                                   },
                                   icon: Icon(
                                     MdiIcons.phone,
@@ -114,14 +116,15 @@ class _ContactUsScreenState extends BaseRouteState {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Color(0xFFe03337), Color(0xFFb73537),
+                                    Theme.of(context).primaryColorLight,
+                                    Theme.of(context).primaryColor,
                                   ],
                                 ),
                               ),
                               child: IconButton(
                                   onPressed: () async {
                                     await launch(
-                                        'whatsapp://send?text=Hello&phone=${"919876543210"}');
+                                        'whatsapp://send?text=Hello&phone=${"919791747474"}');
                                   },
                                   icon: Icon(
                                     MdiIcons.whatsapp,
@@ -137,14 +140,15 @@ class _ContactUsScreenState extends BaseRouteState {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Color(0xFFe03337), Color(0xFFb73537),
+                                    Theme.of(context).primaryColorLight,
+                                    Theme.of(context).primaryColor,
                                   ],
                                 ),
                               ),
                               child: IconButton(
                                   onPressed: () async {
                                     await launch(
-                                        "mailto:info@allycarto.com?subject=Hi");
+                                        "mailto:allycart@gmail.com?subject=Hi");
                                   },
                                   icon: Icon(
                                     MdiIcons.email,
@@ -160,7 +164,8 @@ class _ContactUsScreenState extends BaseRouteState {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Color(0xFFe03337), Color(0xFFb73537),
+                                    Theme.of(context).primaryColorLight,
+                                    Theme.of(context).primaryColor,
                                   ],
                                 ),
                               ),
@@ -296,6 +301,13 @@ class _ContactUsScreenState extends BaseRouteState {
                     ],
                   ),
                 ),
+              )
+            : Center(
+                child: Text(
+                  "${global.locationMessage}",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).primaryTextTheme.bodyText1,
+                ),
               ),
         // bottomNavigationBar: global.nearStoreModel.id != null
         //     ? Row(
@@ -337,10 +349,10 @@ class _ContactUsScreenState extends BaseRouteState {
   @override
   void initState() {
     super.initState();
-    // if (global.nearStoreModel.id != null) {
-    //
-    //   _storeName.insert(0, global.nearStoreModel.storeName);
-    // }
+    if (global.nearStoreModel.id != null) {
+
+      _storeName.insert(0, global.nearStoreModel.storeName);
+    }
   }
 
   _sendCallbackRequest() async {

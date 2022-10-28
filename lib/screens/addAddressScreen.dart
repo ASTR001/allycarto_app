@@ -22,8 +22,9 @@ class _AddAddressScreenState extends BaseRouteState {
   var _cCity = new TextEditingController();
   var _cName = new TextEditingController();
   var _cPhone = new TextEditingController();
+  var _cSociety = new TextEditingController();
   var _cSearchSociety = new TextEditingController();
-
+  var _fSociety = new FocusNode();
   var _fName = new FocusNode();
   var _fPhone = new FocusNode();
   var _fAddress = new FocusNode();
@@ -163,7 +164,30 @@ class _AddAddressScreenState extends BaseRouteState {
                           contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
                         ),
                         onFieldSubmitted: (val) {
+                          FocusScope.of(context).requestFocus(_fSociety);
+                        },
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.0))),
+                      margin: EdgeInsets.only(top: 15, left: 16, right: 16),
+                      padding: EdgeInsets.only(),
+                      child: TextFormField(
+                        controller: _cSociety,
+                        focusNode: _fSociety,
+                        readOnly: true,
+                        maxLines: 3,
+                        style: Theme.of(context).primaryTextTheme.bodyText1,
+                        decoration: InputDecoration(
+                          fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
+                          hintText: 'Area',
+                          contentPadding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                        ),
+                        onFieldSubmitted: (val) {
                           FocusScope.of(context).requestFocus(_fCity);
+                        },
+                        onTap: () {
+                          _showSocietySelectDialog();
                         },
                       ),
                     ),
@@ -179,6 +203,7 @@ class _AddAddressScreenState extends BaseRouteState {
                             child: TextFormField(
                               controller: _cCity,
                               focusNode: _fCity,
+                              readOnly: true,
                               style: Theme.of(context).primaryTextTheme.bodyText1,
                               decoration: InputDecoration(
                                 fillColor: global.isDarkModeEnable ? Theme.of(context).inputDecorationTheme.fillColor : Theme.of(context).scaffoldBackgroundColor,
@@ -332,7 +357,7 @@ class _AddAddressScreenState extends BaseRouteState {
                           stops: [0, .90],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                          colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                         ),
                       ),
                       margin: EdgeInsets.all(8.0),
@@ -369,6 +394,7 @@ class _AddAddressScreenState extends BaseRouteState {
       _cPhone.text = address.receiverPhone;
       _cPincode.text = address.pincode;
       _cAddress.text = address.houseNo;
+      _cSociety.text = address.society;
       _cState.text = address.state;
       _cCity.text = address.city;
       _cLandmark.text = address.landmark;
@@ -425,6 +451,7 @@ class _AddAddressScreenState extends BaseRouteState {
           _cAddress.text.isNotEmpty &&
           _cLandmark.text != null &&
           _cLandmark.text.isNotEmpty &&
+          _cSociety.text.isNotEmpty &&
           _cCity.text.isNotEmpty &&
           _cState.text.isNotEmpty &&
           type != null) {
@@ -437,10 +464,12 @@ class _AddAddressScreenState extends BaseRouteState {
           address.houseNo = _cAddress.text;
           address.landmark = _cLandmark.text;
           address.pincode = _cPincode.text;
+          address.society = _cSociety.text;
           address.state = _cState.text;
           address.city = _cCity.text;
           address.type = type;
-          String latlng = await getLocationFromAddress('${_cAddress.text}, ${_cLandmark.text}, ${_cCity.text}');
+          print("Adddre  ${_cAddress.text}, ${_cLandmark.text}, ${_cSociety.text} ");
+          String latlng = await getLocationFromAddress('${_cAddress.text}, ${_cLandmark.text}, ${_cSociety.text}');
           List<String> _tList = latlng.split("|");
           address.lat = _tList[0];
           address.lng = _tList[1];
@@ -590,6 +619,7 @@ class _AddAddressScreenState extends BaseRouteState {
                             groupValue: _selectedSociety,
                             onChanged: (value) async {
                               _selectedSociety = value;
+                              _cSociety.text = _selectedSociety.societyName;
                               Navigator.of(context).pop();
 
                               setState(() {});

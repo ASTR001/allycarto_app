@@ -228,15 +228,9 @@ class _OrderListScreenState extends BaseRouteState {
                                   _allOrderList[index].userName,
                                   style: Theme.of(context).primaryTextTheme.bodyText1,
                                 ),
-                                subtitle: Row(
-                                  children: [
-                                    Icon(Icons.date_range, size: 15,),
-                                    SizedBox(width: 4,),
-                                    Text(
-                                      _allOrderList[index].timeSlot + ' | ' + _allOrderList[index].deliveryDate,
-                                      style: Theme.of(context).primaryTextTheme.headline2,
-                                    ),
-                                  ],
+                                subtitle: Text(
+                                  _allOrderList[index].timeSlot + ' | ' + _allOrderList[index].deliveryDate,
+                                  style: Theme.of(context).primaryTextTheme.headline2,
                                 ),
                                 trailing: FittedBox(
                                   child: Column(

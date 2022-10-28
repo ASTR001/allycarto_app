@@ -64,7 +64,7 @@ class _LocationScreenState extends BaseRouteState {
               title: TextFormField(
                 textAlign: TextAlign.start,
                 autofocus: false,
-                cursorColor: Colors.green,
+                cursorColor: Color(0xFFFA692C),
                 enabled: true,
                 readOnly: true,
                 controller: _cSearch,
@@ -94,18 +94,14 @@ class _LocationScreenState extends BaseRouteState {
                     if (global.mapby.mapbox == 1) {
                       // search through map box
                       Navigator.push(context, MaterialPageRoute(builder: (context) => searchLocation()));
-                    }
-                    else {
+                    } else {
                       // search to google map api
-
-                      print("aaaaaaaaaaaabbbbb_1");
 
                       final sessionToken = Uuid().v4();
                       final Suggestion result = await showSearch(
                         context: context,
                         delegate: AddressSearch(sessionToken),
                       );
-                      print("aaaaaaaaaaaabbbbb_2");
                       _cSearch.text = result.description;
                       String latlng = await getLocationFromAddress(result.description);
                       List<String> _tList = latlng.split("|");
@@ -218,12 +214,11 @@ class _LocationScreenState extends BaseRouteState {
 
   _getNearByStore() async {
     try {
-      await apiHelper.getNearbyPincode().then((result) async {
+      await apiHelper.getNearbyStore().then((result) async {
         if (result != null) {
           if (result.status == "1") {
-            global.nearPincodeModel = result.data;
+            global.nearStoreModel = result.data;
             global.sp.setString("lastloc", '${global.lat}|${global.lng}');
-            global.sp.setString("myPincode", '${global.nearPincodeModel.pincode}');
             Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) => BottomNavigationWidget(
@@ -232,7 +227,7 @@ class _LocationScreenState extends BaseRouteState {
                       )),
             );
           } else {
-            global.nearPincodeModel.id = null;
+            global.nearStoreModel.id = null;
             global.locationMessage = result.message;
             _noStoresAvailableDialog();
           }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,9 +6,7 @@ import 'package:gomeat/models/businessLayer/global.dart' as global;
 import 'package:gomeat/models/categoryFilterModel.dart';
 import 'package:gomeat/models/categoryModel.dart';
 import 'package:gomeat/screens/categoryFilterScreen.dart';
-import 'package:gomeat/screens/new/mainCategory.dart';
 import 'package:gomeat/screens/subCategoryListScreen.dart';
-import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CategoryListScreen extends BaseRoute {
@@ -21,7 +17,7 @@ class CategoryListScreen extends BaseRoute {
 
 class _CategoryListScreenState extends BaseRouteState {
   GlobalKey<ScaffoldState> _scaffoldKey;
-  List _categoryList = [];
+  List<Category> _categoryList = [];
   CatgoryFilter _catgoryFilter = new CatgoryFilter();
   bool _isDataLoaded = false;
   int page = 1;
@@ -51,30 +47,30 @@ class _CategoryListScreenState extends BaseRouteState {
             centerTitle: true,
             title: Text("${AppLocalizations.of(context).tle_all_category}"),
             actions: [
-              // IconButton(
-              //   onPressed: () {
-              //     Navigator.of(context)
-              //         .push(
-              //       MaterialPageRoute(
-              //         builder: (context) => CategoryFilterScreen(_catgoryFilter, a: widget.analytics, o: widget.observer),
-              //       ),
-              //     )
-              //         .then((value) async {
-              //       if (value != null) {
-              //         _isDataLoaded = false;
-              //         _isRecordPending = true;
-              //         _categoryList.clear();
-              //         setState(() {});
-              //         _catgoryFilter = value;
-              //         await _init();
-              //       }
-              //     });
-              //   },
-              //   icon: Icon(
-              //     MdiIcons.tuneVerticalVariant,
-              //     color: Theme.of(context).appBarTheme.actionsIconTheme.color,
-              //   ),
-              // ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(
+                    MaterialPageRoute(
+                      builder: (context) => CategoryFilterScreen(_catgoryFilter, a: widget.analytics, o: widget.observer),
+                    ),
+                  )
+                      .then((value) async {
+                    if (value != null) {
+                      _isDataLoaded = false;
+                      _isRecordPending = true;
+                      _categoryList.clear();
+                      setState(() {});
+                      _catgoryFilter = value;
+                      await _init();
+                    }
+                  });
+                },
+                icon: Icon(
+                  MdiIcons.tuneVerticalVariant,
+                  color: Theme.of(context).appBarTheme.actionsIconTheme.color,
+                ),
+              ),
             ],
           ),
           body: _categoryWidget()),
@@ -105,7 +101,7 @@ class _CategoryListScreenState extends BaseRouteState {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => MainCategoryScreen( _categoryList[i]["cat_id"].toString(), _categoryList[i]["title"], a: widget.analytics, o: widget.observer),
+                builder: (context) => SubcategoryListScreen(_categoryList[i], a: widget.analytics, o: widget.observer),
               ),
             );
           },
@@ -133,10 +129,28 @@ class _CategoryListScreenState extends BaseRouteState {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${_categoryList[i]["title"]}',
+                            '${_categoryList[i].title}',
                             style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600),
                             maxLines: 2,
                           ),
+                          Text(
+                            '${_categoryList[i].subcategoryCount}+ items',
+                            style: Theme.of(context).primaryTextTheme.headline2,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RichText(
+                                  text: TextSpan(text: " ${global.appInfo.currencySign} ", style: Theme.of(context).primaryTextTheme.headline2, children: [
+                                TextSpan(
+                                  text: '${_categoryList[i].startFrom}',
+                                  style: Theme.of(context).primaryTextTheme.bodyText1,
+                                ),
+                              ])),
+                              Image.asset('assets/orange_next.png'),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -148,7 +162,7 @@ class _CategoryListScreenState extends BaseRouteState {
                   child: Container(
                     padding: EdgeInsets.only(left: 6,right: 6),
                     child: CachedNetworkImage(
-                      imageUrl: global.appInfo.imageUrl + _categoryList[i]["image"],
+                      imageUrl: global.appInfo.imageUrl + _categoryList[i].image,
                       imageBuilder: (context, imageProvider) => Container(
                       
                         decoration: BoxDecoration(
@@ -174,33 +188,31 @@ class _CategoryListScreenState extends BaseRouteState {
         ),
       );
     }
-    // if (_isMoreDataLoaded) {
-    //   productList.add(Center(
-    //     child: CircularProgressIndicator(
-    //       backgroundColor: Colors.white,
-    //       strokeWidth: 2,
-    //     ),
-    //   ));
-    // }
+    if (_isMoreDataLoaded) {
+      productList.add(Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+          strokeWidth: 2,
+        ),
+      ));
+    }
 
     return productList;
   }
 
   _categoryWidget() {
-    return
-      // RefreshIndicator(
-      // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      // color: Theme.of(context).primaryColor,
-      // onRefresh: () async {
-      //   _isDataLoaded = false;
-      //   _isRecordPending = true;
-      //   setState(() {});
-      //   _categoryList.clear();
-      //   await _init();
-      //   return null;
-      // },
-      // child:
-      SingleChildScrollView(
+    return RefreshIndicator(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      color: Theme.of(context).primaryColor,
+      onRefresh: () async {
+        _isDataLoaded = false;
+        _isRecordPending = true;
+        setState(() {});
+        _categoryList.clear();
+        await _init();
+        return null;
+      },
+      child: SingleChildScrollView(
         controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 10, left: 4, right: 4, top: 10),
@@ -228,8 +240,8 @@ class _CategoryListScreenState extends BaseRouteState {
                   children: catgoryShimmer(),
                 ),
         ),
-      );
-    // );
+      ),
+    );
   }
 
   _getData() async {
@@ -240,19 +252,24 @@ class _CategoryListScreenState extends BaseRouteState {
           setState(() {
             _isMoreDataLoaded = true;
           });
-          // if (_categoryList.isEmpty) {
-          //   page = 1;
-          // } else {
-          //   page++;
-          // }
-
-          final response = await http.get(Uri.parse(global.baseUrl+"verticalcategory"),);
-
-          setState(() {
-            var dataConvertedToJSON = json.decode(response.body);
-            _isRecordPending = false;
-            _categoryList = dataConvertedToJSON['data'] ?? [];
-
+          if (_categoryList.isEmpty) {
+            page = 1;
+          } else {
+            page++;
+          }
+          await apiHelper.getCategoryList(_catgoryFilter, page).then((result) async {
+            if (result != null) {
+              if (result.status == "1") {
+                List<Category> _tList = result.data;
+                if (_tList.isEmpty) {
+                  _isRecordPending = false;
+                }
+                _categoryList.addAll(_tList);
+                setState(() {
+                  _isMoreDataLoaded = false;
+                });
+              }
+            }
           });
         }
       } else {

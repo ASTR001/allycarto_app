@@ -32,9 +32,9 @@ class _IntroScreenState extends BaseRouteState {
                 setState(() {});
               },
               children: [
-                Image.asset('assets/intro_1.png', fit: BoxFit.cover),
-                // Image.asset('assets/intro_2.png', fit: BoxFit.cover),
-                Image.asset('assets/intro_3.png', fit: BoxFit.cover),
+                Image.asset('assets/intro.jpg', fit: BoxFit.contain,width: 100,height: 100,),
+                // Image.asset('assets/intro.jpg', fit: BoxFit.cover),
+                Image.asset('assets/intro.jpg', fit: BoxFit.contain,width: 100,height: 100,),
               ]),
         ),
         Container(

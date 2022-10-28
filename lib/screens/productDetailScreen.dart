@@ -14,20 +14,22 @@ import 'package:shimmer/shimmer.dart';
 class ProductDetailScreen extends BaseRoute {
   final int productId;
   final int varientId;
-  final ProductDetail productDetail;
-  ProductDetailScreen({a, o, this.productDetail, this.productId, this.varientId}) : super(a: a, o: o, r: 'ProductDetailScreen');
+  final String shopId;
+  final ProductDetail productDetailfrom;
+  ProductDetailScreen({a, o, this.productDetailfrom, this.productId,this.shopId, this.varientId}) : super(a: a, o: o, r: 'ProductDetailScreen');
   @override
-  _ProductDetailScreenState createState() => new _ProductDetailScreenState(this.productId, this.varientId, this.productDetail);
+  _ProductDetailScreenState createState() => new _ProductDetailScreenState(this.productId, this.shopId, this.varientId, this.productDetailfrom);
 }
 
 class _ProductDetailScreenState extends BaseRouteState {
   int productId;
+  String shopId;
   int varientId;
   GlobalKey<ScaffoldState> _scaffoldKey;
   bool _isDataLoaded = false;
   ProductDetail productDetail;
   ProductDetail _productDetail = new ProductDetail();
-  _ProductDetailScreenState(this.productId, this.varientId, this.productDetail) : super();
+  _ProductDetailScreenState(this.productId, this.shopId, this.varientId, this.productDetail) : super();
   PageController pageController = new PageController(initialPage: 0);
   int currentIndex = 0;
 
@@ -110,7 +112,7 @@ class _ProductDetailScreenState extends BaseRouteState {
               child: Column(
                 children: [
                   _isDataLoaded
-                      ? _productDetail != null && _productDetail.productDetail != null
+                      ? _productDetail != null
                           ? Container(
                               height: 270,
                               margin: EdgeInsets.only(top: 25),
@@ -406,7 +408,7 @@ class _ProductDetailScreenState extends BaseRouteState {
                                               ),
                                         IconButton(
                                             onPressed: () async {
-                                              bool _isAdded = await addRemoveWishList(_productDetail.productDetail.storeId.toString(),_productDetail.productDetail.varientId, _scaffoldKey);
+                                              bool _isAdded = await addRemoveWishList(_productDetail.productDetail.varientId, _scaffoldKey);
                                               if (_isAdded) {
                                                 _productDetail.productDetail.isFavourite = !_productDetail.productDetail.isFavourite;
                                               }
@@ -593,7 +595,7 @@ class _ProductDetailScreenState extends BaseRouteState {
                                                       ),
                                                 IconButton(
                                                     onPressed: () async {
-                                                      bool _isAdded = await addRemoveWishList(_productDetail.similarProductList[index].storeId.toString(),_productDetail.similarProductList[index].varientId, _scaffoldKey);
+                                                      bool _isAdded = await addRemoveWishList(_productDetail.similarProductList[index].varientId, _scaffoldKey);
                                                       if (_isAdded) {
                                                         _productDetail.similarProductList[index].isFavourite = !_productDetail.similarProductList[index].isFavourite;
                                                       }
@@ -747,6 +749,7 @@ class _ProductDetailScreenState extends BaseRouteState {
       bool isConnected = await br.checkConnectivity();
       if (isConnected) {
         if (varientId != null) {
+          print("aaaaaaaaa1111");
           await apiHelper.getBannerVarient(varientId).then((result) async {
             if (result != null) {
               if (result.status == "1") {
@@ -757,8 +760,10 @@ class _ProductDetailScreenState extends BaseRouteState {
             }
           });
         } else if (productDetail != null) {
+          print("aaaaaaaaa2222");
           _productDetail = productDetail;
         } else {
+          print("aaaaaaaaa3333");
           await apiHelper.getProductDetail(productId).then((result) async {
             if (result != null) {
               if (result.status == "1") {

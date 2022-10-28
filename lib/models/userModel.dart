@@ -10,7 +10,7 @@ class CurrentUser {
   String userPhone;
   String deviceId;
   String userImage;
-  String userCity;
+  int userCity;
   int userArea;
   String otpValue;
   int status;
@@ -45,7 +45,7 @@ class CurrentUser {
       userPhone = json['user_phone'] != null ? json['user_phone'] : null;
       deviceId = json['device_id'] != null ? json['device_id'] : null;
       userImage = json['user_image'] != null && json['user_image'] != 'N/A' ? json['user_image'] : null;
-      userCity = json['user_city'] != null ? json['user_city'].toString() : null;
+      userCity = json['user_city'] != null ?int.parse( json['user_city'].toString()) : null;
       userArea = json['user_area'] != null ?int.parse( json['user_area'].toString()) : null;
       otpValue = json['otp_value'] != null ? json['otp_value'] : null;
       status = json['status'] != null ?int.parse( json['status'].toString()) : null;

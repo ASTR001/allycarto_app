@@ -154,7 +154,7 @@ class _OfferListScreenState extends BaseRouteState {
                                               height: 30,
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(
-                                                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                                                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                                                   begin: Alignment.topLeft,
                                                   end: Alignment.bottomRight,
                                                 ),

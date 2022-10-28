@@ -117,7 +117,7 @@ class _ProductRequestScreenState extends BaseRouteState {
                                       setState(() {});
                                     },
                                     subtitle: Text(
-                                      "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].city}",
+                                      "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].society}",
                                       style: _selectedAddress == index ? Theme.of(context).primaryTextTheme.headline2.copyWith(color: Theme.of(context).primaryTextTheme.bodyText1.color) : Theme.of(context).primaryTextTheme.headline2,
                                     ),
                                   ),
@@ -147,7 +147,7 @@ class _ProductRequestScreenState extends BaseRouteState {
                       stops: [0, .90],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
-                      colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                      colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                     ),
                   ),
                   margin: EdgeInsets.all(8.0),
@@ -291,7 +291,7 @@ class _ProductRequestScreenState extends BaseRouteState {
             )
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: Text(AppLocalizations.of(context).lbl_cancel, style: TextStyle(color: Colors.green)),
+            child: Text(AppLocalizations.of(context).lbl_cancel, style: TextStyle(color: Color(0xFFFA692C))),
             onPressed: () {
               Navigator.pop(context);
             },

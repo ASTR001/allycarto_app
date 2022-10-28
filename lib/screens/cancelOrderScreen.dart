@@ -84,7 +84,7 @@ class _CancelOrderScreenState extends BaseRouteState {
                   stops: [0, .90],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
                 ),
               ),
               margin: EdgeInsets.all(8.0),

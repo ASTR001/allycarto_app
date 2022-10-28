@@ -50,25 +50,18 @@ class _WalletScreenState extends BaseRouteState {
               ),
             ),
             centerTitle: true,
-            title: Text("ARX Token"),
+            title: Text("${AppLocalizations.of(context).btn_my_wallet}"),
           ),
           body: _isDataLoaded
               ? Column(
                   children: [
                     Text(
-                      "Available ARX",
+                      "${AppLocalizations.of(context).lbl_available_balance}",
                       style: Theme.of(context).primaryTextTheme.bodyText1,
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Icon(Icons.currency_bitcoin_rounded),
-                          Image.asset("assets/token.png",height: 25,width: 25,),
-                          Text(" ${global.currentUser.wallet}", style: Theme.of(context).primaryTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w700)),
-                        ],
-                      ),
+                      child: Text("${global.appInfo.currencySign} ${global.currentUser.wallet}", style: Theme.of(context).primaryTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w700)),
                     ),
                     Container(
                       child: Padding(
@@ -112,7 +105,7 @@ class _WalletScreenState extends BaseRouteState {
                                       size: 18,
                                     ),
                                     child: Text(
-                                      'ARX Recharge',
+                                      '${AppLocalizations.of(context).lbl_wallet_recharge}',
                                       textAlign: TextAlign.center,
                                     )),
                                 Tab(
@@ -380,7 +373,7 @@ class _WalletScreenState extends BaseRouteState {
                 stops: [0, .90],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [Color(0xFFe03337), Color(0xFFb73537)],
+                colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
               ),
             ),
             margin: EdgeInsets.all(8.0),

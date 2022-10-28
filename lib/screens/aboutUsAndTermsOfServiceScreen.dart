@@ -19,7 +19,7 @@ class _AboutUsAndTermsOfServiceScreenState extends BaseRouteState {
 
   GlobalKey<ScaffoldState> _scaffoldKey;
   final bool isAboutUs;
-  String text = "";
+  String text;
   AboutUs _aboutUs = new AboutUs();
   TermsOfService _termsOfService = new TermsOfService();
   _AboutUsAndTermsOfServiceScreenState(this.isAboutUs) : super();
@@ -27,73 +27,48 @@ class _AboutUsAndTermsOfServiceScreenState extends BaseRouteState {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: new Container(
-          constraints: new BoxConstraints.expand(),
-          color: Colors.white,
-          child: new Stack (
-            children: <Widget>[
-              _getBackground(),
-              // _getGradient(),
-              // _getContent(),
-              _getToolbar(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  SingleChildScrollView _getBackground () {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          new Container(
-            child: new Image.asset('assets/logo.jpg',
-              fit: BoxFit.cover,
-              height: 200.0,
-              width: 200.0,
+        key: _scaffoldKey,
+        appBar: AppBar(
+          leading: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
-            constraints: new BoxConstraints.expand(height: 200.0,width: 200.0,),
-          ),
-          SizedBox(height: 15,),
-          isAboutUs ? Text("About App",style: TextStyle(fontSize: 18,color: Colors.red),) : Text("Customer Policy",style: TextStyle(fontSize: 18,color: Colors.red),),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Html(
-              data: "$text",
-              style: {
-                "body": Style(color: Theme.of(context).primaryTextTheme.bodyText1.color),
-              },
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Align(
+              alignment: Alignment.center,
+              child: Icon(MdiIcons.arrowLeft),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Container _getGradient() {
-    return new Container(
-      margin: new EdgeInsets.only(top: 190.0),
-      height: 110.0,
-      decoration: new BoxDecoration(
-        gradient: new LinearGradient(
-          colors: <Color>[
-            new Color(0x00736AB7),
-            new Color(0xFF736AB7)
-          ],
-          stops: [0.0, 0.9],
-          begin: const FractionalOffset(0.0, 0.0),
-          end: const FractionalOffset(0.0, 1.0),
+          centerTitle: true,
+          title: Text(isAboutUs ? '${AppLocalizations.of(context).tle_about_us}' : '${AppLocalizations.of(context).tle_term_of_service}'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: _isDataLoaded
+              ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  height: MediaQuery.of(context).size.height - 120,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView(
+                    children: [
+                      Html(
+                        data: "$text",
+                        style: {
+                          "body": Style(color: Theme.of(context).primaryTextTheme.bodyText1.color),
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              : _shimmerList(),
         ),
       ),
-    );
-  }
-
-  Container _getToolbar(BuildContext context) {
-    return new Container(
-      margin: new EdgeInsets.only(
-          top: 10),
-      child: new BackButton(color: Colors.black),
     );
   }
 

@@ -15,12 +15,12 @@ ThemeData nativeTheme({bool isDarkModeEnable}) {
       900: Color.fromRGBO(244, 105, 74, 1),
     };
     return ThemeData(
-      indicatorColor: Color(0xFFe03337),
+      indicatorColor: Colors.green,
       canvasColor: Colors.grey,
-      primaryColor: Color(0xFFe03337),
+      primaryColor: Color(0xFFF4694A),
       primaryColorLight: Color(0xFFF6A643), // Color(0xFF66d5ff),
-      primaryColorDark: Color(0xFFe03337),
-      primarySwatch: MaterialColor(0xFFe03337, color),
+      primaryColorDark: Color(0xFFF4694A),
+      primarySwatch: MaterialColor(0xFFF4694A, color),
       primaryIconTheme: IconThemeData(color: Colors.white),
       //iconTheme: IconThemeData(color: Colors.white),
       iconTheme: IconThemeData(color: Color(0xFF9EA5A8)), //Color(0xFF9EA5A8)),
@@ -65,7 +65,7 @@ ThemeData nativeTheme({bool isDarkModeEnable}) {
       dividerColor: Colors.transparent,
       dividerTheme: DividerThemeData(color: Color(0xFFEDF2F6).withOpacity(0.5), thickness: 1.5),
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.all(Color(0xFFe03337)),
+        fillColor: MaterialStateProperty.all(Color(0xFFF4694A)),
       ),
       cardTheme: CardTheme(
         elevation: 0.5,
@@ -96,7 +96,7 @@ ThemeData nativeTheme({bool isDarkModeEnable}) {
       checkboxTheme: CheckboxThemeData(
         checkColor: MaterialStateProperty.all(Colors.white),
         fillColor: MaterialStateProperty.all(
-          Color(0xFFe03337),
+          Color(0xFFF4694A),
         ),
       ),
     );
@@ -114,12 +114,12 @@ ThemeData nativeTheme({bool isDarkModeEnable}) {
       900: Color.fromRGBO(244, 105, 74, 1),
     };
     return ThemeData(
-      indicatorColor: Color(0xFFe03337),
+      indicatorColor: Colors.green,
       canvasColor: Colors.grey,
-      primaryColor: Color(0xFFe03337),
+      primaryColor: Color(0xFFF4694A),
       primaryColorLight: Color(0xFFF6A643), // Color(0xFF66d5ff),
-      primaryColorDark: Color(0xFFe03337),
-      primarySwatch: MaterialColor(0xFFe03337, color),
+      primaryColorDark: Color(0xFFF4694A),
+      primarySwatch: MaterialColor(0xFFF4694A, color),
       primaryIconTheme: IconThemeData(color: Color(0xFF332E38)),
       iconTheme: IconThemeData(color: Color(0xFF738899)),
       primaryTextTheme: TextTheme(
@@ -164,7 +164,7 @@ ThemeData nativeTheme({bool isDarkModeEnable}) {
       dividerColor: Colors.transparent, //Color(0xFF4B4F68),
 
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.all(Color(0xFFe03337)),
+        fillColor: MaterialStateProperty.all(Color(0xFFF4694A)),
       ),
       bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xFF5c7de0)),
       cardTheme: CardTheme(
@@ -197,7 +197,7 @@ ThemeData nativeTheme({bool isDarkModeEnable}) {
       checkboxTheme: CheckboxThemeData(
         checkColor: MaterialStateProperty.all(Colors.white),
         fillColor: MaterialStateProperty.all(
-          Color(0xFFe03337),
+          Color(0xFFF4694A),
         ),
       ),
     );
