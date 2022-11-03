@@ -15,6 +15,8 @@ import 'package:gomeat/screens/chooseLanguageScreen.dart';
 import 'package:gomeat/screens/contactUsScreen.dart';
 import 'package:gomeat/screens/loginScreen.dart';
 import 'package:gomeat/screens/memberShipScreen.dart';
+import 'package:gomeat/screens/new/bank_details.dart';
+import 'package:gomeat/screens/new/incentive_wallet.dart';
 import 'package:gomeat/screens/notificationScreen.dart';
 import 'package:gomeat/screens/orderListScreen.dart';
 import 'package:gomeat/screens/productRequestScreen.dart';
@@ -36,6 +38,7 @@ class ProfileScreen extends BaseRoute {
 class _ProfileScreenState extends BaseRouteState {
   _ProfileScreenState() : super();
   bool _isDataLoaded = false;
+  bool walletSts = false;
   GlobalKey<ScaffoldState> _scaffoldKey;
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class _ProfileScreenState extends BaseRouteState {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
+                        colors: [Color(0xFFe03337), Color(0xFFb73537)],
                       ),
                     ),
                     alignment: Alignment.topCenter,
@@ -223,9 +226,26 @@ class _ProfileScreenState extends BaseRouteState {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => WalletScreen(a: widget.analytics, o: widget.observer),
+                                  builder: (context) => BankListScreen(a: widget.analytics, o: widget.observer),
                                 ),
                               );
+                            },
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            minLeadingWidth: 30,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                            leading: Icon(
+                              MdiIcons.bank,
+                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                              size: 20,
+                            ),
+                            title: Text(
+                              "Manage Bank Details",
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              setState(() { walletSts = !walletSts;});
                             },
                             visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                             minLeadingWidth: 30,
@@ -235,11 +255,59 @@ class _ProfileScreenState extends BaseRouteState {
                               color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
                               size: 20,
                             ),
+                            trailing:  Icon(
+                              MdiIcons.arrowDown,
+                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                              size: 20,
+                            ),
                             title: Text(
-                              "${AppLocalizations.of(context).btn_my_wallet}",
+                              "My Wallet",
                               style: Theme.of(context).primaryTextTheme.bodyText1,
                             ),
                           ),
+
+                          walletSts ? ListTile(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => WalletScreen(a: widget.analytics, o: widget.observer),
+                                ),
+                              );
+                            },
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            minLeadingWidth: 30,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 35),
+                            leading: Icon(
+                              MdiIcons.walletOutline,
+                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                              size: 20,
+                            ),
+                            title: Text(
+                              "ARX Token Wallet",
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                          ) : SizedBox.shrink(),
+                          walletSts ? ListTile(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => IncentiveWalletScreen(a: widget.analytics, o: widget.observer),
+                                ),
+                              );
+                            },
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            minLeadingWidth: 30,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 35),
+                            leading: Icon(
+                              MdiIcons.walletOutline,
+                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                              size: 20,
+                            ),
+                            title: Text(
+                              "Incentive Wallet",
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                          ) : SizedBox.shrink(),
                           ListTile(
                             onTap: () {
                               Navigator.of(context).push(
@@ -303,27 +371,27 @@ class _ProfileScreenState extends BaseRouteState {
                           //     style: Theme.of(context).primaryTextTheme.bodyText1,
                           //   ),
                           // ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => RewardScreen(a: widget.analytics, o: widget.observer),
-                                ),
-                              );
-                            },
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                            minLeadingWidth: 30,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                            leading: Icon(
-                              MdiIcons.walletMembership,
-                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
-                              size: 20,
-                            ),
-                            title: Text(
-                              "${AppLocalizations.of(context).btn_reward}",
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
-                            ),
-                          ),
+                          // ListTile(
+                          //   onTap: () {
+                          //     Navigator.of(context).push(
+                          //       MaterialPageRoute(
+                          //         builder: (context) => RewardScreen(a: widget.analytics, o: widget.observer),
+                          //       ),
+                          //     );
+                          //   },
+                          //   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                          //   minLeadingWidth: 30,
+                          //   contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                          //   leading: Icon(
+                          //     MdiIcons.walletMembership,
+                          //     color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                          //     size: 20,
+                          //   ),
+                          //   title: Text(
+                          //     "${AppLocalizations.of(context).btn_reward}",
+                          //     style: Theme.of(context).primaryTextTheme.bodyText1,
+                          //   ),
+                          // ),
                           ListTile(
                             onTap: () {
                               Navigator.of(context).push(
@@ -367,53 +435,53 @@ class _ProfileScreenState extends BaseRouteState {
                           //   ),
                           // ),
                           Divider(),
-                          global.nearStoreModel.id != null && global.appInfo.liveChat != null && global.appInfo.liveChat == 1
-                              ? ListTile(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => ChatScreen(
-                                          a: widget.analytics,
-                                          o: widget.observer,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                                  minLeadingWidth: 30,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                                  leading: Icon(
-                                    MdiIcons.comment,
-                                    size: 20,
-                                    color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
-                                  ),
-                                  title: Text(
-                                    "Live Chat",
-                                    style: Theme.of(context).primaryTextTheme.bodyText1,
-                                  ),
-                                )
-                              : SizedBox(),
-                          ListTile(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ProductRequestScreen(a: widget.analytics, o: widget.observer),
-                                ),
-                              );
-                            },
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                            minLeadingWidth: 30,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                            leading: Icon(
-                              MdiIcons.comment,
-                              size: 20,
-                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
-                            ),
-                            title: Text(
-                              "${AppLocalizations.of(context).lbl_make_product_request}",
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
-                            ),
-                          ),
+                          // global.nearStoreModel.id != null && global.appInfo.liveChat != null && global.appInfo.liveChat == 1
+                          //     ? ListTile(
+                          //         onTap: () {
+                          //           Navigator.of(context).push(
+                          //             MaterialPageRoute(
+                          //               builder: (context) => ChatScreen(
+                          //                 a: widget.analytics,
+                          //                 o: widget.observer,
+                          //               ),
+                          //             ),
+                          //           );
+                          //         },
+                          //         visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                          //         minLeadingWidth: 30,
+                          //         contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                          //         leading: Icon(
+                          //           MdiIcons.comment,
+                          //           size: 20,
+                          //           color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                          //         ),
+                          //         title: Text(
+                          //           "Live Chat",
+                          //           style: Theme.of(context).primaryTextTheme.bodyText1,
+                          //         ),
+                          //       )
+                          //     : SizedBox(),
+                          // ListTile(
+                          //   onTap: () {
+                          //     Navigator.of(context).push(
+                          //       MaterialPageRoute(
+                          //         builder: (context) => ProductRequestScreen(a: widget.analytics, o: widget.observer),
+                          //       ),
+                          //     );
+                          //   },
+                          //   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                          //   minLeadingWidth: 30,
+                          //   contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                          //   leading: Icon(
+                          //     MdiIcons.comment,
+                          //     size: 20,
+                          //     color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                          //   ),
+                          //   title: Text(
+                          //     "${AppLocalizations.of(context).lbl_make_product_request}",
+                          //     style: Theme.of(context).primaryTextTheme.bodyText1,
+                          //   ),
+                          // ),
                           // ListTile(
                           //   onTap: () {
                           //     global.isDarkModeEnable = !global.isDarkModeEnable;
@@ -495,31 +563,31 @@ class _ProfileScreenState extends BaseRouteState {
                               color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
                             ),
                             title: Text(
-                              "${AppLocalizations.of(context).tle_term_of_service}",
+                              "Customer Policy",
                               style: Theme.of(context).primaryTextTheme.bodyText1,
                             ),
                           ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => SettingScreen(a: widget.analytics, o: widget.observer),
-                                ),
-                              );
-                            },
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                            minLeadingWidth: 30,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                            leading: Icon(
-                              MdiIcons.cogOutline,
-                              size: 20,
-                              color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
-                            ),
-                            title: Text(
-                              "${AppLocalizations.of(context).btn_app_setting}",
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
-                            ),
-                          ),
+                          // ListTile(
+                          //   onTap: () {
+                          //     Navigator.of(context).push(
+                          //       MaterialPageRoute(
+                          //         builder: (context) => SettingScreen(a: widget.analytics, o: widget.observer),
+                          //       ),
+                          //     );
+                          //   },
+                          //   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                          //   minLeadingWidth: 30,
+                          //   contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                          //   leading: Icon(
+                          //     MdiIcons.cogOutline,
+                          //     size: 20,
+                          //     color: Theme.of(context).primaryIconTheme.color.withOpacity(0.7),
+                          //   ),
+                          //   title: Text(
+                          //     "${AppLocalizations.of(context).btn_app_setting}",
+                          //     style: Theme.of(context).primaryTextTheme.bodyText1,
+                          //   ),
+                          // ),
                           ListTile(
                             onTap: () {
 
@@ -549,7 +617,8 @@ class _ProfileScreenState extends BaseRouteState {
                   : _similarProductShimmer(),
             ))
           ],
-        ));
+        )
+    );
   }
 
   Future logoutAppDialog() async {
