@@ -147,5 +147,33 @@ class _MyScannerState extends State<MyScannerr> {
     super.dispose();
   }
 
+Future<String> sendData2() async {
+     try {
+       showOnlyLoaderDialog();
+       final data = {
+         "user_id" : global.currentUser.id.toString(),
+         "shop_id": shopId,
+         "arx": _arxxController.text.toString(),
+       };
+       final headers = {
+         'content-type': 'application/json',// 'key=YOUR_SERVER_KEY'
+       };
+       final response = await http.post(Uri.parse(global.baseUrl+"offlineorder_payment"),
+           body: json.encode(data),
+           headers: headers);
+
+       var dataConvertedToJSON = json.decode(response.body);
+
+       if(dataConvertedToJSON["status"].toString() == "1")
+       {
+         hideLoader();
+         Navigator.pop(context);
+       }
+       return "Success";
+     }  catch (e) {
+       throw e;
+     }
+   }
+
 
 }
