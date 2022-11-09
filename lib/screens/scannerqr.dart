@@ -40,6 +40,45 @@ class _MyScannerState extends State<MyScannerr> {
     super.initState();
   }
 
+
+ void hideLoader() {
+    Navigator.pop(context);
+  }
+
+  showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel", style: TextStyle(color: Colors.grey)),
+      onPressed:  () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue", style: TextStyle(color: Colors.green)),
+      onPressed:  () {
+        Navigator.pop(context);
+        sendData();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Confirm ARX Payment", style: TextStyle(color: Colors.red),),
+      content: Text("Are you sure want to continue this ARX payment?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
