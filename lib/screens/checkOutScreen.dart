@@ -67,8 +67,8 @@ class _CheckoutScreenState extends BaseRouteState {
   _CheckoutScreenState() : super();
   @override
   Widget build(BuildContext context) {
-    List<String> _orderProcess = ['${AppLocalizations.of(context).txt_cart}', '${AppLocalizations.of(context).txt_address}', '${AppLocalizations.of(context).txt_time}', '${AppLocalizations.of(context).txt_payment}'];
-    List<String> _orderProcessText = ['${AppLocalizations.of(context).txt_shopping_cart}', '${AppLocalizations.of(context).txt_address}', '${AppLocalizations.of(context).txt_time}', '${AppLocalizations.of(context).txt_payment}'];
+    List<String> _orderProcess = ['${AppLocalizations.of(context).txt_cart}', '${AppLocalizations.of(context).txt_address}', '${AppLocalizations.of(context).txt_payment}'];
+    List<String> _orderProcessText = ['${AppLocalizations.of(context).txt_shopping_cart}', '${AppLocalizations.of(context).txt_address}', '${AppLocalizations.of(context).txt_payment}'];
 
     return WillPopScope(
       onWillPop: () {
@@ -162,7 +162,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                             ),
                                           ],
                                         ),
-                                        i == 3
+                                        i == 2
                                             ? SizedBox()
                                             : Container(
                                                 height: 2,
@@ -216,7 +216,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                             ),
                                           ],
                                         ),
-                                        i == 3
+                                        i == 2
                                             ? SizedBox()
                                             : Container(
                                                 height: 2,
@@ -242,7 +242,7 @@ class _CheckoutScreenState extends BaseRouteState {
                         children: [
                           _cartWidget(),
                           _addressWidget(),
-                          _timeWidget(),
+                          // _timeWidget(),
                           _payment(),
                         ],
                       ),
@@ -262,7 +262,7 @@ class _CheckoutScreenState extends BaseRouteState {
                             stops: [0, .90],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
+                            colors: [Color(0xFFe03337), Color(0xFFb73537)],
                           ),
                         ),
                         margin: EdgeInsets.all(8.0),
@@ -270,48 +270,59 @@ class _CheckoutScreenState extends BaseRouteState {
                         width: MediaQuery.of(context).size.width,
                         child: TextButton(
                             onPressed: () async {
-                              if (_currentIndex == 3) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => PaymentGatewayScreen(
-                                      screenId: 1,
-                                      totalAmount: _order.remPrice,
-                                      order: _order,
-                                      a: widget.analytics,
-                                      o: widget.observer,
+                              if (_currentIndex == 2) {
+                                // bool isdone = await _makeOrder();
+                                // if (isdone) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PaymentGatewayScreen(
+                                            screenId: 1,
+                                            totalAmount: _order.remPrice,
+                                            sts: true,
+                                            order: _order,
+                                            a: widget.analytics,
+                                            o: widget.observer,
+                                          ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                // }
                               } else if (_currentIndex == 1) {
                                 if (_selectedAddress != null) {
                                   await _selectAddress();
-                                  _pageController.animateToPage(_currentIndex + 1, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+                                  bool isdone = await _makeOrder();
+                                  if (isdone) {
+                                    _pageController.animateToPage(
+                                        _currentIndex + 1,
+                                        duration: Duration(seconds: 1),
+                                        curve: Curves.fastOutSlowIn);
+                                  }
                                 } else {
                                   showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_select_deluvery_address}');
                                 }
-                              } else if (_currentIndex == 2) {
-                                if (_selectedTimeSlot != null && _selectedTimeSlot == 'instant') {
-                                  bool isdone = await _makeOrder();
-                                  if (isdone) {
-                                    _pageController.animateToPage(_currentIndex + 1, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-                                  }
-                                } else if (selectedDate != null && _selectedTimeSlot != null) {
-                                  bool isdone = await _makeOrder();
-                                  if (isdone) {
-                                    _pageController.animateToPage(_currentIndex + 1, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-                                  }
-                                } else if (selectedDate == null) {
-                                  showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_select_date}');
-                                } else if (_selectedTimeSlot == null) {
-                                  showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_select_time_slot}');
-                                }
-                              } else if (_currentIndex == 0) {
-                                if (_cart.productList.length > 0 && global.nearStoreModel.id != null) {
+                              }
+                              // else if (_currentIndex == 2) {
+                              //   if (_selectedTimeSlot != null && _selectedTimeSlot == 'instant') {
+                              //     bool isdone = await _makeOrder();
+                              //     if (isdone) {
+                              //       _pageController.animateToPage(_currentIndex + 1, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+                              //     }
+                              //   } else if (selectedDate != null && _selectedTimeSlot != null) {
+                              //     bool isdone = await _makeOrder();
+                              //     if (isdone) {
+                              //       _pageController.animateToPage(_currentIndex + 1, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+                              //     }
+                              //   } else if (selectedDate == null) {
+                              //     showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_select_date}');
+                              //   } else if (_selectedTimeSlot == null) {
+                              //     showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_select_time_slot}');
+                              //   }
+                              // }
+                              else if (_currentIndex == 0) {
+                                if (_cart.productList.length > 0) {
                                   _pageController.animateToPage(_currentIndex + 1, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
                                 } else if (_cart.productList.length == 0) {
                                   showSnackBar(key: _scaffoldKey, snackBarMessage: '${AppLocalizations.of(context).txt_add_product_in_cart}');
-                                } else if (global.nearStoreModel.id == null) {
-                                  showSnackBar(key: _scaffoldKey, snackBarMessage: '${global.locationMessage}');
                                 }
                               }
                             },
@@ -390,10 +401,10 @@ class _CheckoutScreenState extends BaseRouteState {
         );
       });
     }
-    if (global.nearStoreModel.storeOpeningTime != null && global.nearStoreModel.storeOpeningTime != '' && global.nearStoreModel.storeClosingTime != null && global.nearStoreModel.storeClosingTime != '') {
-      _openingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeOpeningTime).toUpperCase());
-       _closingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeClosingTime).toUpperCase());
-    }
+    // if (global.nearStoreModel.storeOpeningTime != null && global.nearStoreModel.storeOpeningTime != '' && global.nearStoreModel.storeClosingTime != null && global.nearStoreModel.storeClosingTime != '') {
+    //   _openingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeOpeningTime).toUpperCase());
+    //    _closingTime = DateFormat('yyyy-MM-dd hh:mm a').parse((global.nearStoreModel.storeClosingTime).toUpperCase());
+    // }
     _scrollController = new ScrollController(initialScrollOffset: _currentIndex.toDouble());
     _pageController = new PageController(initialPage: _currentIndex);
     _pageController.addListener(() {});
@@ -429,7 +440,7 @@ class _CheckoutScreenState extends BaseRouteState {
               height: 50,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Theme.of(context).primaryColorLight, Theme.of(context).primaryColor],
+                  colors: [Color(0xFFe03337), Color(0xFFb73537)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -474,7 +485,7 @@ class _CheckoutScreenState extends BaseRouteState {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].society}",
+                          "${_addressList[index].houseNo}, ${_addressList[index].landmark}, ${_addressList[index].city}",
                           style: _selectedAddress == index ? Theme.of(context).primaryTextTheme.headline2.copyWith(color: Theme.of(context).primaryTextTheme.bodyText1.color) : Theme.of(context).primaryTextTheme.headline2,
                         ),
                         _selectedAddress == index
@@ -516,11 +527,11 @@ class _CheckoutScreenState extends BaseRouteState {
     ));
   }
 
-  Future<bool> _addToCart(int qty, int varientId, int special, GlobalKey<ScaffoldState> scaffoldKey) async {
+  Future<bool> _addToCart(String StoreId, int qty, int varientId, int special, GlobalKey<ScaffoldState> scaffoldKey) async {
     bool _isAddedSuccesFully = false;
     try {
       showOnlyLoaderDialog();
-      await apiHelper.addToCart(qty, varientId, special).then((result) async {
+      await apiHelper.addToCart(StoreId,qty, varientId, special).then((result) async {
         if (result != null) {
           if (result.status == "1") {
             if (qty == 0 && global.currentUser.cartCount > 0) {
@@ -687,7 +698,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                           ),
                                     IconButton(
                                       onPressed: () async {
-                                        bool _isAdded = await addRemoveWishList(_cart.productList[index].varientId, _scaffoldKey);
+                                        bool _isAdded = await addRemoveWishList(_cart.productList[index].storeId.toString(),_cart.productList[index].varientId, _scaffoldKey);
                                         if (_isAdded) {
                                           _cart.productList[index].isFavourite = !_cart.productList[index].isFavourite;
                                         }
@@ -728,7 +739,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                               padding: EdgeInsets.all(0),
                                               visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                               onPressed: () async {
-                                                await _addToCart(1, _cart.productList[index].varientId, 0, _scaffoldKey);
+                                                await _addToCart(_cart.productList[index].storeId.toString(),1, _cart.productList[index].varientId, 0, _scaffoldKey);
 
                                                 setState(() {});
                                               },
@@ -750,7 +761,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                                 stops: [0, .90],
                                                 begin: Alignment.centerLeft,
                                                 end: Alignment.centerRight,
-                                                colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColorLight],
+                                                colors: [Color(0xFFe03337), Color(0xFFb73537)],
                                               ),
                                               borderRadius: BorderRadius.only(
                                                 bottomRight: Radius.circular(10),
@@ -766,7 +777,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                                     padding: EdgeInsets.all(0),
                                                     visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                                     onPressed: () async {
-                                                      await _addToCart(_cart.productList[index].cartQty - 1, _cart.productList[index].varientId, 0, _scaffoldKey);
+                                                      await _addToCart(_cart.productList[index].storeId.toString(),_cart.productList[index].cartQty - 1, _cart.productList[index].varientId, 0, _scaffoldKey);
 
                                                       setState(() {});
                                                     },
@@ -783,7 +794,7 @@ class _CheckoutScreenState extends BaseRouteState {
                                                     padding: EdgeInsets.all(0),
                                                     visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                                     onPressed: () async {
-                                                      await _addToCart(_cart.productList[index].cartQty + 1, _cart.productList[index].varientId, 0, _scaffoldKey);
+                                                      await _addToCart(_cart.productList[index].storeId.toString(),_cart.productList[index].cartQty + 1, _cart.productList[index].varientId, 0, _scaffoldKey);
                                                       setState(() {});
                                                     },
                                                     icon: Icon(
@@ -866,7 +877,7 @@ class _CheckoutScreenState extends BaseRouteState {
                   )
                 : Center(
                     child: Text(
-                      "${AppLocalizations.of(context).txt_nothing_to_show}",
+                      "Empty Cart",
                       style: Theme.of(context).primaryTextTheme.bodyText1,
                     ),
                   ),
